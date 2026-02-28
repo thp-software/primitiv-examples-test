@@ -31,8 +31,8 @@ npm run dev:standalone
 These launch both the Server and the Client concurrently.
 ```bash
 npm run dev:uws          # uWebSockets
-npm run dev:webrtc-lite  # WebRTC (Direct)
-npm run dev:webrtc-full  # WebRTC (Signal/STUN)
+npm run dev:webrtc-lite  # Direct WebRTC (P2P, no signaling server)
+npm run dev:webrtc-full  # WebRTC with signaling and STUN servers
 ```
 
 ---

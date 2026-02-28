@@ -118,8 +118,8 @@ Applications are runtime-agnostic. The runtime is chosen at integration time, no
 |---|---|---|
 | **Standalone** | `runtimes/standalone/` | Browser-only, no server. |
 | **UWS** | `runtimes/connected-uws/` | WebSocket via µWebSockets. |
-| **WebRTC Full** | `runtimes/connected-webrtc-full/` | WebRTC with signaling server. |
-| **WebRTC Lite** | `runtimes/connected-webrtc-lite/` | WebRTC lightweight variant. |
+| **WebRTC Full** | [connected-webrtc-full/](runtimes/connected-webrtc-full/) | WebRTC with signaling & STUN server. |
+| **WebRTC Lite** | [connected-webrtc-lite/](runtimes/connected-webrtc-lite/) | Direct WebRTC (P2P without signaling server). |
 
 Refer to each runtime's source code for constructor options and integration patterns.
 
