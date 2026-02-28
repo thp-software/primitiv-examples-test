@@ -101,8 +101,7 @@ import {
   type IRuntime,
 } from "@primitiv/engine";
 
-// Standard ESM asset resolver
-const asset = (relPath: string) => new URL(relPath, import.meta.url).href;
+
 
 interface SpritesUserData {
   layer: Layer;
@@ -133,7 +132,10 @@ export class CustomSpritesShowcase implements IApplication<
      *   The PNG must be exactly 128×128 px: 16 cols × 8 px wide, 16 rows × 8 px tall.
      */
     engine.loadFont(8, 8, 2, 8, 8);
-    await engine.loadFontBlock(1, asset("./atlas_block1.png"));
+    await engine.loadFontBlock(
+      1,
+      new URL("./atlas_block1.png", import.meta.url).href,
+    );
 
     _runtime.setTickRate(60);
   }
@@ -361,5 +363,5 @@ export class CustomSpritesShowcase implements IApplication<
     cursorLayer.commit();
   }
 
-  update(_runtime: IRuntime, _engine: Engine): void {}
+  update(_runtime: IRuntime, _engine: Engine): void { }
 }

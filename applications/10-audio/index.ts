@@ -64,8 +64,7 @@ import {
   type IRuntime,
 } from "@primitiv/engine";
 
-// Resource helper: Resolves paths relative to this module in a framework-agnostic way.
-const asset = (relPath: string) => new URL(relPath, import.meta.url).href;
+
 
 // Sound IDs (set during init)
 let rainSoundId: number | undefined;
@@ -108,9 +107,9 @@ export class AudioShowcase implements IApplication<
     ]);
 
     // Resource loading
-    const ra = asset("./rain.mp3");
-    const ta = asset("./thunder.mp3");
-    const ca = asset("./click.mp3");
+    const ra = new URL("./rain.mp3", import.meta.url).href;
+    const ta = new URL("./thunder.mp3", import.meta.url).href;
+    const ca = new URL("./click.mp3", import.meta.url).href;
 
     rainSoundId = await engine.loadSound("rain", ra);
     thunderSoundId = await engine.loadSound("thunder", ta);
@@ -524,5 +523,5 @@ export class AudioShowcase implements IApplication<
     data.layer.commit();
   }
 
-  update(_runtime: IRuntime, _engine: Engine): void {}
+  update(_runtime: IRuntime, _engine: Engine): void { }
 }

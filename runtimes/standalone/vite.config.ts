@@ -1,20 +1,9 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    react(),
-    viteStaticCopy({
-      targets: [
-        {
-          src: '../../applications/**/*',
-          dest: 'applications'
-        }
-      ]
-    })
-  ],
+  plugins: [react()],
 
   // GitHub Pages: assets are served from /<repo-name>/
   // Change this to match your GitHub repository name.
