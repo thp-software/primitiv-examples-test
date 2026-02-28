@@ -7,7 +7,7 @@ export default defineConfig({
 
   // GitHub Pages: assets are served from /<repo-name>/
   // Change this to match your GitHub repository name.
-  base: '/primitiv-examples/',
+  base: '/primitiv-examples-test/',
 
   server: {
     fs: {
