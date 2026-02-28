@@ -310,7 +310,7 @@ export class MotionInputShowcase implements IApplication<Engine, User<MotionData
         const shaking = d.shakeTimer > 0;
 
         // Info panel
-        o.push(OrderBuilder.rect(2, 4, 50, 12, " ", 0, 3));
+        o.push(OrderBuilder.rect(2, 4, 50, 15, " ", 0, 3));
         o.push(OrderBuilder.text(4, 5, "ACCELEROMETER - Raw sensor (m/s2)", 1, 3));
         o.push(OrderBuilder.text(4, 7, `Accel X: ${fmt(ax, 6)}`, 2, 3));
         o.push(OrderBuilder.text(4, 8, `Accel Y: ${fmt(ay, 6)}`, 2, 3));
@@ -319,13 +319,22 @@ export class MotionInputShowcase implements IApplication<Engine, User<MotionData
         o.push(OrderBuilder.text(4, 12, `Peak:      ${fmt(d.peakMagnitude, 6)}`, 4, 3));
         o.push(OrderBuilder.text(4, 14, `Status:    ${shaking ? "!! SHAKE !!" : "Idle"}`, shaking ? 5 : 4, 3));
 
-        // Visual magnitude bar
-        const barW = Math.min(W - 8, Math.round(magnitude * 2));
-        if (barW > 0) {
-            o.push(OrderBuilder.rect(4, 18, barW, 1, "#", shaking ? 5 : 2, 0));
-        }
-        o.push(OrderBuilder.text(4, 20, "|" + "-".repeat(40) + "|", 4, 0));
-        o.push(OrderBuilder.text(4, 21, "0              10              20   (threshold=20)", 4, 0));
+        o.push(OrderBuilder.text(35, 12, " [ 1G = ~9.8 ] ", 4, 3));
+
+        // Visual separated axes (-20 to +20 m/s2)
+        const barY = 22;
+        o.push(OrderBuilder.text(2, barY - 1, " X ", 2, 0));
+        this.renderAxisBar(o, 6, barY - 1, 60, ax, 20, 2);
+
+        o.push(OrderBuilder.text(2, barY + 1, " Y ", 2, 0));
+        this.renderAxisBar(o, 6, barY + 1, 60, ay, 20, 2);
+
+        o.push(OrderBuilder.text(2, barY + 3, " Z ", 2, 0));
+        this.renderAxisBar(o, 6, barY + 3, 60, az, 20, 2);
+
+        // Magnitude bar
+        o.push(OrderBuilder.text(2, barY + 7, " MAG ", magnitude > 15 ? 5 : 1, 0));
+        this.renderAxisBar(o, 8, barY + 7, 58, magnitude, 40, magnitude > 15 ? 5 : 4, true);
 
         o.push(OrderBuilder.text(2, H - 2, " Shake your phone! Threshold > 20 triggers alert. ", 4, 0));
     }
@@ -338,7 +347,7 @@ export class MotionInputShowcase implements IApplication<Engine, User<MotionData
         const gBeta = user.getAxis("GYRO_BETA");
         const gGamma = user.getAxis("GYRO_GAMMA");
 
-        // Accumulate rotation (simulating a spaceship)
+        // Accumulate rotation
         d.yaw += gAlpha * dt * 60;
         d.pitch += gBeta * dt * 60;
         d.roll += gGamma * dt * 60;
@@ -350,19 +359,27 @@ export class MotionInputShowcase implements IApplication<Engine, User<MotionData
         o.push(OrderBuilder.text(4, 8, `Beta  (Pitch): ${fmt(gBeta, 6)}  Accum: ${fmt(d.pitch, 8)}`, 7, 3));
         o.push(OrderBuilder.text(4, 9, `Gamma (Roll):  ${fmt(gGamma, 6)}  Accum: ${fmt(d.roll, 8)}`, 7, 3));
 
-        // Visualize orientation with a simple "ship" — cells are square (1:1)
+        // Separated Bars (-5 to +5 rad/s)
+        const barY = 16;
+        o.push(OrderBuilder.text(2, barY, " YAW ", 7, 0));
+        this.renderAxisBar(o, 10, barY, 60, gAlpha, 5, 7);
+
+        o.push(OrderBuilder.text(2, barY + 2, " PITCH ", 7, 0));
+        this.renderAxisBar(o, 10, barY + 2, 60, gBeta, 5, 7);
+
+        o.push(OrderBuilder.text(2, barY + 4, " ROLL ", 7, 0));
+        this.renderAxisBar(o, 10, barY + 4, 60, gGamma, 5, 7);
+
+        // Simple ship top-down rotated by yaw
         const cx = W / 2;
-        const cy = 28;
+        const cy = 33;
         const angle = d.yaw * Math.PI / 180;
         const shipLen = 5;
         const dx = Math.cos(angle) * shipLen;
         const dy = Math.sin(angle) * shipLen;
 
-        // Ship body
         o.push(OrderBuilder.text(Math.round(cx), Math.round(cy), "*", 7, 0));
-        // Ship direction indicator (nose)
         o.push(OrderBuilder.text(Math.round(cx + dx), Math.round(cy + dy), ">", 7, 0));
-        // Ship tail
         o.push(OrderBuilder.text(Math.round(cx - dx), Math.round(cy - dy), ".", 4, 0));
 
         o.push(OrderBuilder.text(2, H - 2, " Rotate phone to steer. Desktop: Q/E (yaw), Arrows (pitch/roll). ", 4, 0));
@@ -437,6 +454,39 @@ export class MotionInputShowcase implements IApplication<Engine, User<MotionData
     }
 
     update(_runtime: IRuntime, _engine: Engine): void { }
+
+    // Helper to draw a horizontal progress bar
+    private renderAxisBar(o: any[], x: number, y: number, w: number, value: number, range: number, colorId: number, startFromZero: boolean = false): void {
+        o.push(OrderBuilder.text(Math.round(x), Math.round(y), "|" + "-".repeat(w - 2) + "|", 4, 0));
+
+        let normalized = value / range;
+        normalized = Math.max(-1, Math.min(1, normalized));
+
+        if (startFromZero) {
+            // Fill from left to right (0 to max)
+            const fill = Math.min(w - 2, Math.max(0, Math.round(normalized * (w - 2))));
+            if (fill > 0) {
+                o.push(OrderBuilder.rect(Math.round(x + 1), Math.round(y), fill, 1, "O", colorId, 0));
+            }
+        } else {
+            // Fill from center outwards (-range to +range)
+            const mid = x + Math.floor(w / 2);
+            o.push(OrderBuilder.text(Math.round(mid), Math.round(y), "+", 4, 0));
+
+            const fill = Math.round(Math.abs(normalized) * (w / 2 - 1));
+            if (fill > 0) {
+                if (normalized < 0) {
+                    o.push(OrderBuilder.rect(Math.round(mid - fill), Math.round(y), fill, 1, "=", colorId, 0));
+                } else {
+                    o.push(OrderBuilder.rect(Math.round(mid + 1), Math.round(y), fill, 1, "=", colorId, 0));
+                }
+            }
+
+            // Marker
+            const headX = normalized < 0 ? mid - fill : mid + fill;
+            o.push(OrderBuilder.text(Math.round(headX), Math.round(y), normalized < 0 ? "<" : ">", colorId, 0));
+        }
+    }
 }
 
 // ─── Utility ─────────────────────────────────────────────────────────────────
