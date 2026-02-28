@@ -5798,30 +5798,10 @@ import {
     InputDeviceType,
     KeyboardInput,
     TouchZoneInput,
+    MotionInput,
     type IApplication,
     type IRuntime,
 } from "@primitiv/engine";
-
-// ─── Motion axis enum (may not exist in current engine typedefs yet) ─────────
-// We define local constants so the code compiles even if the engine package
-// has not yet been updated with the Motion input types.
-const MotionAxis = {
-    TiltX: "TiltX",
-    TiltY: "TiltY",
-    AccelerometerX: "AccelerometerX",
-    AccelerometerY: "AccelerometerY",
-    AccelerometerZ: "AccelerometerZ",
-    GyroscopeAlpha: "GyroscopeAlpha",
-    GyroscopeBeta: "GyroscopeBeta",
-    GyroscopeGamma: "GyroscopeGamma",
-    OrientationAlpha: "OrientationAlpha",
-    OrientationBeta: "OrientationBeta",
-    OrientationGamma: "OrientationGamma",
-} as const;
-
-// Same for InputDeviceType.Motion — fallback if not in the current build.
-// @ts-ignore – Will resolve once the engine ships the Motion device type.
-const MotionDeviceType = InputDeviceType.Motion ?? ("Motion" as any);
 
 // ─── Per-user state ──────────────────────────────────────────────────────────
 interface MotionData {
@@ -5908,29 +5888,24 @@ export class MotionInputShowcase implements IApplication<Engine, User<MotionData
         // ══════════════════════════════════════════════════════════════════
         reg.defineAxis(0, "TILT_X", [
             { sourceId: 0, type: InputDeviceType.Keyboard, negativeKey: KeyboardInput.ArrowLeft, positiveKey: KeyboardInput.ArrowRight },
-            // @ts-ignore
-            { sourceId: 1, type: MotionDeviceType, motionAxis: MotionAxis.TiltX, deadzone: 0.1 },
+            { sourceId: 1, type: InputDeviceType.Motion, motionAxis: MotionInput.TiltX, deadzone: 0.1 },
         ]);
         reg.defineAxis(1, "TILT_Y", [
             { sourceId: 2, type: InputDeviceType.Keyboard, negativeKey: KeyboardInput.ArrowUp, positiveKey: KeyboardInput.ArrowDown },
-            // @ts-ignore
-            { sourceId: 3, type: MotionDeviceType, motionAxis: MotionAxis.TiltY, deadzone: 0.1, invert: true },
+            { sourceId: 3, type: InputDeviceType.Motion, motionAxis: MotionInput.TiltY, deadzone: 0.1, invert: true },
         ]);
 
         // ══════════════════════════════════════════════════════════════════
         // PAGE 2 — ACCELEROMETER (raw m/s²)
         // ══════════════════════════════════════════════════════════════════
         reg.defineAxis(2, "ACCEL_X", [
-            // @ts-ignore
-            { sourceId: 10, type: MotionDeviceType, motionAxis: MotionAxis.AccelerometerX },
+            { sourceId: 10, type: InputDeviceType.Motion, motionAxis: MotionInput.AccelerometerX },
         ]);
         reg.defineAxis(3, "ACCEL_Y", [
-            // @ts-ignore
-            { sourceId: 11, type: MotionDeviceType, motionAxis: MotionAxis.AccelerometerY },
+            { sourceId: 11, type: InputDeviceType.Motion, motionAxis: MotionInput.AccelerometerY },
         ]);
         reg.defineAxis(4, "ACCEL_Z", [
-            // @ts-ignore
-            { sourceId: 12, type: MotionDeviceType, motionAxis: MotionAxis.AccelerometerZ },
+            { sourceId: 12, type: InputDeviceType.Motion, motionAxis: MotionInput.AccelerometerZ },
         ]);
 
         // ══════════════════════════════════════════════════════════════════
@@ -5938,34 +5913,28 @@ export class MotionInputShowcase implements IApplication<Engine, User<MotionData
         // ══════════════════════════════════════════════════════════════════
         reg.defineAxis(5, "GYRO_ALPHA", [
             { sourceId: 20, type: InputDeviceType.Keyboard, negativeKey: KeyboardInput.KeyQ, positiveKey: KeyboardInput.KeyE },
-            // @ts-ignore
-            { sourceId: 21, type: MotionDeviceType, motionAxis: MotionAxis.GyroscopeAlpha, scale: 0.1 },
+            { sourceId: 21, type: InputDeviceType.Motion, motionAxis: MotionInput.GyroscopeAlpha, scale: 0.1 },
         ]);
         reg.defineAxis(6, "GYRO_BETA", [
             { sourceId: 22, type: InputDeviceType.Keyboard, negativeKey: KeyboardInput.ArrowUp, positiveKey: KeyboardInput.ArrowDown },
-            // @ts-ignore
-            { sourceId: 23, type: MotionDeviceType, motionAxis: MotionAxis.GyroscopeBeta, scale: 0.1 },
+            { sourceId: 23, type: InputDeviceType.Motion, motionAxis: MotionInput.GyroscopeBeta, scale: 0.1 },
         ]);
         reg.defineAxis(7, "GYRO_GAMMA", [
             { sourceId: 24, type: InputDeviceType.Keyboard, negativeKey: KeyboardInput.ArrowLeft, positiveKey: KeyboardInput.ArrowRight },
-            // @ts-ignore
-            { sourceId: 25, type: MotionDeviceType, motionAxis: MotionAxis.GyroscopeGamma, scale: 0.1 },
+            { sourceId: 25, type: InputDeviceType.Motion, motionAxis: MotionInput.GyroscopeGamma, scale: 0.1 },
         ]);
 
         // ══════════════════════════════════════════════════════════════════
         // PAGE 4 — COMPASS / ORIENTATION (absolute degrees)
         // ══════════════════════════════════════════════════════════════════
         reg.defineAxis(8, "ORIENT_ALPHA", [
-            // @ts-ignore
-            { sourceId: 30, type: MotionDeviceType, motionAxis: MotionAxis.OrientationAlpha },
+            { sourceId: 30, type: InputDeviceType.Motion, motionAxis: MotionInput.OrientationAlpha },
         ]);
         reg.defineAxis(9, "ORIENT_BETA", [
-            // @ts-ignore
-            { sourceId: 31, type: MotionDeviceType, motionAxis: MotionAxis.OrientationBeta },
+            { sourceId: 31, type: InputDeviceType.Motion, motionAxis: MotionInput.OrientationBeta },
         ]);
         reg.defineAxis(10, "ORIENT_GAMMA", [
-            // @ts-ignore
-            { sourceId: 32, type: MotionDeviceType, motionAxis: MotionAxis.OrientationGamma },
+            { sourceId: 32, type: InputDeviceType.Motion, motionAxis: MotionInput.OrientationGamma },
         ]);
 
         user.data = {
