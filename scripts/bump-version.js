@@ -70,7 +70,40 @@ rl.question('Enter the new @primitiv version (e.g. 0.20.0-nightly.XXX): ', (newV
     }
 
     console.log(`\nFinished! Updated ${updatedCount} package.json files.`);
-    console.log('Run `pnpm install` to apply the changes.');
 
-    rl.close();
+    import('child_process').then(({ execSync }) => {
+        console.log('\n--- 🧹 CLEANING CACHE & MODULES ---');
+        console.log('Cleaning pnpm store...');
+        try {
+            execSync('pnpm store prune', { stdio: 'inherit' });
+        } catch (e) {
+            console.warn('Failed to prune pnpm store.');
+        }
+
+        console.log('Finding and deleting node_modules directories...');
+        function removeNodeModules(targetDir) {
+            const list = fs.readdirSync(targetDir);
+            for (const file of list) {
+                const fullPath = path.join(targetDir, file);
+                const stat = fs.statSync(fullPath);
+                if (file === 'node_modules' && stat.isDirectory()) {
+                    console.log(`Deleting ${path.relative(dir, fullPath)}...`);
+                    fs.rmSync(fullPath, { recursive: true, force: true });
+                } else if (stat.isDirectory() && file !== '.git' && file !== 'dist') {
+                    removeNodeModules(fullPath);
+                }
+            }
+        }
+        removeNodeModules(dir);
+
+        console.log('\n--- 📦 INSTALLING NEW VERSIONS ---');
+        try {
+            execSync('pnpm install', { stdio: 'inherit', cwd: dir });
+            console.log('\n✅ Successfully installed the new @primitiv versions from scratch!');
+        } catch (e) {
+            console.error('\n❌ Failed to run pnpm install. You may need to run it manually.');
+        }
+
+        rl.close();
+    });
 });

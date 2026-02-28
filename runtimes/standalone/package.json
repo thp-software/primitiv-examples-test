@@ -14,8 +14,8 @@
     "primitiv:refresh": "node scripts/primitiv-link.js refresh"
   },
   "dependencies": {
-    "@primitiv/client": "0.20.0-nightly.20260228130354.d4cd51b",
-    "@primitiv/engine": "0.20.0-nightly.20260228130354.d4cd51b",
+    "@primitiv/client": "0.20.0-nightly.20260228135815.3d3d724",
+    "@primitiv/engine": "0.20.0-nightly.20260228135815.3d3d724",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.13.1"
