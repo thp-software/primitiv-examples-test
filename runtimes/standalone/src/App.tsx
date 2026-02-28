@@ -9,6 +9,9 @@ import { RendererType } from "@primitiv/client";
 import { APP_REGISTRY, findApp } from "./app-registry";
 import type { AppEntry } from "./app-registry";
 
+// @ts-ignore
+const buildDate = typeof __BUILD_DATE__ !== 'undefined' ? __BUILD_DATE__ : 'Local Dev';
+
 // =============================================================================
 // Home Page
 // =============================================================================
@@ -43,11 +46,23 @@ function HomePage() {
           style={{
             fontSize: "1rem",
             color: "#64748b",
-            margin: 0,
+            margin: "0 0 0.5rem 0",
           }}
         >
           Select an example to run it in standalone mode.
         </p>
+        <span
+          style={{
+            fontSize: "0.75rem",
+            color: "#475569",
+            background: "rgba(255,255,255,0.05)",
+            padding: "0.2rem 0.5rem",
+            borderRadius: "4px",
+            fontFamily: "monospace",
+          }}
+        >
+          Build: {buildDate}
+        </span>
       </div>
 
       <AppSection
