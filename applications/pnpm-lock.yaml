@@ -9,39 +9,39 @@ importers:
   .:
     dependencies:
       '@primitiv/engine':
-        specifier: 0.20.0-nightly.20260228135815.3d3d724
-        version: 0.20.0-nightly.20260228135815.3d3d724
+        specifier: 0.20.0-nightly.20260228184910.c83cec1
+        version: 0.20.0-nightly.20260228184910.c83cec1
 
 packages:
 
-  '@primitiv/core@0.20.0-nightly.20260228135815.3d3d724':
-    resolution: {integrity: sha512-hiTXSWyPU4/8o5/DHvJeUNnb5RpSUwWmU3nf6wfI8hagbJ30Y6KnrqkypfOJ6sABVFCUIjhfP59MZA3Ef6vBow==}
+  '@primitiv/core@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-1nmHM0reU/0Zg6kwDNMA1LpVsEZ1ch7LIsKHzzIFfLFwKp1R0O1jwlPJRPzgzqV/dNTIb6z52xVEvYuE60Vl4Q==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/engine@0.20.0-nightly.20260228135815.3d3d724':
-    resolution: {integrity: sha512-RL1izlsmR4I8GukGu2riiBcjiphVVXSVih+yFJueuEoRQg0YhOHQE6hl5TyTxQrXkdry14y41vWde6F/IYfhUw==}
+  '@primitiv/engine@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-fumlUZqE8kbW8fxRbqZxXy4ru1W9ThXqwfp0IjU7vRKUVhRUFcN/7N/2T+6v3logP9aOo44SM1HqzurFLvSFJw==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/logger@0.20.0-nightly.20260228135815.3d3d724':
-    resolution: {integrity: sha512-z9Xt0fVclXhW4ButSRsV6qx0bfRHQCkxaG1D2esgdfljEs39VloQjsFBgkXgJarRcSkaYobJ3ImNxxR4vZtTFQ==}
+  '@primitiv/logger@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-scLe0RQBK+rPO8H7BE2KX9FaKmPzWwYEFOelIrCWNkNl3LGsoHtSdXj+xb1Kh2GCJvEW+FQydNIrhRVH5DVR7g==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/types@0.20.0-nightly.20260228135815.3d3d724':
-    resolution: {integrity: sha512-OQvfQj6JHmeyWTV5DZMFBC36YC4QrxHeudEDpK38pf+ctObsZ26/7N5bDoevRmQv8h8M5oepRyD+dKxLCOtr4A==}
+  '@primitiv/types@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-g9Eyj3CUNwBG4lOLceQwe9AYICYy6p11e4YLcRfpknw+TERLDQ39BB40xF6CsMrqPXRKXQaY5bbc9LHqIPiMZQ==}
     engines: {node: '>=18.0.0'}
 
 snapshots:
 
-  '@primitiv/core@0.20.0-nightly.20260228135815.3d3d724':
+  '@primitiv/core@0.20.0-nightly.20260228184910.c83cec1':
     dependencies:
-      '@primitiv/logger': 0.20.0-nightly.20260228135815.3d3d724
-      '@primitiv/types': 0.20.0-nightly.20260228135815.3d3d724
+      '@primitiv/logger': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
 
-  '@primitiv/engine@0.20.0-nightly.20260228135815.3d3d724':
+  '@primitiv/engine@0.20.0-nightly.20260228184910.c83cec1':
     dependencies:
-      '@primitiv/core': 0.20.0-nightly.20260228135815.3d3d724
-      '@primitiv/types': 0.20.0-nightly.20260228135815.3d3d724
+      '@primitiv/core': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
 
-  '@primitiv/logger@0.20.0-nightly.20260228135815.3d3d724': {}
+  '@primitiv/logger@0.20.0-nightly.20260228184910.c83cec1': {}
 
-  '@primitiv/types@0.20.0-nightly.20260228135815.3d3d724': {}
+  '@primitiv/types@0.20.0-nightly.20260228184910.c83cec1': {}

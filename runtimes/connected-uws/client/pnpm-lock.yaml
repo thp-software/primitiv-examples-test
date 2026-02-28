@@ -4,34 +4,16 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@primitiv/audio': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/audio
-  '@primitiv/client': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/client
-  '@primitiv/core': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/core
-  '@primitiv/engine': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/engine
-  '@primitiv/input': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/input
-  '@primitiv/logger': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/logger
-  '@primitiv/macro': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/macro
-  '@primitiv/network-client': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/network-client
-  '@primitiv/network-common': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/network-common
-  '@primitiv/network-server': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/network-server
-  '@primitiv/render': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/render
-  '@primitiv/runtime-client': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/runtime-client
-  '@primitiv/runtime-server': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/runtime-server
-  '@primitiv/server': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/server
-  '@primitiv/types': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/types
-  '@primitiv/visual-debugger': file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/visual-debugger
-
 importers:
 
   .:
     dependencies:
       '@primitiv/client':
-        specifier: file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/client
-        version: file:../../../../primitiv/packages/client
+        specifier: 0.20.0-nightly.20260228184910.c83cec1
+        version: 0.20.0-nightly.20260228184910.c83cec1
       '@primitiv/engine':
-        specifier: file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/engine
-        version: file:../../../../primitiv/packages/engine
+        specifier: 0.20.0-nightly.20260228184910.c83cec1
+        version: 0.20.0-nightly.20260228184910.c83cec1
       react:
         specifier: ^19.2.0
         version: 19.2.4
@@ -387,51 +369,51 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@primitiv/audio@file:../../../../primitiv/packages/audio':
-    resolution: {directory: ../../../../primitiv/packages/audio, type: directory}
+  '@primitiv/audio@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-vV7T6RMsvl3fL2b9XriwrN8oBERb1aiPzmu96nHu+YF5B9YLPsK/MCzhnuRgP/i4hqXVpnPqunx/02SlcDglvQ==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/client@file:../../../../primitiv/packages/client':
-    resolution: {directory: ../../../../primitiv/packages/client, type: directory}
+  '@primitiv/client@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-8/uMAOpKgPKx1BuuTcDVp5P3KHYYgFdeewKzFgJFzd6jraxXA64OpwE0tnm3fxolOG9lKsC09X4g99H5Oh0Ivw==}
 
-  '@primitiv/core@file:../../../../primitiv/packages/core':
-    resolution: {directory: ../../../../primitiv/packages/core, type: directory}
+  '@primitiv/core@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-1nmHM0reU/0Zg6kwDNMA1LpVsEZ1ch7LIsKHzzIFfLFwKp1R0O1jwlPJRPzgzqV/dNTIb6z52xVEvYuE60Vl4Q==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/engine@file:../../../../primitiv/packages/engine':
-    resolution: {directory: ../../../../primitiv/packages/engine, type: directory}
+  '@primitiv/engine@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-fumlUZqE8kbW8fxRbqZxXy4ru1W9ThXqwfp0IjU7vRKUVhRUFcN/7N/2T+6v3logP9aOo44SM1HqzurFLvSFJw==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/input@file:../../../../primitiv/packages/input':
-    resolution: {directory: ../../../../primitiv/packages/input, type: directory}
+  '@primitiv/input@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-FgkdQpZenPFwW/GrsrE/ShYE0bUitVlJ+PEx7VsKZTYXYdhCK9076raZW/v7RkODOuXiyM0xf2GUFNLcDjHavw==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/logger@file:../../../../primitiv/packages/logger':
-    resolution: {directory: ../../../../primitiv/packages/logger, type: directory}
+  '@primitiv/logger@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-scLe0RQBK+rPO8H7BE2KX9FaKmPzWwYEFOelIrCWNkNl3LGsoHtSdXj+xb1Kh2GCJvEW+FQydNIrhRVH5DVR7g==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/macro@file:../../../../primitiv/packages/macro':
-    resolution: {directory: ../../../../primitiv/packages/macro, type: directory}
+  '@primitiv/macro@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-Fx919uOxl2ZNsxsbBCJ5GQRpDOYqkJFSzTsg0CsDy+dR9BiPwjYucLd+VYHLDxZpcPuYaBBUhFym/NwXJ+4I/g==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/network-client@file:../../../../primitiv/packages/network-client':
-    resolution: {directory: ../../../../primitiv/packages/network-client, type: directory}
+  '@primitiv/network-client@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-OnmjqyaGtZSOq/2oYZudt0J0ZmDBFn0c/h7KVMmfO9leEDUYdoMM3t6AwlVFNMHfLn5D9SPdd1BtrN+MgE3iaA==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/network-common@file:../../../../primitiv/packages/network-common':
-    resolution: {directory: ../../../../primitiv/packages/network-common, type: directory}
+  '@primitiv/network-common@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-jF2CXC50FB8s9UbS6NWME3+cfmPBx3QxHTP4NtNv0LQ9D+OnLVGEFn0t+3VMLNpqGS9AxJj7dNIiMsrV7912fw==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/render@file:../../../../primitiv/packages/render':
-    resolution: {directory: ../../../../primitiv/packages/render, type: directory}
+  '@primitiv/render@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-dZzlulZV0TYhkMu/0oG29VT7mk9xYSwHpS/bvUrmMP2lNeCGfaMT81G5ZNze/UWvU9i7CnzCyYcTn5L9wAHEbg==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/runtime-client@file:../../../../primitiv/packages/runtime-client':
-    resolution: {directory: ../../../../primitiv/packages/runtime-client, type: directory}
+  '@primitiv/runtime-client@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-lZMsv8VY26iO4smJ3OdFAmAMFVhv0J0yYq7nOIdLVyzoWBh8xbD4zttGqKC5UN7fRPI6g1k0GTRohyQ/vWeRRA==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/types@file:../../../../primitiv/packages/types':
-    resolution: {directory: ../../../../primitiv/packages/types, type: directory}
+  '@primitiv/types@0.20.0-nightly.20260228184910.c83cec1':
+    resolution: {integrity: sha512-g9Eyj3CUNwBG4lOLceQwe9AYICYy6p11e4YLcRfpknw+TERLDQ39BB40xF6CsMrqPXRKXQaY5bbc9LHqIPiMZQ==}
     engines: {node: '>=18.0.0'}
 
   '@rolldown/pluginutils@1.0.0-rc.3':
@@ -1439,71 +1421,71 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@primitiv/audio@file:../../../../primitiv/packages/audio':
+  '@primitiv/audio@0.20.0-nightly.20260228184910.c83cec1':
     dependencies:
-      '@primitiv/logger': file:../../../../primitiv/packages/logger
-      '@primitiv/types': file:../../../../primitiv/packages/types
+      '@primitiv/logger': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
 
-  '@primitiv/client@file:../../../../primitiv/packages/client':
+  '@primitiv/client@0.20.0-nightly.20260228184910.c83cec1':
     dependencies:
-      '@primitiv/audio': file:../../../../primitiv/packages/audio
-      '@primitiv/input': file:../../../../primitiv/packages/input
-      '@primitiv/network-client': file:../../../../primitiv/packages/network-client
-      '@primitiv/network-common': file:../../../../primitiv/packages/network-common
-      '@primitiv/render': file:../../../../primitiv/packages/render
-      '@primitiv/runtime-client': file:../../../../primitiv/packages/runtime-client
+      '@primitiv/audio': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/input': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/network-client': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/network-common': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/render': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/runtime-client': 0.20.0-nightly.20260228184910.c83cec1
 
-  '@primitiv/core@file:../../../../primitiv/packages/core':
+  '@primitiv/core@0.20.0-nightly.20260228184910.c83cec1':
     dependencies:
-      '@primitiv/logger': file:../../../../primitiv/packages/logger
-      '@primitiv/types': file:../../../../primitiv/packages/types
+      '@primitiv/logger': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
 
-  '@primitiv/engine@file:../../../../primitiv/packages/engine':
+  '@primitiv/engine@0.20.0-nightly.20260228184910.c83cec1':
     dependencies:
-      '@primitiv/core': file:../../../../primitiv/packages/core
-      '@primitiv/types': file:../../../../primitiv/packages/types
+      '@primitiv/core': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
 
-  '@primitiv/input@file:../../../../primitiv/packages/input':
+  '@primitiv/input@0.20.0-nightly.20260228184910.c83cec1':
     dependencies:
-      '@primitiv/types': file:../../../../primitiv/packages/types
+      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
 
-  '@primitiv/logger@file:../../../../primitiv/packages/logger': {}
+  '@primitiv/logger@0.20.0-nightly.20260228184910.c83cec1': {}
 
-  '@primitiv/macro@file:../../../../primitiv/packages/macro':
+  '@primitiv/macro@0.20.0-nightly.20260228184910.c83cec1':
     dependencies:
-      '@primitiv/core': file:../../../../primitiv/packages/core
-      '@primitiv/logger': file:../../../../primitiv/packages/logger
-      '@primitiv/types': file:../../../../primitiv/packages/types
+      '@primitiv/core': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/logger': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
 
-  '@primitiv/network-client@file:../../../../primitiv/packages/network-client':
+  '@primitiv/network-client@0.20.0-nightly.20260228184910.c83cec1':
     dependencies:
-      '@primitiv/logger': file:../../../../primitiv/packages/logger
-      '@primitiv/network-common': file:../../../../primitiv/packages/network-common
-      '@primitiv/types': file:../../../../primitiv/packages/types
+      '@primitiv/logger': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/network-common': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
 
-  '@primitiv/network-common@file:../../../../primitiv/packages/network-common':
+  '@primitiv/network-common@0.20.0-nightly.20260228184910.c83cec1':
     dependencies:
-      '@primitiv/types': file:../../../../primitiv/packages/types
+      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
 
-  '@primitiv/render@file:../../../../primitiv/packages/render':
+  '@primitiv/render@0.20.0-nightly.20260228184910.c83cec1':
     dependencies:
-      '@primitiv/core': file:../../../../primitiv/packages/core
-      '@primitiv/logger': file:../../../../primitiv/packages/logger
-      '@primitiv/types': file:../../../../primitiv/packages/types
+      '@primitiv/core': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/logger': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
 
-  '@primitiv/runtime-client@file:../../../../primitiv/packages/runtime-client':
+  '@primitiv/runtime-client@0.20.0-nightly.20260228184910.c83cec1':
     dependencies:
-      '@primitiv/audio': file:../../../../primitiv/packages/audio
-      '@primitiv/core': file:../../../../primitiv/packages/core
-      '@primitiv/input': file:../../../../primitiv/packages/input
-      '@primitiv/logger': file:../../../../primitiv/packages/logger
-      '@primitiv/macro': file:../../../../primitiv/packages/macro
-      '@primitiv/network-client': file:../../../../primitiv/packages/network-client
-      '@primitiv/network-common': file:../../../../primitiv/packages/network-common
-      '@primitiv/render': file:../../../../primitiv/packages/render
-      '@primitiv/types': file:../../../../primitiv/packages/types
+      '@primitiv/audio': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/core': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/input': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/logger': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/macro': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/network-client': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/network-common': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/render': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
 
-  '@primitiv/types@file:../../../../primitiv/packages/types': {}
+  '@primitiv/types@0.20.0-nightly.20260228184910.c83cec1': {}
 
   '@rolldown/pluginutils@1.0.0-rc.3': {}
 

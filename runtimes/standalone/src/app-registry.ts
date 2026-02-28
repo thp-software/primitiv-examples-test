@@ -30,6 +30,7 @@ import { BridgeShowcase } from "../../../applications/12-bridge-communication";
 import { MultiDisplay } from "../../../applications/13-multi-display";
 import { PostProcessShowcase } from "../../../applications/14-post-process";
 import { MultiUserShowcase } from "../../../applications/15-multi-user";
+import { MotionInputShowcase } from "../../../applications/16-motion-input";
 
 import { VoxelSpaceApp } from "../../../applications/showcase-3d-01-voxel-space";
 import { PrimitivCraft } from "../../../applications/showcase-3d-02-primitiv-craft";
@@ -129,8 +130,14 @@ export const APP_REGISTRY: AppEntry[] = [
   {
     slug: "15-multi-user",
     name: "15 Multi-User",
-    description: "Isomorphic MMO architecture: separate global updates (NPCs) vs per-user graphical updates.",
+    description: "Architecture for handling hundreds of concurrent users inside a single world simulation.",
     factory: () => new MultiUserShowcase(),
+  },
+  {
+    slug: "16-motion-input",
+    name: "16 Motion Input",
+    description: "Complete catalog of mobile motion sensors: Tilt, Accelerometer, Gyroscope, and Compass.",
+    factory: () => new MotionInputShowcase(),
   },
 
   // ── Showcases ────────────────────────────────────────────────────────────
@@ -145,7 +152,7 @@ export const APP_REGISTRY: AppEntry[] = [
     slug: "showcase-3d-02-primitiv-craft",
     name: "Primitiv Craft",
     description:
-      "First-person 3D block world: DDA raycasting, 180-slot palette day/night cycle, physics.",
+      "First-person 3D block world: DDA raycasting, 180-slot palette day/night cycle, physics. Use WASD to move, Arrows to look around, Space to jump, Shift to sprint.",
     category: "showcase-3d",
     factory: () => new PrimitivCraft(),
   },

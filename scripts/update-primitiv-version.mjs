@@ -7,13 +7,14 @@ import { execSync } from 'child_process';
 // Get current directory
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const ROOT = path.resolve(__dirname, '..');
 
 // Directories to scan for package.json
 const directoriesToScan = [
-    path.join(__dirname, 'applications'),
-    path.join(__dirname, 'packages'),
-    path.join(__dirname, 'runtimes'),
-    __dirname // Root directory itself
+    path.join(ROOT, 'applications'),
+    path.join(ROOT, 'packages'),
+    path.join(ROOT, 'runtimes'),
+    ROOT // Root directory itself
 ];
 
 const rl = readline.createInterface({
@@ -76,10 +77,10 @@ const updatePrimitivDependencies = (packagePath, newVersion) => {
         if (updated) {
             // Preserve formatting (2 spaces indent)
             fs.writeFileSync(packagePath, JSON.stringify(pkg, null, 2) + '\n');
-            console.log(`\x1b[32m✔ Updated\x1b[0m: ${path.relative(__dirname, packagePath)}`);
+            console.log(`\x1b[32m✔ Updated\x1b[0m: ${path.relative(ROOT, packagePath)}`);
         } else {
             // Only uncomment this if you want noisy logs
-            // console.log(`\x1b[90m- Skipped\x1b[0m: ${path.relative(__dirname, packagePath)} (no @primitiv deps)`);
+            // console.log(`\x1b[90m- Skipped\x1b[0m: ${path.relative(ROOT, packagePath)} (no @primitiv deps)`);
         }
 
         return updated;
@@ -119,8 +120,8 @@ async function main() {
 
     for (const dir of directoriesToScan) {
         if (fs.existsSync(dir)) {
-            if (dir === __dirname) {
-                allPackageFiles.push(path.join(__dirname, 'package.json'));
+            if (dir === ROOT) {
+                allPackageFiles.push(path.join(ROOT, 'package.json'));
             } else {
                 findPackageJsonFiles(dir, allPackageFiles);
             }
@@ -159,7 +160,7 @@ async function main() {
                 pm = 'yarn';
             }
 
-            console.log(`\x1b[36m>> Running ${pm} install in: ${path.relative(__dirname, dir) || '.'}\x1b[0m`);
+            console.log(`\x1b[36m>> Running ${pm} install in: ${path.relative(ROOT, dir) || '.'}\x1b[0m`);
             try {
                 execSync(`${pm} install`, { cwd: dir, stdio: 'inherit' });
                 console.log(`\x1b[32m✔ Install successful\x1b[0m\n`);
