@@ -50,7 +50,11 @@ jobs:
             require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
           "
 
-      - name: Install dependencies
+      - name: Install dependencies (applications)
+        working-directory: applications
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Install dependencies (standalone)
         working-directory: runtimes/standalone
         run: pnpm install --no-frozen-lockfile
 
