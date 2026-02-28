@@ -30,7 +30,6 @@ import { BridgeShowcase } from "../../../applications/12-bridge-communication";
 import { MultiDisplay } from "../../../applications/13-multi-display";
 import { PostProcessShowcase } from "../../../applications/14-post-process";
 import { MultiUserShowcase } from "../../../applications/15-multi-user";
-import { MotionInputShowcase } from "../../../applications/16-motion-input";
 
 import { VoxelSpaceApp } from "../../../applications/showcase-3d-01-voxel-space";
 import { PrimitivCraft } from "../../../applications/showcase-3d-02-primitiv-craft";
@@ -132,12 +131,6 @@ export const APP_REGISTRY: AppEntry[] = [
     name: "15 Multi-User",
     description: "Architecture for handling hundreds of concurrent users inside a single world simulation.",
     factory: () => new MultiUserShowcase(),
-  },
-  {
-    slug: "16-motion-input",
-    name: "16 Motion Input",
-    description: "Complete catalog of mobile motion sensors: Tilt, Accelerometer, Gyroscope, and Compass.",
-    factory: () => new MotionInputShowcase(),
   },
 
   // ── Showcases ────────────────────────────────────────────────────────────

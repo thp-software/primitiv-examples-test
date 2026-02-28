@@ -146,7 +146,6 @@ Each application below is a self-contained tutorial. **Read its source file head
 | **Multi-Display** | [13-multi-display/index.ts](applications/13-multi-display/index.ts) | Multiple Displays, `setOrigin`, `setRenderPasses`, split-screen |
 | **Post-Processing** | [14-post-process/index.ts](applications/14-post-process/index.ts) | CRT scanlines, Ambilight glow, pixel grid overlay |
 | **Multi-User** | [15-multi-user/index.ts](applications/15-multi-user/index.ts) | Global vs per-user loops, `destroyUser`, shared state, tick rate for network |
-| **Motion Input** | [16-motion-input/index.ts](applications/16-motion-input/index.ts) | Complete catalog: Tilt, Accelerometer, Gyroscope, Compass via `InputDeviceType.Motion` |
 
 ---
 
