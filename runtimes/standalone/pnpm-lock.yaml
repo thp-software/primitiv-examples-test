@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@primitiv/client':
-        specifier: 0.20.0-nightly.20260228184910.c83cec1
-        version: 0.20.0-nightly.20260228184910.c83cec1
+        specifier: 0.20.0-nightly.20260228203110.c02f3f1
+        version: 0.20.0-nightly.20260228203110.c02f3f1
       '@primitiv/engine':
-        specifier: 0.20.0-nightly.20260228184910.c83cec1
-        version: 0.20.0-nightly.20260228184910.c83cec1
+        specifier: 0.20.0-nightly.20260228203110.c02f3f1
+        version: 0.20.0-nightly.20260228203110.c02f3f1
       react:
         specifier: ^19.2.0
         version: 19.2.4
@@ -372,51 +372,51 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@primitiv/audio@0.20.0-nightly.20260228184910.c83cec1':
-    resolution: {integrity: sha512-vV7T6RMsvl3fL2b9XriwrN8oBERb1aiPzmu96nHu+YF5B9YLPsK/MCzhnuRgP/i4hqXVpnPqunx/02SlcDglvQ==}
+  '@primitiv/audio@0.20.0-nightly.20260228203110.c02f3f1':
+    resolution: {integrity: sha512-R/9sg+Mdw7mUq+8swcfEjOW7gyMvlKMJllixrMvVKLZoEI0lzK3zzMnbdAADG/v28Wqpv60bu+tfgTx3hC/fsw==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/client@0.20.0-nightly.20260228184910.c83cec1':
-    resolution: {integrity: sha512-8/uMAOpKgPKx1BuuTcDVp5P3KHYYgFdeewKzFgJFzd6jraxXA64OpwE0tnm3fxolOG9lKsC09X4g99H5Oh0Ivw==}
+  '@primitiv/client@0.20.0-nightly.20260228203110.c02f3f1':
+    resolution: {integrity: sha512-+Np3reulmKR7ikHPOdc3Ufi0vUxZ3J86sxeSajfCXtcYbhGxzea3V+Z0IcdzZ4UQzspwruslOiJlR3uSTy+N2A==}
 
-  '@primitiv/core@0.20.0-nightly.20260228184910.c83cec1':
-    resolution: {integrity: sha512-1nmHM0reU/0Zg6kwDNMA1LpVsEZ1ch7LIsKHzzIFfLFwKp1R0O1jwlPJRPzgzqV/dNTIb6z52xVEvYuE60Vl4Q==}
+  '@primitiv/core@0.20.0-nightly.20260228203110.c02f3f1':
+    resolution: {integrity: sha512-aZ3V+iythwjkUmGwRxcf27I9r48qz+gq1+aHQZUCCIw0NBFaefRFSVc5Iv8NVPGHU2GvwL02YT/XsMfI6WwmRA==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/engine@0.20.0-nightly.20260228184910.c83cec1':
-    resolution: {integrity: sha512-fumlUZqE8kbW8fxRbqZxXy4ru1W9ThXqwfp0IjU7vRKUVhRUFcN/7N/2T+6v3logP9aOo44SM1HqzurFLvSFJw==}
+  '@primitiv/engine@0.20.0-nightly.20260228203110.c02f3f1':
+    resolution: {integrity: sha512-5+q41tz38VPrBi8p0DYqsmsbvKnqQohDM6gK/h833nmwUCEEBdog4a7q17DGDdtGLKremyKgwSfPF0qEvqMMdg==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/input@0.20.0-nightly.20260228184910.c83cec1':
-    resolution: {integrity: sha512-FgkdQpZenPFwW/GrsrE/ShYE0bUitVlJ+PEx7VsKZTYXYdhCK9076raZW/v7RkODOuXiyM0xf2GUFNLcDjHavw==}
+  '@primitiv/input@0.20.0-nightly.20260228203110.c02f3f1':
+    resolution: {integrity: sha512-liMAt+XAp/E28IZT6xKP9G6WQb3URvVDT3lFL77/LYLON7ERSnFA8DefMQ9TpnQaVWP/+pLNli/EgWqKs7bs+Q==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/logger@0.20.0-nightly.20260228184910.c83cec1':
-    resolution: {integrity: sha512-scLe0RQBK+rPO8H7BE2KX9FaKmPzWwYEFOelIrCWNkNl3LGsoHtSdXj+xb1Kh2GCJvEW+FQydNIrhRVH5DVR7g==}
+  '@primitiv/logger@0.20.0-nightly.20260228203110.c02f3f1':
+    resolution: {integrity: sha512-olf7iZ+YpE4F+YnfBf7DXM6ALjKgMTEJcaxG+eQo+jJraDE7AhoSx96/R/lCJEQCDKGQZ/6kh/zkLZVdOsbqlQ==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/macro@0.20.0-nightly.20260228184910.c83cec1':
-    resolution: {integrity: sha512-Fx919uOxl2ZNsxsbBCJ5GQRpDOYqkJFSzTsg0CsDy+dR9BiPwjYucLd+VYHLDxZpcPuYaBBUhFym/NwXJ+4I/g==}
+  '@primitiv/macro@0.20.0-nightly.20260228203110.c02f3f1':
+    resolution: {integrity: sha512-Pvqgl6X6HxN1wH71FBYFUy5w5TeDlYUGQdD2gSTtmtr3hqOW8NJeQYULyeyuRjwP109mGea2rgGnk7CgS4yn3g==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/network-client@0.20.0-nightly.20260228184910.c83cec1':
-    resolution: {integrity: sha512-OnmjqyaGtZSOq/2oYZudt0J0ZmDBFn0c/h7KVMmfO9leEDUYdoMM3t6AwlVFNMHfLn5D9SPdd1BtrN+MgE3iaA==}
+  '@primitiv/network-client@0.20.0-nightly.20260228203110.c02f3f1':
+    resolution: {integrity: sha512-8RADezw3P2iaQjq4/ytCXCJ0nOxWOkx/S0t2Ly+4JKM2u46wDaOH1mv6e+9Wo0ZurQiJOL76ZAc0s501VoQSUg==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/network-common@0.20.0-nightly.20260228184910.c83cec1':
-    resolution: {integrity: sha512-jF2CXC50FB8s9UbS6NWME3+cfmPBx3QxHTP4NtNv0LQ9D+OnLVGEFn0t+3VMLNpqGS9AxJj7dNIiMsrV7912fw==}
+  '@primitiv/network-common@0.20.0-nightly.20260228203110.c02f3f1':
+    resolution: {integrity: sha512-BuBAga8kVWCEMIiBHwYYlH4qa15ru448RKiJsIacHMJd6EtZ1HI0WX83CMinoP5G7OJSxYcYFttWturO0gIbBw==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/render@0.20.0-nightly.20260228184910.c83cec1':
-    resolution: {integrity: sha512-dZzlulZV0TYhkMu/0oG29VT7mk9xYSwHpS/bvUrmMP2lNeCGfaMT81G5ZNze/UWvU9i7CnzCyYcTn5L9wAHEbg==}
+  '@primitiv/render@0.20.0-nightly.20260228203110.c02f3f1':
+    resolution: {integrity: sha512-cVBr67bfkz22/ZWmvLDtYgLByeU7nMS4Lz3vEI++I1/7E5j0yfp79dJH1rkkFkdw93jPns5HIIiy0Ou28/zhFg==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/runtime-client@0.20.0-nightly.20260228184910.c83cec1':
-    resolution: {integrity: sha512-lZMsv8VY26iO4smJ3OdFAmAMFVhv0J0yYq7nOIdLVyzoWBh8xbD4zttGqKC5UN7fRPI6g1k0GTRohyQ/vWeRRA==}
+  '@primitiv/runtime-client@0.20.0-nightly.20260228203110.c02f3f1':
+    resolution: {integrity: sha512-2UhuP40A+cAwCRSN1QV1/2cbzhZeOhVtcrcoaf53WH6i3kQac9ipK+jgrLha0ag5kynLWNGoFW8x2W+mFKcALg==}
     engines: {node: '>=18.0.0'}
 
-  '@primitiv/types@0.20.0-nightly.20260228184910.c83cec1':
-    resolution: {integrity: sha512-g9Eyj3CUNwBG4lOLceQwe9AYICYy6p11e4YLcRfpknw+TERLDQ39BB40xF6CsMrqPXRKXQaY5bbc9LHqIPiMZQ==}
+  '@primitiv/types@0.20.0-nightly.20260228203110.c02f3f1':
+    resolution: {integrity: sha512-l4H2346J0tlRFffKV9qiwfqMQrzJiqeQVAaznTHIEVqL4bbNdMf6umfHGgrXG8KXdP1ivGNOUODLFlOBqXyuFQ==}
     engines: {node: '>=18.0.0'}
 
   '@rolldown/pluginutils@1.0.0-rc.3':
@@ -1448,71 +1448,71 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@primitiv/audio@0.20.0-nightly.20260228184910.c83cec1':
+  '@primitiv/audio@0.20.0-nightly.20260228203110.c02f3f1':
     dependencies:
-      '@primitiv/logger': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/logger': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/types': 0.20.0-nightly.20260228203110.c02f3f1
 
-  '@primitiv/client@0.20.0-nightly.20260228184910.c83cec1':
+  '@primitiv/client@0.20.0-nightly.20260228203110.c02f3f1':
     dependencies:
-      '@primitiv/audio': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/input': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/network-client': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/network-common': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/render': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/runtime-client': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/audio': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/input': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/network-client': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/network-common': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/render': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/runtime-client': 0.20.0-nightly.20260228203110.c02f3f1
 
-  '@primitiv/core@0.20.0-nightly.20260228184910.c83cec1':
+  '@primitiv/core@0.20.0-nightly.20260228203110.c02f3f1':
     dependencies:
-      '@primitiv/logger': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/logger': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/types': 0.20.0-nightly.20260228203110.c02f3f1
 
-  '@primitiv/engine@0.20.0-nightly.20260228184910.c83cec1':
+  '@primitiv/engine@0.20.0-nightly.20260228203110.c02f3f1':
     dependencies:
-      '@primitiv/core': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/core': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/types': 0.20.0-nightly.20260228203110.c02f3f1
 
-  '@primitiv/input@0.20.0-nightly.20260228184910.c83cec1':
+  '@primitiv/input@0.20.0-nightly.20260228203110.c02f3f1':
     dependencies:
-      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/types': 0.20.0-nightly.20260228203110.c02f3f1
 
-  '@primitiv/logger@0.20.0-nightly.20260228184910.c83cec1': {}
+  '@primitiv/logger@0.20.0-nightly.20260228203110.c02f3f1': {}
 
-  '@primitiv/macro@0.20.0-nightly.20260228184910.c83cec1':
+  '@primitiv/macro@0.20.0-nightly.20260228203110.c02f3f1':
     dependencies:
-      '@primitiv/core': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/logger': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/core': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/logger': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/types': 0.20.0-nightly.20260228203110.c02f3f1
 
-  '@primitiv/network-client@0.20.0-nightly.20260228184910.c83cec1':
+  '@primitiv/network-client@0.20.0-nightly.20260228203110.c02f3f1':
     dependencies:
-      '@primitiv/logger': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/network-common': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/logger': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/network-common': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/types': 0.20.0-nightly.20260228203110.c02f3f1
 
-  '@primitiv/network-common@0.20.0-nightly.20260228184910.c83cec1':
+  '@primitiv/network-common@0.20.0-nightly.20260228203110.c02f3f1':
     dependencies:
-      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/types': 0.20.0-nightly.20260228203110.c02f3f1
 
-  '@primitiv/render@0.20.0-nightly.20260228184910.c83cec1':
+  '@primitiv/render@0.20.0-nightly.20260228203110.c02f3f1':
     dependencies:
-      '@primitiv/core': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/logger': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/core': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/logger': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/types': 0.20.0-nightly.20260228203110.c02f3f1
 
-  '@primitiv/runtime-client@0.20.0-nightly.20260228184910.c83cec1':
+  '@primitiv/runtime-client@0.20.0-nightly.20260228203110.c02f3f1':
     dependencies:
-      '@primitiv/audio': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/core': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/input': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/logger': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/macro': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/network-client': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/network-common': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/render': 0.20.0-nightly.20260228184910.c83cec1
-      '@primitiv/types': 0.20.0-nightly.20260228184910.c83cec1
+      '@primitiv/audio': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/core': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/input': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/logger': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/macro': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/network-client': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/network-common': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/render': 0.20.0-nightly.20260228203110.c02f3f1
+      '@primitiv/types': 0.20.0-nightly.20260228203110.c02f3f1
 
-  '@primitiv/types@0.20.0-nightly.20260228184910.c83cec1': {}
+  '@primitiv/types@0.20.0-nightly.20260228203110.c02f3f1': {}
 
   '@rolldown/pluginutils@1.0.0-rc.3': {}
 
