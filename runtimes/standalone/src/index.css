@@ -57,11 +57,18 @@ body {
 h1 {
   font-size: 4rem;
   font-weight: 800;
-  line-height: 1;
+  line-height: 1.1;
   margin-bottom: 1.5rem;
   background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  word-wrap: break-word;
+}
+
+@media (max-width: 640px) {
+  h1 {
+    font-size: 2.5rem;
+  }
 }
 
 .hero-subtitle {
@@ -69,6 +76,8 @@ h1 {
   color: #94a3b8;
   max-width: 600px;
   margin: 0 auto 2.5rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .primary-button {

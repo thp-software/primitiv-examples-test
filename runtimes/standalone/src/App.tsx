@@ -17,10 +17,11 @@ function HomePage() {
   return (
     <div
       style={{
-        width: "100vw",
+        width: "100%",
         height: "100vh",
         backgroundColor: "#0a0a12",
-        overflow: "auto",
+        overflowY: "auto",
+        overflowX: "hidden",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -28,9 +29,11 @@ function HomePage() {
     >
       <div
         style={{
-          padding: "3rem 2rem 1.5rem",
+          padding: "3rem 1rem 1.5rem",
           textAlign: "center",
           maxWidth: "800px",
+          width: "100%",
+          boxSizing: "border-box",
         }}
       >
         <h1>
@@ -69,7 +72,7 @@ function HomePage() {
 function AppSection({ title, description, apps }: { title: string; description?: string; apps: AppEntry[] }) {
   if (apps.length === 0) return null;
   return (
-    <div style={{ width: "100%", maxWidth: "900px", padding: "0 2rem" }}>
+    <div style={{ width: "100%", maxWidth: "900px", padding: "0 1rem", boxSizing: "border-box" }}>
       <h2
         style={{
           fontSize: "0.75rem",
@@ -100,7 +103,7 @@ function AppSection({ title, description, apps }: { title: string; description?:
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
           gap: "1rem",
           paddingBottom: "2rem",
         }}

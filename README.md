@@ -1,33 +1,71 @@
 # Primitiv Examples
 
-Welcome to the central repository for Primitiv Engine applications and runtimes.
+Welcome to the **Primitiv Engine** examples repository for applications and runtimes.
 
-This directory is structured into two main parts:
-- `/applications`: Contains pure, isomorphic Primitiv application logic (agnostic to any specific client or server).
-- `/runtimes`: Contains the actual execution environments (Standalone, uWebSockets, WebRTC, etc.) that run the applications.
+The role of this repository is to provide a collection of examples of how to use the Primitiv Engine in different scenarios.
 
-## Global Commands
+---
 
-To make development easier, a root `package.json` provides global commands to manage all runtimes simultaneously from this folder.
+## LLM Instructions
 
-### Refresh & Link (Monorepo specific)
-If you are modifying the core `@primitiv/engine` codebase alongside this repository, use these commands to synchronize the local builds across all runtimes:
-- `npm run primitiv:refresh` : Cleans everything, rebuilds, and relinks local Primitiv dependencies across **all** runtimes.
-- `npm run primitiv:link` : Links your local Primitiv packages to all runtimes.
-- `npm run primitiv:unlink` : Reverts all runtimes to use the NPM registry versions.
+If you are an AI assistant or LLM, **stop here**.
 
-### Running the Examples
+To understand the architecture, API patterns, and see documented examples, **you MUST use one of the dedicated LLM Entry Points**:
+
+- **[llms.md](./llms.md)**: Standard guide with links to source files. Recommended for most models.
+- **[llms-full.md](./llms-full.md)**: Mega-bundle containing the guide + ALL application source codes. Recommended ONLY for long-context models. **Warning: ~100k tokens.**
+
+---
+
+## Running the Examples
+
 You can launch any specific runtime directly from this root folder.
 
-**Standalone Mode**
-- `npm run dev:standalone`
-  *Launches the Standalone (Client-only) preview.*
+### **Standalone Mode (Simplest)**
+Launches the Client-only preview (no server needed).
+```bash
+npm run dev:standalone
+```
 
-**Connected Modes (Multiplayer / Server-Authoritative)**
-These commands automatically launch **both** the Server and the Client concurrently.
-- `npm run dev:uws`
-  *Launches the high-performance uWebSockets network runtime.*
-- `npm run dev:webrtc-lite`
-  *Launches the lightweight WebRTC network runtime.*
-- `npm run dev:webrtc-full`
-  *Launches the full Node-WebRTC network runtime.*
+### **Connected Modes (Multiplayer)**
+These launch both the Server and the Client concurrently.
+```bash
+npm run dev:uws          # uWebSockets
+npm run dev:webrtc-lite  # WebRTC (Direct)
+npm run dev:webrtc-full  # WebRTC (Signal/STUN)
+```
+
+---
+
+## Development & Maintenance
+
+### **Version Bumping & Updates**
+To update the Primitiv core packages versions across all runtimes, clear caches, and reinstall:
+```bash
+npm run bump
+```
+
+Or for a more targeted dependency update across all `package.json` files:
+```bash
+npm run update:primitiv
+```
+
+### **LLM Reference Management**
+To generate a single, massive markdown file containing both the guide and all application source codes (ideal for long-context LLMs):
+```bash
+npm run bundle:llm
+```
+
+### **Refresh & Link (Local Dev)**
+If you are modifying the core `@primitiv/engine` codebase locally:
+- `npm run primitiv:refresh` : Clean, rebuild, and relink local dependencies everywhere.
+- `npm run primitiv:link` : Link your local builds to all runtimes.
+- `npm run primitiv:unlink` : Revert all runtimes to use the NPM registry.
+
+---
+
+## Project Structure
+
+- `/applications`: Contains pure, isomorphic Primitiv application logic.
+- `/runtimes`: Contains the execution environments (Standalone, uWS, WebRTC).
+- `/scripts`: Infrastructure and maintenance scripts.
