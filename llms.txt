@@ -1,0 +1,82 @@
+# Primitiv Examples
+
+> Reference applications and runtime harnesses for the Primitiv Engine — a grid-based terminal rendering engine with server/client architecture.
+
+This repository contains working examples of Primitiv applications. Applications are pure engine logic classes that implement `IApplication<Engine, User<T>>`. They are loaded and run by **harnesses** (standalone browser client or server+client connected mode).
+
+## Architecture
+
+Applications only depend on `@primitiv/engine`. They do not know whether they run in standalone (browser-only) or connected (server+client over WebSocket/WebRTC) mode. The harness decides.
+
+- **Standalone**: `@primitiv/client` creates a `ClientRuntime` that runs the application locally in the browser.
+- **Connected**: `@primitiv/server` creates a `RuntimeServer` that runs the application on a Node.js server. `@primitiv/client` connects via WebSocket or WebRTC.
+
+## Application Lifecycle
+
+Every application implements four methods:
+
+1. `init(runtime, engine)` — Global setup: load palettes, fonts, sounds, set tick rate.
+2. `initUser(runtime, engine, user)` — Per-user setup: create Displays, Layers, configure input bindings.
+3. `updateUser(runtime, engine, user)` — Per-user tick: read input, update state, issue drawing orders, commit layers.
+4. `update(runtime, engine)` — Global tick: broadcast bridge messages, run shared logic.
+
+## Key Engine Concepts
+
+- **Display**: Virtual viewport with width/height in cells. Supports scaling modes (Responsive, Quarter) and post-processing (scanlines, blur).
+- **Layer**: Canvas surface positioned at (x,y) with a z-index. Drawing orders are placed on layers. Layers MUST be committed each frame.
+- **OrderBuilder**: Static factory for all drawing orders (shapes, text, fills, frames, bitmasks, sprites, particles).
+- **Palette**: 256-slot color system. Colors have RGBA + optional emission (e). Loaded into slots, then assigned to displays.
+- **User**: Represents a connected client. Stores per-user data via `user.data`, owns displays and layers.
+- **Input**: Buttons and axes bound via `InputBindingRegistry`. Supports keyboard, mouse, touch, and gamepad.
+- **Sprites**: Unicolor or multicolor charcode matrices preloaded and referenced by ID in drawing orders.
+- **Bridge**: Bidirectional message channel between server and client (works also in standalone mode).
+- **Sound**: Spatial audio with positional sound sources, filters (lowpass, highpass, reverb), and loop/fade support.
+
+## Applications
+
+Start with `hero-matrix` (simplest, ~170 lines), then explore others for advanced patterns.
+
+### Basics & Technical Showcases
+
+- [hero-matrix/index.ts](applications/hero-matrix/index.ts): Digital rain effect. Demonstrates: palette, responsive display, subFrameMultiColor, tick rate.
+- [radar/index.ts](applications/radar/index.ts): Tactical radar simulation. Demonstrates: Layer separation (static reliable background vs unreliable high-freq dynamic sweep), hardware UI abstraction.
+- [reference-app/index.ts](applications/reference-app/index.ts): Exhaustive API showcase. Demonstrates: every shape order, every fill/frame/bitmask type, sprites (uni+multi), clouds, text, polyline/polygon, 16-bit charCode mode, keyboard/mouse/gamepad input, sound effects with real-time filters.
+
+### 2D & Grid-Based
+
+- [space-demo/index.ts](applications/space-demo/index.ts): Game of Life. Demonstrates: multi-layer rendering, bitmask4 orders, mouse input, UI bar, slider interaction.
+- [test-app/index.ts](applications/test-app/index.ts): Tilemap prototype. Demonstrates: 16-bit font atlas, auto-tiling walls, campfire lighting with line-of-sight, sprite-based rendering.
+
+### 3D & Raycasting
+
+- [showcase-02-primitiv-craft/index.ts](applications/showcase-02-primitiv-craft/index.ts): First-person 3D block world. Demonstrates: DDA voxel raycasting, 180-slot temporal palette animation (day/night cycle), shadow rays, water transparency, physics (gravity/collision).
+- [showcase-03-ray-maze/index.ts](applications/showcase-03-ray-maze/index.ts): First-person maze runner inspired by the Windows 98 3D Maze screensaver. Demonstrates: raycasting, perpendicular wall distance (fisheye correction), depth-shaded palette walls, ZBuffer billboard sprites, discrete tile-step movement state machine.
+- [showcase-01-voxel-space/index.ts](applications/showcase-01-voxel-space/index.ts): Pseudo-3D landscape flyover using the Voxel Space algorithm.
+
+## Harnesses
+
+- **Standalone**: `runtimes/standalone/` (Local execution)
+- **Connected UWS**: `runtimes/connected-uws/` (WebSocket, default)
+- **Connected WebRTC Lite**: `runtimes/connected-webrtc-lite/` (WebRTC without STUN)
+- **Connected WebRTC Full**: `runtimes/connected-webrtc-full/` (WebRTC with STUN)
+
+## Catalog
+
+- [applications/README.md](applications/README.md): Application catalog and "how to create a new app" guide with minimal template.
+
+
+## 🤖 LLM & Architecture Guidelines (How to build a Primitiv App)
+When generating new Primitiv Applications, you MUST adhere to the following strict architectural rules:
+1. **LIFECYCLE:**
+   - [init](cci:1://file:///c:/Users/Thomas/Documents/primitiv/primitiv-examples/applications/test-app/index.ts:82:2-176:3): Global setup (Palettes, TickRate, preloading Sprites/Fonts). Runs once per app launch.
+   - [initUser](cci:1://file:///c:/Users/Thomas/Documents/primitiv/primitiv-examples/applications/showcase-02-primitiv-craft/index.ts:302:4-338:5): Per-connection setup. You MUST initialize `user.data` here, define the user's `Display`, and attach their `Layer`s.
+   - [updateUser](cci:1://file:///c:/Users/Thomas/Documents/primitiv/primitiv-examples/applications/showcase-03-ray-maze/index.ts:203:4-638:5): Per-tick user loop. Contains physics, input handling, and pushing view updates to layers.
+   - [update](cci:1://file:///c:/Users/Thomas/Documents/primitiv/primitiv-examples/applications/radar/index.ts:308:4-308:55): Global server loop for simulation events affecting all users (like broadcast pings or advancing the time of day).
+2. **STATE MANAGEMENT:**
+   - Never use global class variables for user state. Always define a custom interface for the user data and store it in `user.data`.
+   - The engine architecture is isomorphic: variables stored on the app class instance are global to all connected users on the server.
+3. **RENDERING PARADIGM:**
+   - There is no direct pixel manipulation. The engine uses a declarative drawing order system.
+   - You build arrays of `OrderBuilder` commands (like `.fill()`, `.text()`, `.subFrameMulti()`, `.circle()`).
+   - You apply these orders to a layer via `layer.setOrders([orders])`.
+   - **CRITICAL:** You MUST call `layer.commit()` at the end of the frame/update. Without a commit, the engine will not send the updated visual state to the client.

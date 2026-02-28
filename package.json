@@ -1,0 +1,14 @@
+{
+    "name": "primitiv-examples",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev:standalone": "npm run dev --prefix runtimes/standalone",
+        "dev:uws": "npm run dev --prefix runtimes/connected-uws",
+        "dev:webrtc-lite": "npm run dev --prefix runtimes/connected-webrtc-lite",
+        "dev:webrtc-full": "npm run dev --prefix runtimes/connected-webrtc-full",
+        "primitiv:refresh": "npm run primitiv:refresh --prefix runtimes/standalone && npm run primitiv:refresh --prefix runtimes/connected-uws && npm run primitiv:refresh --prefix runtimes/connected-webrtc-lite && npm run primitiv:refresh --prefix runtimes/connected-webrtc-full",
+        "primitiv:link": "npm run primitiv:link --prefix runtimes/standalone && npm run primitiv:link --prefix runtimes/connected-uws && npm run primitiv:link --prefix runtimes/connected-webrtc-lite && npm run primitiv:link --prefix runtimes/connected-webrtc-full",
+        "primitiv:unlink": "npm run primitiv:unlink --prefix runtimes/standalone && npm run primitiv:unlink --prefix runtimes/connected-uws && npm run primitiv:unlink --prefix runtimes/connected-webrtc-lite && npm run primitiv:unlink --prefix runtimes/connected-webrtc-full"
+    }
+}

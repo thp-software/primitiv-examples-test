@@ -1,0 +1,23 @@
+{
+  "name": "connected-webrtc-full",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"pnpm --prefix client dev\" \"pnpm --prefix server dev\"",
+    "start:client": "pnpm --prefix client dev",
+    "start:server": "pnpm --prefix server dev",
+    "primitiv:link": "node scripts/primitiv-link.js link",
+    "primitiv:unlink": "node scripts/primitiv-link.js unlink",
+    "primitiv:status": "node scripts/primitiv-link.js status",
+    "primitiv:refresh": "node scripts/primitiv-link.js refresh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

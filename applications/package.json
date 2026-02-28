@@ -1,0 +1,8 @@
+{
+  "name": "primitiv-applications",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@primitiv/engine": "0.20.0-nightly.20260221223832.00cbe81"
+  }
+}

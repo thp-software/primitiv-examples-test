@@ -1,0 +1,51 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@primitiv/engine": "0.20.0-nightly.20260221223832.00cbe81",
+    "@primitiv/server": "0.20.0-nightly.20260221223832.00cbe81",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.5",
+    "@types/node": "^22.13.4",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "node-datachannel"
+    ],
+    "overrides": {
+      "@primitiv/audio": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/audio",
+      "@primitiv/client": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/client",
+      "@primitiv/core": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/core",
+      "@primitiv/engine": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/engine",
+      "@primitiv/input": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/input",
+      "@primitiv/logger": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/logger",
+      "@primitiv/macro": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/macro",
+      "@primitiv/network-client": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/network-client",
+      "@primitiv/network-common": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/network-common",
+      "@primitiv/network-server": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/network-server",
+      "@primitiv/render": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/render",
+      "@primitiv/runtime-client": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/runtime-client",
+      "@primitiv/runtime-server": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/runtime-server",
+      "@primitiv/server": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/server",
+      "@primitiv/types": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/types",
+      "@primitiv/visual-debugger": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/visual-debugger"
+    }
+  }
+}

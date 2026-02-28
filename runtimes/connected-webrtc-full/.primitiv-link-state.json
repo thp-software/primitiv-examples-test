@@ -1,0 +1,97 @@
+{
+  "mode": "link",
+  "backups": {
+    "C:\\Users\\Thomas\\Documents\\primitiv\\primitiv-examples\\examples\\connected\\client\\package.json": {
+      "name": "client",
+      "private": true,
+      "version": "0.0.0",
+      "type": "module",
+      "scripts": {
+        "dev": "vite",
+        "build": "tsc -b && vite build",
+        "lint": "eslint .",
+        "preview": "vite preview"
+      },
+      "dependencies": {
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0",
+        "@primitiv/engine": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/engine",
+        "@primitiv/client": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/client"
+      },
+      "devDependencies": {
+        "@eslint/js": "^9.39.1",
+        "@types/node": "^24.10.1",
+        "@types/react": "^19.2.7",
+        "@types/react-dom": "^19.2.3",
+        "@vitejs/plugin-react": "^5.1.1",
+        "eslint": "^9.39.1",
+        "eslint-plugin-react-hooks": "^7.0.1",
+        "eslint-plugin-react-refresh": "^0.4.24",
+        "globals": "^16.5.0",
+        "typescript": "~5.9.3",
+        "typescript-eslint": "^8.48.0",
+        "vite": "^7.3.1"
+      },
+      "pnpm": {
+        "overrides": {
+          "@primitiv/engine": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/engine",
+          "@primitiv/client": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/client",
+          "@primitiv/audio": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/audio",
+          "@primitiv/core": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/core",
+          "@primitiv/input": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/input",
+          "@primitiv/logger": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/logger",
+          "@primitiv/macro": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/macro",
+          "@primitiv/network-client": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/network-client",
+          "@primitiv/network-common": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/network-common",
+          "@primitiv/render": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/render",
+          "@primitiv/runtime-client": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/runtime-client",
+          "@primitiv/types": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/types",
+          "@primitiv/network-server": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/network-server",
+          "@primitiv/runtime-server": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/runtime-server",
+          "@primitiv/server": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/server",
+          "@primitiv/visual-debugger": "file:C:/Users/Thomas/Documents/primitiv/primitiv/packages/visual-debugger"
+        }
+      }
+    },
+    "C:\\Users\\Thomas\\Documents\\primitiv\\primitiv-examples\\examples\\connected\\server\\package.json": {
+      "name": "server",
+      "version": "1.0.0",
+      "description": "",
+      "type": "module",
+      "main": "dist/index.js",
+      "scripts": {
+        "dev": "tsx watch src/index.ts",
+        "start": "tsx src/index.ts",
+        "build": "tsc",
+        "test": "echo \"Error: no test specified\" && exit 1"
+      },
+      "keywords": [],
+      "author": "",
+      "license": "MIT",
+      "dependencies": {
+        "cors": "^2.8.5",
+        "@primitiv/engine": "file:../../packages/engine",
+        "@primitiv/server": "file:../../packages/server"
+      },
+      "devDependencies": {
+        "@types/cors": "^2.8.5",
+        "@types/node": "^22.13.4",
+        "tsx": "^4.19.2",
+        "typescript": "^5.7.3"
+      },
+      "pnpm": {
+        "overrides": {
+          "@primitiv/engine": "file:../../packages/engine",
+          "@primitiv/server": "file:../../packages/server",
+          "@primitiv/core": "file:../../packages/core",
+          "@primitiv/logger": "file:../../packages/logger",
+          "@primitiv/network-common": "file:../../packages/network-common",
+          "@primitiv/network-server": "file:../../packages/network-server",
+          "@primitiv/runtime-server": "file:../../packages/runtime-server",
+          "@primitiv/types": "file:../../packages/types"
+        }
+      }
+    }
+  },
+  "linkedAt": "2026-02-27T17:27:38.411Z"
+}
