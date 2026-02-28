@@ -177,7 +177,7 @@ export class Wireframe3DShowcase implements IApplication<Engine, User<WireframeU
 
     update(_runtime: IRuntime, _engine: Engine): void { }
 
-    updateUser(runtime: IRuntime, _engine: Engine, user: User<WireframeUserData>): void {
+    updateUser(_runtime: IRuntime, _engine: Engine, user: User<WireframeUserData>): void {
         const data = user.data;
         const display = user.getDisplay(0)!;
         const width = display.width;

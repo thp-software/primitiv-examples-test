@@ -190,7 +190,7 @@ export class SimpleMatrix implements IApplication<Engine, User<SimpleMatrixUserD
      * BATCH RENDERING
      * We map the grid data to a structure compatible with 'subFrameMulti'.
      */
-    const frameData = data.grid.map((cell) => {
+    const frameData = data.grid.map((cell: any) => {
       return {
         charCode: cell.char,
         fgColorCode: cell.color,

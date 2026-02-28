@@ -54,7 +54,6 @@ import {
   Display,
   OrderBuilder,
   Vector2,
-  ScalingMode,
   InputDeviceType,
   KeyboardInput,
   type IApplication,
@@ -641,8 +640,8 @@ export class PrimitivCraft implements IApplication<
    * @param user The user object to attach data to
    */
   initUser(
-    runtime: IRuntime,
-    engine: Engine,
+    _runtime: IRuntime,
+    _engine: Engine,
     user: User<MinecraftUserData>,
   ): void {
     // --- Layers Definition ---
@@ -814,8 +813,8 @@ export class PrimitivCraft implements IApplication<
    * based on the user's specific state and inputs.
    */
   updateUser(
-    runtime: IRuntime,
-    engine: Engine,
+    _runtime: IRuntime,
+    _engine: Engine,
     user: User<MinecraftUserData>,
   ): void {
     const state = user.data;
@@ -941,7 +940,7 @@ export class PrimitivCraft implements IApplication<
 
     // --- 5. POST-PROCESSING & SHADING ---
     // Convert raw voxel hits into colored ASCII characters
-    const dots = pix.map((pixP, i) => {
+    const dots = pix.map((pixP: any, i: any) => {
       const posX = i % WIDTH,
         posY = Math.floor(i / WIDTH);
       if (pixP.voxelId === 0) {
@@ -1127,5 +1126,5 @@ export class PrimitivCraft implements IApplication<
       },
     ]);
   }
-  update(runtime: IRuntime, engine: Engine): void {}
+  update(_runtime: IRuntime, _engine: Engine): void { }
 }

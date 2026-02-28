@@ -149,7 +149,7 @@ class VoxelEngine {
         Math.abs(
           this.fbm((x + 1) * 0.03 * 0.5 + 10.1, nz * 0.5 + 20.3) * 2 - 1.0,
         ) *
-          8.0;
+        8.0;
       let slope = hRight - h; // Lighting from side
       let light = Math.max(0, Math.min(1.0, 0.4 + slope * 0.15));
 
@@ -275,7 +275,7 @@ export class VoxelSpaceApp implements IApplication<Engine, User<VoxelData>> {
    * This is where we set up the user's private rendering environment:
    * their Displays (virtual viewports) and Layers (drawing surfaces).
    */
-  initUser(runtime: IRuntime, engine: Engine, user: User<VoxelData>): void {
+  initUser(_runtime: IRuntime, _engine: Engine, user: User<VoxelData>): void {
     // --- Layers Definition ---
     // Layers are stacked based on their ID.
     // 'mustBeReliable: false' is used for high-frequency data (like voxel rendering) where dropping a frame is okay.
