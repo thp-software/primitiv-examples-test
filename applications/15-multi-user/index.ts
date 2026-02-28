@@ -85,7 +85,7 @@ export class MultiUserShowcase implements IApplication<Engine, User<UserData>> {
         players: new Map()
     };
 
-    init(runtime: IRuntime, engine: Engine): void {
+    async init(runtime: IRuntime, engine: Engine): Promise<void> {
         // Clear state on init to handle React Strict Mode / Fast Refresh gracefully
         this.globalState.players.clear();
 
@@ -194,7 +194,7 @@ export class MultiUserShowcase implements IApplication<Engine, User<UserData>> {
         o.push(OrderBuilder.text(2, 3, `Active Users: ${state.players.size}   |   Global Application Tick: ${state.tickCount}`, 0, 1));
 
         // Draw the Global Autonomous Bouncing NPC
-        o.push(OrderBuilder.circle(state.npcX, state.npcY, 1, "█", 2, 0)); // Red NPC
+        o.push(OrderBuilder.circle(state.npcX, state.npcY, 1, { charCode: "█", fgColor: 2, bgColor: 0, filled: true })); // Red NPC
         o.push(OrderBuilder.text(state.npcX - 1, Math.max(5, state.npcY - 2), "AI", 2, 0));
 
         // Draw all players

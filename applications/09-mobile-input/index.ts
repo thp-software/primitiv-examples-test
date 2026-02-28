@@ -11,7 +11,7 @@
  *
  * Touch Zone Workflow:
  *   a) Define zones via `registry.defineTouchZone(id, name, x, y, w, h)`.
- *   b) Map zones to logical buttons/axes via `user.defineButton()` / `user.defineAxis()`.
+ *   b) Map zones to logical buttons/axes via `registry.defineButton()` / `registry.defineAxis()`.
  *      Use `InputDeviceType.TouchZone` and reference the zone by its `touchZoneId`.
  *   c) Query state with `user.getButton()` / `user.getAxis()` as usual.
  *
@@ -36,8 +36,8 @@
  *
  * Key Concepts:
  *   - `reg.defineTouchZone(id, name, x, y, w, h)` — declare a screen region (in grid cells) as a named input source.
- *   - `user.defineAxis(actionId, name, [{ sourceId, type: InputDeviceType.TouchZone, touchZoneId, touchZoneAxis: 'x'|'y' }])` — bind a touch zone to a logical axis.
- *   - `user.defineButton(actionId, name, [{ sourceId, type: InputDeviceType.TouchZone, touchZoneId }])` — bind a touch zone to a logical button.
+ *   - `registry.defineAxis(actionId, name, [{ sourceId, type: InputDeviceType.TouchZone, touchZoneId, touchZoneAxis: 'x'|'y' }])` — bind a touch zone to a logical axis.
+ *   - `registry.defineButton(actionId, name, [{ sourceId, type: InputDeviceType.TouchZone, touchZoneId }])` — bind a touch zone to a logical button.
  *   - `user.getButton(actionId)` / `user.getAxis(actionId)` — query state as usual, regardless of input source.
  *   - `user.vibrate(pattern)` — trigger device vibration: number for a single buzz, array `[on, off, on, ...]` for a patterned sequence.
  */
@@ -115,7 +115,7 @@ export class MobileShowcase implements IApplication<
      * AXIS: MOVE_X mapped to D-Pad zone + Keyboard arrows
      * Touch inside the dpad zone: finger position relative to center → -1..+1.
      */
-    user.defineAxis(0, "MOVE_X", [
+    reg.defineAxis(0, "MOVE_X", [
       {
         sourceId: 0,
         type: InputDeviceType.Keyboard,
@@ -133,7 +133,7 @@ export class MobileShowcase implements IApplication<
     /**
      * AXIS: MOVE_Y mapped to D-Pad zone + Keyboard arrows
      */
-    user.defineAxis(1, "MOVE_Y", [
+    reg.defineAxis(1, "MOVE_Y", [
       {
         sourceId: 2,
         type: InputDeviceType.Keyboard,
@@ -151,7 +151,7 @@ export class MobileShowcase implements IApplication<
     /**
      * BUTTON: ACTION_A mapped to zone 1 + Space key
      */
-    user.defineButton(0, "ACTION_A", [
+    reg.defineButton(0, "ACTION_A", [
       { sourceId: 4, type: InputDeviceType.Keyboard, key: KeyboardInput.Space },
       {
         sourceId: 5,
@@ -163,7 +163,7 @@ export class MobileShowcase implements IApplication<
     /**
      * BUTTON: ACTION_B mapped to zone 2 + Ctrl key
      */
-    user.defineButton(1, "ACTION_B", [
+    reg.defineButton(1, "ACTION_B", [
       {
         sourceId: 6,
         type: InputDeviceType.Keyboard,
@@ -317,5 +317,5 @@ export class MobileShowcase implements IApplication<
     data.layer.commit();
   }
 
-  update(_runtime: IRuntime, _engine: Engine): void {}
+  update(_runtime: IRuntime, _engine: Engine): void { }
 }

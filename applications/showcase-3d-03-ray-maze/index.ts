@@ -149,7 +149,7 @@ export class RayMazeApp implements IApplication<Engine, User<RayMazeData>> {
    * Global initialization (called once when the application starts).
    * Here we load global resources shared by all users, such as color palettes.
    */
-  init(runtime: IRuntime, engine: Engine): void {
+  async init(runtime: IRuntime, engine: Engine): Promise<void> {
     const palette = [];
     palette.push({ colorId: 0, r: 0, g: 0, b: 0 }); // Black
 
@@ -687,7 +687,7 @@ export class RayMazeApp implements IApplication<Engine, User<RayMazeData>> {
         const texX =
           Math.floor(
             (256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * 16) /
-              spriteWidth,
+            spriteWidth,
           ) / 256;
         // the conditions in the if are:
         // 1) it's in front of camera plane so you don't see things behind you

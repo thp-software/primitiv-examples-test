@@ -203,7 +203,7 @@ export class VoxelSpaceApp implements IApplication<Engine, User<VoxelData>> {
    * Global initialization (called once when the application starts).
    * Here we load global resources shared by all users, such as color palettes.
    */
-  init(runtime: IRuntime, engine: Engine): void {
+  async init(runtime: IRuntime, engine: Engine): Promise<void> {
     const palette = [];
     palette.push({ colorId: 0, r: 0, g: 0, b: 0 });
 

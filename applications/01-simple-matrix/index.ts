@@ -22,7 +22,7 @@
  * The Cell Concept (Primitiv's Atomic Unit):
  *   Every rendering order ultimately manipulates "Cells" on the Display.
  *   A Cell is composed of 3 core bytes:
- *   1. `charCode` (0-255): The CP437 index of the character. You can provide a raw string 
+ *   1. `charCode` (0-255 by default): The CP437 index of the character. You can provide a raw string 
  *      (like `'A'` or `'█'`) and the Engine will internally convert it into its 0-255 number index.
  *      WARNING: Never use JS `.charCodeAt()` to convert a string yourself. Primitiv uses 
  *      a custom CP437 mapping, not standard ASCII/Unicode.

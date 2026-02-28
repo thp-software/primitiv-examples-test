@@ -117,7 +117,7 @@ export const APP_REGISTRY: AppEntry[] = [
   {
     slug: "13-multi-display",
     name: "13 Multi-Display",
-    description: "One application driving two independent Display surfaces with separate palettes.",
+    description: "One application driving two independent Display surfaces simultaneously.",
     factory: () => new MultiDisplay(),
   },
   {
@@ -166,7 +166,7 @@ export const APP_REGISTRY: AppEntry[] = [
     factory: () => new Wireframe3DShowcase(),
   },
   {
-    slug: "showcase-01-retro-dashboard",
+    slug: "showcase-01-pseudo-htop",
     name: "Pseudo Htop",
     description:
       "A fake Htop-style clone plotting simulated server metrics, processes, and network resources.",

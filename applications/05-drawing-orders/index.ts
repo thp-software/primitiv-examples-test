@@ -64,7 +64,7 @@
  *   - `engine.getSpriteRegistry()` — returns the sprite registry; call `.register(id, spriteData)` to pre-load sprites by ID.
  *   - `layer.setOrders(orders)` — sets the order list for a layer; call `layer.commit()` to flush to the client.
  *   - Orders execute sequentially on the client: later orders paint OVER earlier ones on the same layer.
- *   - Maximum 256 orders per layer per frame.
+ *   - Maximum 255 orders per layer per frame.
  *   - `fill`, `fillChar`, `fillSprite`, `fullFrame`, `fullFrameMulti` cover the ENTIRE layer surface → must be placed on dedicated layers or used as the very first order.
  */
 
@@ -612,7 +612,7 @@ export class DrawingOrders implements IApplication<
     _runtime: IRuntime,
     _engine: Engine,
     _user: User<DrawingOrdersUserData>,
-  ): void {}
+  ): void { }
 
-  update(_runtime: IRuntime, _engine: Engine): void {}
+  update(_runtime: IRuntime, _engine: Engine): void { }
 }

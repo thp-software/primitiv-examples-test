@@ -26,7 +26,7 @@
  *   CSS pixels into the engine's display-local cell coordinates automatically.
  * 
  * Rendering Orders (Introduced here):
- *   In 01-simple-matrix we only used `.fill()`. Here we introduce basic UI orders:
+ *   In 01-simple-matrix we only used `.subFrameMulti()`. Here we introduce basic UI orders:
  *   - OrderBuilder.text(x, y, string, fgColorId, bgColorId)
  *   - OrderBuilder.char(x, y, character, fgColorId, bgColorId)
  *   - OrderBuilder.rect(x, y, width, height, char, fgColorId, bgColorId, isFilled)
@@ -35,7 +35,7 @@
  * Order Execution & Limits:
  *   Note: Orders are drawn exactly in the sequence they appear in the array. 
  *   If orders overlap within the same layer, the LAST one in the array is drawn on top.
- *   CRITICAL: A single layer cannot accept more than 256 orders per frame. 
+ *   CRITICAL: A single layer cannot accept more than 255 orders per frame. 
  *   Any additional orders beyond this limit will be truncated and ignored.
  *   Depending on the active log level, a warning may appear in the console.
  * 

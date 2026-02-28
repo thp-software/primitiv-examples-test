@@ -521,7 +521,7 @@ export class PrimitivCraft implements IApplication<
    * Global initialization (called once when the application starts).
    * Here we load global resources shared by all users, such as color palettes.
    */
-  init(runtime: IRuntime, engine: Engine): void {
+  async init(runtime: IRuntime, engine: Engine): Promise<void> {
     const lerpC = (a: number[], b: number[], f: number) =>
       a.map((v, i) => Math.floor(v + (b[i] - v) * f));
 

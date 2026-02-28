@@ -347,5 +347,5 @@ export class WorldSectors implements IApplication<
     }
   }
 
-  update(_runtime: IRuntime, _engine: Engine): void {}
+  update(_runtime: IRuntime, _engine: Engine): void { }
 }

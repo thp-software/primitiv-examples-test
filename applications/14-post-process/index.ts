@@ -52,7 +52,7 @@ interface PostProcessData {
 }
 
 export class PostProcessShowcase implements IApplication<Engine, User<PostProcessData>> {
-    init(runtime: IRuntime, engine: Engine): void {
+    async init(runtime: IRuntime, engine: Engine): Promise<void> {
         const palette = [{ colorId: 0, r: 0, g: 0, b: 0 }];
 
         // 1-10: shades of white/gray
@@ -192,19 +192,19 @@ export class PostProcessShowcase implements IApplication<Engine, User<PostProces
         // Bouncing Neon Balls to see the Ambilight reaction on screen borders
         const cx1 = w / 2 + Math.sin(data.time * 2.1) * (w / 2 - 5);
         const cy1 = h / 2 + Math.cos(data.time * 1.5) * (h / 2 - 5);
-        o.push(OrderBuilder.circle(cx1, cy1, 4, '█', 11, 0));
+        o.push(OrderBuilder.circle(cx1, cy1, 4, { charCode: '█', fgColor: 11, bgColor: 0, filled: true }));
 
         const cx2 = w / 2 + Math.sin(data.time * 1.3) * (w / 2 - 5);
         const cy2 = h / 2 + Math.cos(data.time * 2.5) * (h / 2 - 5);
-        o.push(OrderBuilder.circle(cx2, cy2, 5, '█', 12, 0));
+        o.push(OrderBuilder.circle(cx2, cy2, 5, { charCode: '█', fgColor: 12, bgColor: 0, filled: true }));
 
         const cx3 = w / 2 + Math.cos(data.time * 1.7) * (w / 2 - 5);
         const cy3 = h / 2 + Math.sin(data.time * 1.9) * (h / 2 - 5);
-        o.push(OrderBuilder.circle(cx3, cy3, 6, '▓', 13, 0));
+        o.push(OrderBuilder.circle(cx3, cy3, 6, { charCode: '▓', fgColor: 13, bgColor: 0, filled: true }));
 
         const cx4 = w / 2 + Math.cos(data.time * 0.9) * (w / 2 - 5);
         const cy4 = h / 2 + Math.cos(data.time * 1.1) * (h / 2 - 5);
-        o.push(OrderBuilder.circle(cx4, cy4, 3, '▒', 14, 0));
+        o.push(OrderBuilder.circle(cx4, cy4, 3, { charCode: '▒', fgColor: 14, bgColor: 0, filled: true }));
 
         // UI Panel
         o.push(OrderBuilder.rect(2, 2, 40, 9, ' ', 0, 1));
@@ -217,4 +217,6 @@ export class PostProcessShowcase implements IApplication<Engine, User<PostProces
         data.layer.setOrders(o);
         data.layer.commit();
     }
+
+    update(_runtime: IRuntime, _engine: Engine): void { }
 }

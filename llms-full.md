@@ -118,8 +118,8 @@ Applications are runtime-agnostic. The runtime is chosen at integration time, no
 |---|---|---|
 | **Standalone** | `runtimes/standalone/` | Browser-only, no server. |
 | **UWS** | `runtimes/connected-uws/` | WebSocket via µWebSockets. |
-| **WebRTC Full** | `runtimes/connected-webrtc-full/` | WebRTC with signaling server. |
-| **WebRTC Lite** | `runtimes/connected-webrtc-lite/` | WebRTC lightweight variant. |
+| **WebRTC Full** | [connected-webrtc-full/](runtimes/connected-webrtc-full/) | WebRTC with signaling & STUN server. |
+| **WebRTC Lite** | [connected-webrtc-lite/](runtimes/connected-webrtc-lite/) | Direct WebRTC (P2P without signaling server). |
 
 Refer to each runtime's source code for constructor options and integration patterns.
 
@@ -205,7 +205,7 @@ This appendix contains the full source code for all applications referenced in t
  * The Cell Concept (Primitiv's Atomic Unit):
  *   Every rendering order ultimately manipulates "Cells" on the Display.
  *   A Cell is composed of 3 core bytes:
- *   1. `charCode` (0-255): The CP437 index of the character. You can provide a raw string 
+ *   1. `charCode` (0-255 by default): The CP437 index of the character. You can provide a raw string 
  *      (like `'A'` or `'█'`) and the Engine will internally convert it into its 0-255 number index.
  *      WARNING: Never use JS `.charCodeAt()` to convert a string yourself. Primitiv uses 
  *      a custom CP437 mapping, not standard ASCII/Unicode.
@@ -438,7 +438,7 @@ export class SimpleMatrix implements IApplication<Engine, User<SimpleMatrixUserD
  *   CSS pixels into the engine's display-local cell coordinates automatically.
  * 
  * Rendering Orders (Introduced here):
- *   In 01-simple-matrix we only used `.fill()`. Here we introduce basic UI orders:
+ *   In 01-simple-matrix we only used `.subFrameMulti()`. Here we introduce basic UI orders:
  *   - OrderBuilder.text(x, y, string, fgColorId, bgColorId)
  *   - OrderBuilder.char(x, y, character, fgColorId, bgColorId)
  *   - OrderBuilder.rect(x, y, width, height, char, fgColorId, bgColorId, isFilled)
@@ -447,7 +447,7 @@ export class SimpleMatrix implements IApplication<Engine, User<SimpleMatrixUserD
  * Order Execution & Limits:
  *   Note: Orders are drawn exactly in the sequence they appear in the array. 
  *   If orders overlap within the same layer, the LAST one in the array is drawn on top.
- *   CRITICAL: A single layer cannot accept more than 256 orders per frame. 
+ *   CRITICAL: A single layer cannot accept more than 255 orders per frame. 
  *   Any additional orders beyond this limit will be truncated and ignored.
  *   Depending on the active log level, a warning may appear in the console.
  * 
@@ -1028,7 +1028,7 @@ export class WorldSectors implements IApplication<
     }
   }
 
-  update(_runtime: IRuntime, _engine: Engine): void {}
+  update(_runtime: IRuntime, _engine: Engine): void { }
 }
 ```
 
@@ -1328,7 +1328,7 @@ export class ResponsiveDisplay implements IApplication<
  *   - `engine.getSpriteRegistry()` — returns the sprite registry; call `.register(id, spriteData)` to pre-load sprites by ID.
  *   - `layer.setOrders(orders)` — sets the order list for a layer; call `layer.commit()` to flush to the client.
  *   - Orders execute sequentially on the client: later orders paint OVER earlier ones on the same layer.
- *   - Maximum 256 orders per layer per frame.
+ *   - Maximum 255 orders per layer per frame.
  *   - `fill`, `fillChar`, `fillSprite`, `fullFrame`, `fullFrameMulti` cover the ENTIRE layer surface → must be placed on dedicated layers or used as the very first order.
  */
 
@@ -1876,9 +1876,9 @@ export class DrawingOrders implements IApplication<
     _runtime: IRuntime,
     _engine: Engine,
     _user: User<DrawingOrdersUserData>,
-  ): void {}
+  ): void { }
 
-  update(_runtime: IRuntime, _engine: Engine): void {}
+  update(_runtime: IRuntime, _engine: Engine): void { }
 }
 ```
 
@@ -3077,7 +3077,7 @@ export class GamepadShowcase implements IApplication<
     data.layer.commit();
   }
 
-  update(_runtime: IRuntime, _engine: Engine): void {}
+  update(_runtime: IRuntime, _engine: Engine): void { }
 }
 ```
 
@@ -3099,7 +3099,7 @@ export class GamepadShowcase implements IApplication<
  *
  * Touch Zone Workflow:
  *   a) Define zones via `registry.defineTouchZone(id, name, x, y, w, h)`.
- *   b) Map zones to logical buttons/axes via `user.defineButton()` / `user.defineAxis()`.
+ *   b) Map zones to logical buttons/axes via `registry.defineButton()` / `registry.defineAxis()`.
  *      Use `InputDeviceType.TouchZone` and reference the zone by its `touchZoneId`.
  *   c) Query state with `user.getButton()` / `user.getAxis()` as usual.
  *
@@ -3124,8 +3124,8 @@ export class GamepadShowcase implements IApplication<
  *
  * Key Concepts:
  *   - `reg.defineTouchZone(id, name, x, y, w, h)` — declare a screen region (in grid cells) as a named input source.
- *   - `user.defineAxis(actionId, name, [{ sourceId, type: InputDeviceType.TouchZone, touchZoneId, touchZoneAxis: 'x'|'y' }])` — bind a touch zone to a logical axis.
- *   - `user.defineButton(actionId, name, [{ sourceId, type: InputDeviceType.TouchZone, touchZoneId }])` — bind a touch zone to a logical button.
+ *   - `registry.defineAxis(actionId, name, [{ sourceId, type: InputDeviceType.TouchZone, touchZoneId, touchZoneAxis: 'x'|'y' }])` — bind a touch zone to a logical axis.
+ *   - `registry.defineButton(actionId, name, [{ sourceId, type: InputDeviceType.TouchZone, touchZoneId }])` — bind a touch zone to a logical button.
  *   - `user.getButton(actionId)` / `user.getAxis(actionId)` — query state as usual, regardless of input source.
  *   - `user.vibrate(pattern)` — trigger device vibration: number for a single buzz, array `[on, off, on, ...]` for a patterned sequence.
  */
@@ -3203,7 +3203,7 @@ export class MobileShowcase implements IApplication<
      * AXIS: MOVE_X mapped to D-Pad zone + Keyboard arrows
      * Touch inside the dpad zone: finger position relative to center → -1..+1.
      */
-    user.defineAxis(0, "MOVE_X", [
+    reg.defineAxis(0, "MOVE_X", [
       {
         sourceId: 0,
         type: InputDeviceType.Keyboard,
@@ -3221,7 +3221,7 @@ export class MobileShowcase implements IApplication<
     /**
      * AXIS: MOVE_Y mapped to D-Pad zone + Keyboard arrows
      */
-    user.defineAxis(1, "MOVE_Y", [
+    reg.defineAxis(1, "MOVE_Y", [
       {
         sourceId: 2,
         type: InputDeviceType.Keyboard,
@@ -3239,7 +3239,7 @@ export class MobileShowcase implements IApplication<
     /**
      * BUTTON: ACTION_A mapped to zone 1 + Space key
      */
-    user.defineButton(0, "ACTION_A", [
+    reg.defineButton(0, "ACTION_A", [
       { sourceId: 4, type: InputDeviceType.Keyboard, key: KeyboardInput.Space },
       {
         sourceId: 5,
@@ -3251,7 +3251,7 @@ export class MobileShowcase implements IApplication<
     /**
      * BUTTON: ACTION_B mapped to zone 2 + Ctrl key
      */
-    user.defineButton(1, "ACTION_B", [
+    reg.defineButton(1, "ACTION_B", [
       {
         sourceId: 6,
         type: InputDeviceType.Keyboard,
@@ -3405,7 +3405,7 @@ export class MobileShowcase implements IApplication<
     data.layer.commit();
   }
 
-  update(_runtime: IRuntime, _engine: Engine): void {}
+  update(_runtime: IRuntime, _engine: Engine): void { }
 }
 ```
 
@@ -5315,7 +5315,7 @@ interface PostProcessData {
 }
 
 export class PostProcessShowcase implements IApplication<Engine, User<PostProcessData>> {
-    init(runtime: IRuntime, engine: Engine): void {
+    async init(runtime: IRuntime, engine: Engine): Promise<void> {
         const palette = [{ colorId: 0, r: 0, g: 0, b: 0 }];
 
         // 1-10: shades of white/gray
@@ -5455,19 +5455,19 @@ export class PostProcessShowcase implements IApplication<Engine, User<PostProces
         // Bouncing Neon Balls to see the Ambilight reaction on screen borders
         const cx1 = w / 2 + Math.sin(data.time * 2.1) * (w / 2 - 5);
         const cy1 = h / 2 + Math.cos(data.time * 1.5) * (h / 2 - 5);
-        o.push(OrderBuilder.circle(cx1, cy1, 4, '█', 11, 0));
+        o.push(OrderBuilder.circle(cx1, cy1, 4, { charCode: '█', fgColor: 11, bgColor: 0, filled: true }));
 
         const cx2 = w / 2 + Math.sin(data.time * 1.3) * (w / 2 - 5);
         const cy2 = h / 2 + Math.cos(data.time * 2.5) * (h / 2 - 5);
-        o.push(OrderBuilder.circle(cx2, cy2, 5, '█', 12, 0));
+        o.push(OrderBuilder.circle(cx2, cy2, 5, { charCode: '█', fgColor: 12, bgColor: 0, filled: true }));
 
         const cx3 = w / 2 + Math.cos(data.time * 1.7) * (w / 2 - 5);
         const cy3 = h / 2 + Math.sin(data.time * 1.9) * (h / 2 - 5);
-        o.push(OrderBuilder.circle(cx3, cy3, 6, '▓', 13, 0));
+        o.push(OrderBuilder.circle(cx3, cy3, 6, { charCode: '▓', fgColor: 13, bgColor: 0, filled: true }));
 
         const cx4 = w / 2 + Math.cos(data.time * 0.9) * (w / 2 - 5);
         const cy4 = h / 2 + Math.cos(data.time * 1.1) * (h / 2 - 5);
-        o.push(OrderBuilder.circle(cx4, cy4, 3, '▒', 14, 0));
+        o.push(OrderBuilder.circle(cx4, cy4, 3, { charCode: '▒', fgColor: 14, bgColor: 0, filled: true }));
 
         // UI Panel
         o.push(OrderBuilder.rect(2, 2, 40, 9, ' ', 0, 1));
@@ -5480,6 +5480,8 @@ export class PostProcessShowcase implements IApplication<Engine, User<PostProces
         data.layer.setOrders(o);
         data.layer.commit();
     }
+
+    update(_runtime: IRuntime, _engine: Engine): void { }
 }
 ```
 
@@ -5575,7 +5577,7 @@ export class MultiUserShowcase implements IApplication<Engine, User<UserData>> {
         players: new Map()
     };
 
-    init(runtime: IRuntime, engine: Engine): void {
+    async init(runtime: IRuntime, engine: Engine): Promise<void> {
         // Clear state on init to handle React Strict Mode / Fast Refresh gracefully
         this.globalState.players.clear();
 
@@ -5684,7 +5686,7 @@ export class MultiUserShowcase implements IApplication<Engine, User<UserData>> {
         o.push(OrderBuilder.text(2, 3, `Active Users: ${state.players.size}   |   Global Application Tick: ${state.tickCount}`, 0, 1));
 
         // Draw the Global Autonomous Bouncing NPC
-        o.push(OrderBuilder.circle(state.npcX, state.npcY, 1, "█", 2, 0)); // Red NPC
+        o.push(OrderBuilder.circle(state.npcX, state.npcY, 1, { charCode: "█", fgColor: 2, bgColor: 0, filled: true })); // Red NPC
         o.push(OrderBuilder.text(state.npcX - 1, Math.max(5, state.npcY - 2), "AI", 2, 0));
 
         // Draw all players
@@ -6239,7 +6241,7 @@ export class VoxelSpaceApp implements IApplication<Engine, User<VoxelData>> {
    * Global initialization (called once when the application starts).
    * Here we load global resources shared by all users, such as color palettes.
    */
-  init(runtime: IRuntime, engine: Engine): void {
+  async init(runtime: IRuntime, engine: Engine): Promise<void> {
     const palette = [];
     palette.push({ colorId: 0, r: 0, g: 0, b: 0 });
 
@@ -7017,7 +7019,7 @@ export class PrimitivCraft implements IApplication<
    * Global initialization (called once when the application starts).
    * Here we load global resources shared by all users, such as color palettes.
    */
-  init(runtime: IRuntime, engine: Engine): void {
+  async init(runtime: IRuntime, engine: Engine): Promise<void> {
     const lerpC = (a: number[], b: number[], f: number) =>
       a.map((v, i) => Math.floor(v + (b[i] - v) * f));
 
@@ -7782,7 +7784,7 @@ export class RayMazeApp implements IApplication<Engine, User<RayMazeData>> {
    * Global initialization (called once when the application starts).
    * Here we load global resources shared by all users, such as color palettes.
    */
-  init(runtime: IRuntime, engine: Engine): void {
+  async init(runtime: IRuntime, engine: Engine): Promise<void> {
     const palette = [];
     palette.push({ colorId: 0, r: 0, g: 0, b: 0 }); // Black
 
@@ -8320,7 +8322,7 @@ export class RayMazeApp implements IApplication<Engine, User<RayMazeData>> {
         const texX =
           Math.floor(
             (256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * 16) /
-              spriteWidth,
+            spriteWidth,
           ) / 256;
         // the conditions in the if are:
         // 1) it's in front of camera plane so you don't see things behind you
