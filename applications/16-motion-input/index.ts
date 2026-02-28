@@ -359,16 +359,21 @@ export class MotionInputShowcase implements IApplication<Engine, User<MotionData
         o.push(OrderBuilder.text(4, 8, `Beta  (Pitch): ${fmt(gBeta, 6)}  Accum: ${fmt(d.pitch, 8)}`, 7, 3));
         o.push(OrderBuilder.text(4, 9, `Gamma (Roll):  ${fmt(gGamma, 6)}  Accum: ${fmt(d.roll, 8)}`, 7, 3));
 
-        // Separated Bars (-5 to +5 rad/s)
+        // Separated Bars for Gimbal Angles (-180 to +180 deg)
         const barY = 16;
+
+        const normYaw = normalize180(d.yaw);
+        const normPitch = normalize180(d.pitch);
+        const normRoll = normalize180(d.roll);
+
         o.push(OrderBuilder.text(2, barY, " YAW ", 7, 0));
-        this.renderAxisBar(o, 10, barY, 60, gAlpha, 5, 7);
+        this.renderAxisBar(o, 10, barY, 60, normYaw, 180, 7);
 
         o.push(OrderBuilder.text(2, barY + 2, " PITCH ", 7, 0));
-        this.renderAxisBar(o, 10, barY + 2, 60, gBeta, 5, 7);
+        this.renderAxisBar(o, 10, barY + 2, 60, normPitch, 180, 7);
 
         o.push(OrderBuilder.text(2, barY + 4, " ROLL ", 7, 0));
-        this.renderAxisBar(o, 10, barY + 4, 60, gGamma, 5, 7);
+        this.renderAxisBar(o, 10, barY + 4, 60, normRoll, 180, 7);
 
         // Simple ship top-down rotated by yaw
         const cx = W / 2;
@@ -492,4 +497,11 @@ export class MotionInputShowcase implements IApplication<Engine, User<MotionData
 // ─── Utility ─────────────────────────────────────────────────────────────────
 function fmt(v: number, pad = 6): string {
     return v.toFixed(2).padStart(pad, " ");
+}
+
+function normalize180(angle: number): number {
+    let a = angle % 360;
+    if (a < -180) a += 360;
+    if (a > 180) a -= 360;
+    return a;
 }
