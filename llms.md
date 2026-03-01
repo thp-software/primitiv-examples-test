@@ -116,8 +116,8 @@ Applications are runtime-agnostic. The runtime is chosen at integration time, no
 
 | Runtime | Directory | Transport |
 |---|---|---|
-| **Standalone** | `runtimes/standalone/` | Browser-only, no server. |
-| **UWS** | `runtimes/connected-uws/` | WebSocket via µWebSockets. |
+| **Standalone** | [runtimes/standalone/](runtimes/standalone/) | Browser-only, no server. |
+| **UWS** | [runtimes/connected-uws/](runtimes/connected-uws/) | WebSocket via µWebSockets. |
 | **WebRTC Full** | [connected-webrtc-full/](runtimes/connected-webrtc-full/) | WebRTC with signaling & STUN server. |
 | **WebRTC Lite** | [connected-webrtc-lite/](runtimes/connected-webrtc-lite/) | Direct WebRTC (P2P without signaling server). |
 
@@ -156,6 +156,10 @@ These applications demonstrate advanced UI and performance techniques.
 | Application | Source | What it teaches |
 |---|---|---|
 | **Pseudo Htop** | [showcase-01-pseudo-htop/index.ts](applications/showcase-01-pseudo-htop/index.ts) | Dense terminal UIs, bypassing the 255 order limit via Z-Layers, string padding layouts, CPU/Mem visual bars |
+| **Dungeon Crawler** | [showcase-02-dungeon/index.ts](applications/showcase-02-dungeon/index.ts) | Pure engine separation pattern, procedural generation, collision handling, simple viewport mapping |
+| **Game of Life** | [showcase-03-game-of-life/index.ts](applications/showcase-03-game-of-life/index.ts) | Continuous interactive state, sub-frame simulation decoupled from render loop, advanced mouse interactions |
+| **Starship** | [showcase-04-spaceship/index.ts](applications/showcase-04-spaceship/index.ts) | Scene switching via `display.setOrigin()`, `dotCloudMulti` batch rendering, dynamic palette slots (alarm & power off) |
+| **Tactical Radar** | [showcase-05-radar/index.ts](applications/showcase-05-radar/index.ts) | Sample & hold tracking, phosphor decay with `dotCloudMultiColor`, static/dynamic layer separation pattern |
 
 ---
 
@@ -168,4 +172,4 @@ These applications demonstrate how Primitiv's character-cell matrix can be treat
 | **Voxel Space** | [showcase-3d-01-voxel-space/index.ts](applications/showcase-3d-01-voxel-space/index.ts) | 1992 Comanche-style heightmap rendering, 1D Y-buffer occlusion, `subFrameMulti` massive updates |
 | **Primitiv Craft** | [showcase-3d-02-primitiv-craft/index.ts](applications/showcase-3d-02-primitiv-craft/index.ts) | Full 3D DDA voxel raycasting (Minecraft style), temporal palette animation (day/night), billboard sprite projection |
 | **Ray Maze** | [showcase-3d-03-ray-maze/index.ts](applications/showcase-3d-03-ray-maze/index.ts) | Classic 2.5D DDA raycasting (Wolfenstein 3D style), palette-based depth shading, ZBuffer for sprites, discrete tile movement |
-| **Wireframe 3D** | [showcase-3d-04-wireframe-3d/index.ts](applications/showcase-3d-04-wireframe-3d/index.ts) | 3D math projection, Bresenham's line algorithm on character grids, depth fog via ASCII degradation (`#`, `+`, `:`, `.`), infinite procedural generation |
+| **Wireframe 3D** | [showcase-3d-04-wireframe-3d/index.ts](applications/showcase-3d-04-wireframe-3d/index.ts) | 3D math projection, Bresenham's line algorithm on character grids, depth fog via ASCII degradation (`#`, `+`, `:`, `.`), infinite procedural generation, CRT & Ambilight post-processing |

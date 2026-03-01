@@ -301,7 +301,7 @@ export class BridgeShowcase implements IApplication<
 
           /**
            * PALETTE SWITCH VIA BRIDGE COMMAND
-           * This is a powerful real-world pattern: the React admin panel sends a
+           * This is a practical real-world pattern: the React admin panel sends a
            * "set-theme" command, and the engine instantly recolors the entire display
            * by switching palette slots. No orders are resent. No layers redrawn.
            * Just one call → the whole look changes.

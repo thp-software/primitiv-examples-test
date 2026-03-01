@@ -4,7 +4,7 @@
  *
  * Why study this:
  *   Every previous example loaded a single palette into slot 0 and never touched it again.
- *   But the palette system is one of Primitiv's most powerful features for both aesthetics
+ *   But the palette system is one of Primitiv's most useful features for both aesthetics
  *   and network efficiency. Because all drawing orders use COLOR INDICES (0-255) rather than
  *   direct RGB values, changing the palette instantly recolors everything without resending
  *   and smooth color transitions — all at a negligible bandwidth cost (just a few bytes).

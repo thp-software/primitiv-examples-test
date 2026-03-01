@@ -42,27 +42,73 @@ function HomePage() {
         <h1>
           Primitiv Examples
         </h1>
-        <p
+        <div style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "0.5rem",
+          background: "rgba(245, 158, 11, 0.1)",
+          border: "1px solid rgba(245, 158, 11, 0.2)",
+          padding: "0.3rem 1rem",
+          borderRadius: "9999px",
+          marginTop: "-1rem",
+          marginBottom: "2rem",
+        }}>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="#fbbf24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+          </svg>
+          <span style={{
+            fontSize: "0.85rem",
+            color: "#fbbf24",
+            fontWeight: 500,
+            letterSpacing: "0.02em"
+          }}>
+            Pre-Alpha: Engine and API are subject to breaking changes.
+          </span>
+        </div>
+        <p>
+          <span
+            style={{
+              fontSize: "0.75rem",
+              color: "#475569",
+              background: "rgba(255,255,255,0.05)",
+              padding: "0.2rem 0.5rem",
+              borderRadius: "4px",
+              fontFamily: "monospace",
+            }}
+          >
+            Build: {buildDate}
+          </span></p>
+        <a
+          href="https://github.com/thp-software/primitiv-examples"
+          target="_blank"
+          rel="noreferrer"
           style={{
-            fontSize: "1rem",
-            color: "#64748b",
-            margin: "0 0 0.5rem 0",
-          }}
-        >
-          Select an example to run it in standalone mode.
-        </p>
-        <span
-          style={{
-            fontSize: "0.75rem",
-            color: "#475569",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.4rem",
+            fontSize: "0.85rem",
+            color: "#94a3b8",
+            textDecoration: "none",
             background: "rgba(255,255,255,0.05)",
-            padding: "0.2rem 0.5rem",
-            borderRadius: "4px",
-            fontFamily: "monospace",
+            padding: "0.3rem 0.75rem",
+            borderRadius: "6px",
+            marginLeft: "0.75rem",
+            transition: "all 0.2s ease"
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = "#fff";
+            e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = "#94a3b8";
+            e.currentTarget.style.background = "rgba(255,255,255,0.05)";
           }}
         >
-          Build: {buildDate}
-        </span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+          </svg>
+          Source Code
+        </a>
       </div>
 
       <AppSection
@@ -70,13 +116,45 @@ function HomePage() {
         description="Basic tutorials introducing the core concepts and APIs of the engine."
         apps={APP_REGISTRY.filter((a) => !a.category)}
       />
+
+      {/* Visual Separator for Showcases */}
+      <div style={{
+        width: "100%",
+        maxWidth: "900px",
+        padding: "3rem 1rem 1rem",
+        boxSizing: "border-box",
+        marginTop: "1rem",
+        borderTop: "2px dashed rgba(255,255,255,0.1)"
+      }}>
+        <h3 style={{
+          fontSize: "1.2rem",
+          color: "#94a3b8",
+          marginBottom: "0.5rem",
+          fontWeight: 500
+        }}>
+          Showcases & Tech Demos
+        </h3>
+        <p style={{
+          fontSize: "0.9rem",
+          color: "#64748b",
+          lineHeight: 1.5,
+          margin: 0,
+          background: "rgba(30, 41, 59, 0.3)",
+          padding: "1rem",
+          borderRadius: "8px",
+          borderLeft: "3px solid #6366f1"
+        }}>
+          <strong>Note:</strong> The following applications are primarily rendering-based showcases rather than fully-fledged video games. They serve as open-source technical demos and reference implementations for advanced Primitiv Engine algorithms.
+        </p>
+      </div>
+
       <AppSection
-        title="Showcases"
+        title="2D Showcases"
         description="2D applications and retro terminal clones."
         apps={APP_REGISTRY.filter((a) => a.category === "showcase")}
       />
       <AppSection
-        title="Showcases 3D"
+        title="3D Showcases"
         description="Pseudo-3D renders and raycasting experiments."
         apps={APP_REGISTRY.filter((a) => a.category === "showcase-3d")}
       />
@@ -468,6 +546,126 @@ function BridgeDemoOverlay({
   );
 }
 
+// =============================================================================
+// Controls Overlay
+// =============================================================================
+
+function ControlsOverlay({ controls }: { controls: string }) {
+  const [open, setOpen] = useState(true);
+  const lines = controls.split("\n");
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        bottom: "1rem",
+        left: "1rem",
+        zIndex: 100,
+        pointerEvents: "auto",
+      }}
+    >
+      {open ? (
+        <div
+          style={{
+            background: "rgba(15, 23, 42, 0.92)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            borderRadius: "10px",
+            padding: "0.75rem 1rem",
+            minWidth: "180px",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "0.5rem",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "0.7rem",
+                fontWeight: 600,
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                color: "#64748b",
+              }}
+            >
+              Controls
+            </span>
+            <button
+              onClick={() => setOpen(false)}
+              style={{
+                background: "none",
+                border: "none",
+                color: "#64748b",
+                cursor: "pointer",
+                padding: "0 0.25rem",
+                fontSize: "1rem",
+                lineHeight: 1,
+              }}
+              title="Hide controls"
+            >
+              ×
+            </button>
+          </div>
+          {lines.map((line, i) => {
+            const colonIdx = line.indexOf(":");
+            const key = colonIdx > -1 ? line.slice(0, colonIdx) : line;
+            const action = colonIdx > -1 ? line.slice(colonIdx + 1).trim() : "";
+            return (
+              <div
+                key={i}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: "1rem",
+                  padding: "0.15rem 0",
+                  fontSize: "0.8rem",
+                  lineHeight: 1.4,
+                }}
+              >
+                <span
+                  style={{
+                    color: "#e2e8f0",
+                    fontFamily: "'JetBrains Mono', monospace",
+                    fontWeight: 600,
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {key}
+                </span>
+                {action && (
+                  <span style={{ color: "#94a3b8" }}>{action}</span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <button
+          onClick={() => setOpen(true)}
+          style={{
+            background: "rgba(15, 23, 42, 0.92)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            borderRadius: "8px",
+            color: "#94a3b8",
+            cursor: "pointer",
+            padding: "0.4rem 0.7rem",
+            fontSize: "0.75rem",
+            fontWeight: 600,
+            backdropFilter: "blur(8px)",
+          }}
+          title="Show controls"
+        >
+          ? Controls
+        </button>
+      )}
+    </div>
+  );
+}
+
 function AppRunner() {
   const { slug } = useParams<{ slug: string }>();
   const entry = slug ? findApp(slug) : undefined;
@@ -625,6 +823,11 @@ function AppRunnerInner({ entry }: { entry: AppEntry }) {
             activeTheme={activeTheme}
             onThemeChange={setActiveTheme}
           />
+        )}
+
+        {/* Controls Overlay */}
+        {entry.controls && (
+          <ControlsOverlay controls={entry.controls} />
         )}
       </div>
     </div>

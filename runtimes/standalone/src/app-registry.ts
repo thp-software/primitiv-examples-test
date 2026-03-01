@@ -10,6 +10,7 @@ export interface AppEntry {
   slug: string;
   name: string;
   description: string;
+  controls?: string;
   category?: "showcase" | "showcase-3d";
   factory: () => IApplication;
 }
@@ -37,6 +38,10 @@ import { RayMazeApp } from "../../../applications/showcase-3d-03-ray-maze";
 import { Wireframe3DShowcase } from "../../../applications/showcase-3d-04-wireframe-3d";
 
 import { RetroDashboard } from "../../../applications/showcase-01-pseudo-htop";
+import { DungeonApp } from "../../../applications/showcase-02-dungeon";
+import { GameOfLife } from "../../../applications/showcase-03-game-of-life";
+import { Spaceship } from "../../../applications/showcase-04-spaceship";
+import { PrimitivRadar } from "../../../applications/showcase-05-radar";
 
 export const APP_REGISTRY: AppEntry[] = [
   {
@@ -49,12 +54,14 @@ export const APP_REGISTRY: AppEntry[] = [
     slug: "02-mouse-keyboard-input",
     name: "02 Mouse & Keyboard",
     description: "Input bindings, button states, mouse tracking, axes.",
+    controls: "WASD: Move\nScroll: Accelerate",
     factory: () => new InputShowcase(),
   },
   {
     slug: "03-world-sectors",
     name: "03 World Sectors",
     description: "Large scrollable world with sector-based loading.",
+    controls: "WASD / Arrows: Move vehicle",
     factory: () => new WorldSectors(),
   },
   {
@@ -73,6 +80,7 @@ export const APP_REGISTRY: AppEntry[] = [
     slug: "06-palettes",
     name: "06 Palettes",
     description: "Color palette system, slots, and switching.",
+    controls: "1-4: Switch theme\nSpace: Toggle auto-cycle",
     factory: () => new Palettes(),
   },
   {
@@ -98,6 +106,7 @@ export const APP_REGISTRY: AppEntry[] = [
     name: "10 Audio",
     description:
       "Loops, one-shots, effects (LPF/HPF/reverb/pitch), 2D spatial audio.",
+    controls: "1: Rain toggle\n2: Click SFX\n3: Thunder\nArrows: Audio filters\nMouse: Listener position",
     factory: () => new AudioShowcase(),
   },
   {
@@ -112,6 +121,7 @@ export const APP_REGISTRY: AppEntry[] = [
     name: "12 Bridge Communication",
     description:
       "Bidirectional JSON messaging between engine and host web app.",
+    controls: "Space: Send ping to host",
     factory: () => new BridgeShowcase(),
   },
   {
@@ -124,6 +134,7 @@ export const APP_REGISTRY: AppEntry[] = [
     slug: "14-post-process",
     name: "14 Post-Process",
     description: "Demonstrates CRT scanlines, pixel grid, and Ambilight background effects.",
+    controls: "1: Toggle CRT\n2: Toggle Ambilight\n3: Toggle Pixel Grid",
     factory: () => new PostProcessShowcase(),
   },
   {
@@ -145,7 +156,8 @@ export const APP_REGISTRY: AppEntry[] = [
     slug: "showcase-3d-02-primitiv-craft",
     name: "Primitiv Craft",
     description:
-      "First-person 3D block world: DDA raycasting, 180-slot palette day/night cycle, physics. Use WASD to move, Arrows to look around, Space to jump, Shift to sprint.",
+      "First-person 3D block world: DDA raycasting, 180-slot palette day/night cycle, physics.",
+    controls: "WASD: Move\nArrows: Look\nSpace: Jump\nShift: Sprint",
     category: "showcase-3d",
     factory: () => new PrimitivCraft(),
   },
@@ -172,6 +184,37 @@ export const APP_REGISTRY: AppEntry[] = [
       "A fake Htop-style clone plotting simulated server metrics, processes, and network resources.",
     category: "showcase",
     factory: () => new RetroDashboard(),
+  },
+  {
+    slug: "showcase-02-dungeon",
+    name: "02 Dungeon Crawler",
+    description: "A minimalist top-down dungeon crawler where you collect gold.",
+    controls: "WASD / Arrows: Move",
+    category: "showcase",
+    factory: () => new DungeonApp(),
+  },
+  {
+    slug: "showcase-03-game-of-life",
+    name: "03 Game of Life",
+    description: "An interactive implementation of Conway's Game of Life with drawing tools and dynamic 20Hz timing.",
+    controls: "Mouse: Draw cells",
+    category: "showcase",
+    factory: () => new GameOfLife(),
+  },
+  {
+    slug: "showcase-04-spaceship",
+    name: "04 Starship",
+    description: "3D starfield and spaceship interior with three navigable scenes. Palette cycling, dotCloudMulti, fullFrameMulti.",
+    controls: "WASD / Arrows: Move\nF: Interact / Stand up\nL: Warp toggle\nY: Power toggle",
+    category: "showcase",
+    factory: () => new Spaceship(),
+  },
+  {
+    slug: "showcase-05-radar",
+    name: "05 Tactical Radar",
+    description: "Atmospheric radar simulation demonstrating sample & hold tracking, phosphor decay, and static/dynamic layer separation.",
+    category: "showcase",
+    factory: () => new PrimitivRadar(),
   },
 ];
 

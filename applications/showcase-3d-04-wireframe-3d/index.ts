@@ -103,6 +103,27 @@ export class Wireframe3DShowcase implements IApplication<Engine, User<WireframeU
 
         const display = new Display(0, width, height);
         display.setScalingMode(ScalingMode.None);
+
+        // CRT scanlines for retro synthwave look
+        display.setPostProcess({
+            scanlines: {
+                enabled: true,
+                opacity: 0.2,
+                pattern: 'horizontal',
+                spacing: 3,
+                thickness: 1,
+                color: { r: 0, g: 0, b: 0 }
+            }
+        });
+
+        // Ambilight edge glow (neon bleed around the display)
+        display.setAmbientEffect({
+            enabled: true,
+            blur: 40,
+            scale: 2.5,
+            opacity: 1,
+        });
+
         user.addDisplay(display);
         display.switchPalette(0);
 

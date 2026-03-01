@@ -1,0 +1,3 @@
+../../applications/showcase-04-spaceship/index.ts(104,34): error TS2339: Property 'createStar' does not exist on type 'ShipEngine'.
+../../applications/showcase-04-spaceship/index.ts(301,38): error TS2339: Property 'createStar' does not exist on type 'ShipEngine'.
+../../applications/showcase-04-spaceship/index.ts(455,13): error TS6133: 'createStar' is declared but its value is never read.
