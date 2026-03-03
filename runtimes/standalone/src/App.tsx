@@ -9,7 +9,6 @@ import { RendererType } from "@primitiv/client";
 import { APP_REGISTRY, findApp } from "./app-registry";
 import type { AppEntry } from "./app-registry";
 
-// @ts-ignore
 const buildDate =
   typeof __BUILD_DATE__ !== "undefined" ? __BUILD_DATE__ : "Local Dev";
 
