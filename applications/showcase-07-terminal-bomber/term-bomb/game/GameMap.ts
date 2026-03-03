@@ -2,8 +2,8 @@
  * GameMap - Handles the game grid and tile management
  */
 
-import type { MapTile, TileType, PowerupType, Bomb, Explosion } from './types';
-import { posKey } from './types';
+import type { MapTile, PowerupType, Bomb, Explosion } from "./types";
+import { posKey } from "./types";
 
 // Standard Bomberman map size
 const MAP_WIDTH = 15;
@@ -30,7 +30,7 @@ export class GameMap {
     for (let y = 0; y < this.height; y++) {
       this.tiles[y] = [];
       for (let x = 0; x < this.width; x++) {
-        this.tiles[y][x] = { type: 'empty' };
+        this.tiles[y][x] = { type: "empty" };
       }
     }
 
@@ -38,12 +38,17 @@ export class GameMap {
     for (let y = 0; y < this.height; y++) {
       for (let x = 0; x < this.width; x++) {
         // Border walls
-        if (x === 0 || x === this.width - 1 || y === 0 || y === this.height - 1) {
-          this.tiles[y][x] = { type: 'wall' };
+        if (
+          x === 0 ||
+          x === this.width - 1 ||
+          y === 0 ||
+          y === this.height - 1
+        ) {
+          this.tiles[y][x] = { type: "wall" };
         }
         // Grid pattern walls (every other cell)
         else if (x % 2 === 0 && y % 2 === 0) {
-          this.tiles[y][x] = { type: 'wall' };
+          this.tiles[y][x] = { type: "wall" };
         }
       }
     }
@@ -59,15 +64,16 @@ export class GameMap {
     for (let y = 1; y < this.height - 1; y++) {
       for (let x = 1; x < this.width - 1; x++) {
         // Skip walls
-        if (this.tiles[y][x].type === 'wall') continue;
+        if (this.tiles[y][x].type === "wall") continue;
 
         // Skip spawn corners (player starting positions)
         if (this.isSpawnArea(x, y)) continue;
 
         // Random brick placement
         if (Math.random() < brickChance) {
-          const powerup = Math.random() < powerupChance ? this.randomPowerup() : undefined;
-          this.tiles[y][x] = { type: 'brick', powerup };
+          const powerup =
+            Math.random() < powerupChance ? this.randomPowerup() : undefined;
+          this.tiles[y][x] = { type: "brick", powerup };
         }
       }
     }
@@ -75,7 +81,8 @@ export class GameMap {
 
   private isSpawnArea(x: number, y: number): boolean {
     // Top-left spawn (player 1)
-    if ((x === 1 && y === 1) || (x === 2 && y === 1) || (x === 1 && y === 2)) return true;
+    if ((x === 1 && y === 1) || (x === 2 && y === 1) || (x === 1 && y === 2))
+      return true;
     // Top-right spawn (player 2)
     if (
       (x === this.width - 2 && y === 1) ||
@@ -102,7 +109,7 @@ export class GameMap {
 
   private randomPowerup(): PowerupType {
     // Only bomb_up powerups remain
-    return 'bomb_up';
+    return "bomb_up";
   }
 
   getTile(x: number, y: number): MapTile | null {
@@ -121,7 +128,7 @@ export class GameMap {
   isWalkable(x: number, y: number): boolean {
     const tile = this.getTile(x, y);
     if (!tile) return false;
-    if (tile.type === 'wall' || tile.type === 'brick') return false;
+    if (tile.type === "wall" || tile.type === "brick") return false;
     if (this.bombs.has(posKey(x, y))) return false;
     return true;
   }
@@ -129,7 +136,7 @@ export class GameMap {
   canPlaceBomb(x: number, y: number): boolean {
     const tile = this.getTile(x, y);
     if (!tile) return false;
-    if (tile.type !== 'empty') return false;
+    if (tile.type !== "empty") return false;
     if (this.bombs.has(posKey(x, y))) return false;
     return true;
   }
@@ -149,7 +156,7 @@ export class GameMap {
     const key = posKey(x, y);
     // Only add if not a wall
     const tile = this.getTile(x, y);
-    if (tile && tile.type !== 'wall') {
+    if (tile && tile.type !== "wall") {
       this.explosions.set(key, { x, y, timer });
     }
   }
@@ -160,9 +167,11 @@ export class GameMap {
 
   destroyBrick(x: number, y: number): PowerupType | undefined {
     const tile = this.getTile(x, y);
-    if (tile && tile.type === 'brick') {
+    if (tile && tile.type === "brick") {
       const powerup = tile.powerup;
-      this.tiles[y][x] = powerup ? { type: 'powerup', powerup } : { type: 'empty' };
+      this.tiles[y][x] = powerup
+        ? { type: "powerup", powerup }
+        : { type: "empty" };
       return powerup;
     }
     return undefined;
@@ -170,9 +179,9 @@ export class GameMap {
 
   collectPowerup(x: number, y: number): PowerupType | undefined {
     const tile = this.getTile(x, y);
-    if (tile && tile.type === 'powerup' && tile.powerup) {
+    if (tile && tile.type === "powerup" && tile.powerup) {
       const powerup = tile.powerup;
-      this.tiles[y][x] = { type: 'empty' };
+      this.tiles[y][x] = { type: "empty" };
       return powerup;
     }
     return undefined;

@@ -9,7 +9,6 @@ import { posKey } from "../game/types";
 import {
   TILES,
   POWERUPS,
-  BOMB_CHARS,
   EXPLOSION_CHARS,
   EXPLOSION_COLORS,
   C,

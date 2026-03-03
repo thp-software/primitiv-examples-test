@@ -4,7 +4,7 @@
  */
 
 import { OrderBuilder } from "@primitiv/engine";
-import type { Player, GameState } from "../game/types";
+import type { Player } from "../game/types";
 import { C, PLAYER_COLORS, PLAYER_CHARS } from "./Appearance";
 
 export class UIRenderer {
@@ -13,7 +13,7 @@ export class UIRenderer {
    */
   static renderPlayerHUD(
     currentPlayer: Player,
-    allPlayers: Player[],
+    _allPlayers: Player[],
     startX: number,
     startY: number,
     width: number,
@@ -882,7 +882,7 @@ export class UIRenderer {
       ready: boolean;
       isHost: boolean;
     }[],
-    selectedSlot: number,
+    _selectedSlot: number,
     isHost: boolean,
   ): any[] {
     const orders: any[] = [];

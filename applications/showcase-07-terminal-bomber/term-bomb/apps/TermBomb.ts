@@ -17,7 +17,7 @@ import {
 import { GameMap } from "../game/GameMap";
 import { GameLogic } from "../game/GameLogic";
 import { Direction, type GameState } from "../game/types";
-import { PALETTE, C } from "../rendering/Appearance";
+import { PALETTE } from "../rendering/Appearance";
 import { BoardRenderer } from "../rendering/BoardRenderer";
 import { InputAdapter } from "../services/InputAdapter";
 import { AudioManager } from "../services/AudioManager";
@@ -204,10 +204,6 @@ const WIDE_DISPLAY_WIDTH = 49;
 // Square-ish devices (< 12/9 ratio): compact layout without side controls, 21x22
 const SQUARE_DISPLAY_WIDTH = GAME_WIDTH;
 const DISPLAY_HEIGHT = GAME_HEIGHT;
-const ASPECT_THRESHOLD = 12 / 9; // 1.333...
-
-const CELL_WIDTH = 32;
-const CELL_HEIGHT = 32;
 
 const MAP_OFFSET_X = 0;
 const MAP_OFFSET_Y = 1; // La map commence à Y=1, HUD à Y=0
@@ -462,11 +458,6 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     user.addDisplay(display);
     user.data.display = display;
 
-    // Now query viewport through the display object
-    const viewport = user.getDisplayViewport(0);
-    const aspect = viewport
-      ? viewport.pixelWidth / viewport.pixelHeight
-      : WIDE_DISPLAY_WIDTH / DISPLAY_HEIGHT;
     // Always use wide layout
     const useWideLayout = true;
 
@@ -676,83 +667,6 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
 
     // Initial commit WITH orders to activate the layer (only if enabled)
     this.boardRenderer.updateControlsLayer(user, "controls-init");
-  }
-
-  /**
-   * Ensure layout matches current viewport aspect.
-   * Switches between wide and square only when crossing the threshold to avoid flicker.
-   */
-  private ensureLayout(user: User<TermBombUserData>): void {
-    const viewport = user.getDisplayViewport(0);
-    const aspect = viewport
-      ? viewport.pixelWidth / viewport.pixelHeight
-      : WIDE_DISPLAY_WIDTH / DISPLAY_HEIGHT;
-    const desiredMode: "wide" | "square" =
-      aspect >= ASPECT_THRESHOLD ? "wide" : "square";
-
-    if (desiredMode === user.data.layoutMode) {
-      return;
-    }
-
-    const targetWidth =
-      desiredMode === "wide" ? WIDE_DISPLAY_WIDTH : SQUARE_DISPLAY_WIDTH;
-    const controlsEnabled = desiredMode === "wide";
-    const gameOffsetX = controlsEnabled
-      ? Math.floor((targetWidth - GAME_WIDTH) / 2)
-      : 0;
-    const controlsLeftWidth = controlsEnabled ? gameOffsetX : 0;
-    const controlsRightWidth = controlsEnabled
-      ? targetWidth - GAME_WIDTH - gameOffsetX
-      : 0;
-
-    user.data.displayWidth = targetWidth;
-    user.data.displayHeight = DISPLAY_HEIGHT;
-    user.data.gameOffsetX = gameOffsetX;
-    user.data.controlsLeftWidth = controlsLeftWidth;
-    user.data.controlsRightWidth = controlsRightWidth;
-    user.data.controlsEnabled = controlsEnabled;
-    user.data.layoutMode = desiredMode;
-
-    // Resize display
-    user.data.display.setSize(new Vector2(targetWidth, DISPLAY_HEIGHT));
-
-    // Realign layer origins with new offsets
-    const menuLayer = user.data.layers.get("menu");
-    if (menuLayer)
-      menuLayer.setOrigin(new Vector2(MENU_LAYER_X + gameOffsetX, 0));
-    const menuBgLayer = user.data.layers.get("menuBg");
-    if (menuBgLayer)
-      menuBgLayer.setOrigin(new Vector2(MENU_LAYER_X + gameOffsetX, 0));
-    const serverListLayer = user.data.layers.get("serverList");
-    if (serverListLayer)
-      serverListLayer.setOrigin(
-        new Vector2(SERVER_LIST_LAYER_X + gameOffsetX, 0),
-      );
-    const lobbyLayer = user.data.layers.get("lobby");
-    if (lobbyLayer)
-      lobbyLayer.setOrigin(new Vector2(LOBBY_LAYER_X + gameOffsetX, 0));
-    const gameLayerOrigin = new Vector2(GAME_LAYER_X + gameOffsetX, 0);
-    const gameStatic = user.data.layers.get("gameStatic");
-    if (gameStatic) gameStatic.setOrigin(gameLayerOrigin);
-    const gameDestructible = user.data.layers.get("gameDestructible");
-    if (gameDestructible) gameDestructible.setOrigin(gameLayerOrigin);
-    const gameItems = user.data.layers.get("gameItems");
-    if (gameItems) gameItems.setOrigin(gameLayerOrigin);
-    const gameBombs = user.data.layers.get("gameBombs");
-    if (gameBombs) gameBombs.setOrigin(gameLayerOrigin);
-    const gameExplosions = user.data.layers.get("gameExplosions");
-    if (gameExplosions) gameExplosions.setOrigin(gameLayerOrigin);
-    const gamePlayers = user.data.layers.get("gamePlayers");
-    if (gamePlayers) gamePlayers.setOrigin(gameLayerOrigin);
-    const debugLayer = user.data.layers.get("debug");
-    if (debugLayer) debugLayer.setOrigin(new Vector2(gameOffsetX, 0));
-    const uiLayer = user.data.layers.get("ui");
-    if (uiLayer) uiLayer.setOrigin(gameLayerOrigin);
-    const controlsLayer = user.data.layers.get("controls");
-    if (controlsLayer) controlsLayer.setOrigin(new Vector2(MENU_LAYER_X, 0));
-
-    // Refresh controls rendering according to the new layout
-    this.boardRenderer.updateControlsLayer(user, "controls-layout");
   }
 
   /**
@@ -1122,13 +1036,9 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
   // Start game for a user who joined (not the host)
   private startGameForUser(
     user: User<TermBombUserData>,
-    slots: LobbySlot[],
+    _slots: LobbySlot[],
     lobbyName: string,
   ): void {
-    const activePlayers = slots.filter(
-      (slot) => slot.type === "player" || slot.type === "bot",
-    ).length;
-
     const sharedGame = this.activeGames.get(lobbyName);
     if (!sharedGame) {
       console.error(`Shared game not found for lobby ${lobbyName}`);
@@ -1476,148 +1386,4 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     }
     user.data.wasBombPressed = bomb;
   }
-
-  /**
-   * Find the most accessible enemy player
-   * Returns the player with shortest safe path (fewest bricks to destroy)
-   */
-  private findMostAccessibleTarget(
-    gameMap: GameMap,
-    gameLogic: GameLogic,
-    fromX: number,
-    fromY: number,
-    myPlayerId: number,
-    heatMap: Map<string, number>,
-    safeThreshold: number,
-  ): {
-    player: (typeof gameLogic.players)[0];
-    distance: number;
-    bricks: number;
-  } | null {
-    const candidates: Array<{
-      player: (typeof gameLogic.players)[0];
-      distance: number;
-      bricks: number;
-    }> = [];
-
-    for (let i = 0; i < gameLogic.players.length; i++) {
-      if (i === myPlayerId) continue;
-      const target = gameLogic.players[i];
-      if (!target || !target.alive) continue;
-
-      // BFS to find path, counting bricks along the way
-      const result = this.findPathWithBrickCount(
-        gameMap,
-        fromX,
-        fromY,
-        target.x,
-        target.y,
-        heatMap,
-        safeThreshold,
-      );
-
-      if (result) {
-        candidates.push({
-          player: target,
-          distance: result.distance,
-          bricks: result.bricks,
-        });
-      }
-    }
-
-    if (candidates.length === 0) return null;
-
-    // Sort by accessibility score: fewer bricks = more accessible
-    // Tie-breaker: shorter distance
-    candidates.sort((a, b) => {
-      // Primary: fewer bricks to destroy
-      if (a.bricks !== b.bricks) return a.bricks - b.bricks;
-      // Secondary: shorter distance
-      return a.distance - b.distance;
-    });
-
-    return candidates[0];
-  }
-
-  /**
-   * BFS to find path to target, counting bricks that would need to be destroyed
-   */
-  private findPathWithBrickCount(
-    gameMap: GameMap,
-    fromX: number,
-    fromY: number,
-    toX: number,
-    toY: number,
-    heatMap: Map<string, number>,
-    safeThreshold: number,
-  ): { distance: number; bricks: number } | null {
-    const queue: Array<{ x: number; y: number; dist: number; bricks: number }> =
-      [{ x: fromX, y: fromY, dist: 0, bricks: 0 }];
-    const visited = new Map<string, number>(); // key -> min bricks to reach
-    visited.set(`${fromX},${fromY}`, 0);
-
-    const dirs = [
-      { dx: 0, dy: -1 },
-      { dx: 0, dy: 1 },
-      { dx: 1, dy: 0 },
-      { dx: -1, dy: 0 },
-    ];
-
-    while (queue.length > 0) {
-      const current = queue.shift()!;
-
-      // Found target
-      if (current.x === toX && current.y === toY) {
-        return { distance: current.dist, bricks: current.bricks };
-      }
-
-      for (const d of dirs) {
-        const nx = current.x + d.dx;
-        const ny = current.y + d.dy;
-        const key = `${nx},${ny}`;
-
-        if (nx < 0 || nx >= gameMap.width || ny < 0 || ny >= gameMap.height)
-          continue;
-
-        const tile = gameMap.getTile(nx, ny);
-        if (!tile || tile.type === "wall") continue;
-
-        // Count bricks
-        let newBricks = current.bricks;
-        if (tile.type === "brick") {
-          newBricks++;
-        }
-
-        // Check if this is a better path (fewer bricks)
-        const prevBricks = visited.get(key);
-        if (prevBricks !== undefined && prevBricks <= newBricks) continue;
-
-        visited.set(key, newBricks);
-
-        // For walkable cells, also check danger
-        const heat = heatMap.get(key) || 0;
-        const isWalkable = gameMap.isWalkable(nx, ny);
-
-        // Allow traversing bricks (we can bomb them) or safe walkable cells
-        if (tile.type === "brick" || (isWalkable && heat < safeThreshold)) {
-          queue.push({
-            x: nx,
-            y: ny,
-            dist: current.dist + 1,
-            bricks: newBricks,
-          });
-        }
-      }
-    }
-
-    return null; // No path found
-  }
-
-  /**
-   * AI based on Heat Map danger calculation
-   *
-   * PRIORITY 1: SURVIVAL - Stay alive at all costs
-   * PRIORITY 2: ELIMINATION - Target the most accessible enemy
-   * PRIORITY 3: FARMING - Destroy bricks to get powerups
-   */
 }
