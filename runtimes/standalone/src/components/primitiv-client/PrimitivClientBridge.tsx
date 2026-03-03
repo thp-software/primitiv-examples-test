@@ -1,10 +1,11 @@
-import { useRef, useEffect, type CSSProperties } from "react";
+import { useRef, useEffect, useState, type CSSProperties } from "react";
 import {
   ClientRuntime,
   RendererType,
   type IApplication,
 } from "@primitiv/client";
 import "./PrimitivClient.css";
+import { BandwidthOverlay } from "./BandwidthOverlay";
 
 // =============================================================================
 // Types
@@ -63,6 +64,10 @@ const PrimitivClientBridge: React.FC<PrimitivClientBridgeProps> = ({
   const runtimeRef = useRef<ClientRuntime | null>(null);
   const initializedWithKeyRef = useRef<string | null>(null);
 
+  const [activeRuntime, setActiveRuntime] = useState<ClientRuntime | null>(
+    null,
+  );
+
   // Stable callback refs — avoid re-initialization when handlers change
   const bridgeHandlerRef = useRef(onBridgeMessage);
   const readyHandlerRef = useRef(onRuntimeReady);
@@ -84,7 +89,7 @@ const PrimitivClientBridge: React.FC<PrimitivClientBridgeProps> = ({
 
     // HMR cleanup
     if (runtimeRef.current) {
-      runtimeRef.current.stop();
+      runtimeRef.current.destroy();
       runtimeRef.current = null;
     }
     container.innerHTML = "";
@@ -107,12 +112,19 @@ const PrimitivClientBridge: React.FC<PrimitivClientBridgeProps> = ({
     };
 
     runtimeRef.current = runtime;
+    setActiveRuntime(runtime);
     readyHandlerRef.current?.(runtime);
 
     return () => {
-      if (runtimeRef.current) {
-        runtimeRef.current.stop();
-        runtimeRef.current = null;
+      const rt = runtimeRef.current;
+      runtimeRef.current = null;
+      setActiveRuntime(null);
+      if (rt) {
+        rt.destroy();
+      }
+      // Clear the container to release any DOM/WebGL resources
+      if (container) {
+        container.innerHTML = "";
       }
       initializedWithKeyRef.current = null;
     };
@@ -124,6 +136,7 @@ const PrimitivClientBridge: React.FC<PrimitivClientBridgeProps> = ({
       style={{ display: "flex", ...style }}
     >
       <div ref={containerRef} style={{ flex: 1 }} />
+      <BandwidthOverlay runtime={activeRuntime} />
     </div>
   );
 };

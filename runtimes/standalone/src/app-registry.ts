@@ -31,6 +31,7 @@ import { BridgeShowcase } from "../../../applications/12-bridge-communication";
 import { MultiDisplay } from "../../../applications/13-multi-display";
 import { PostProcessShowcase } from "../../../applications/14-post-process";
 import { MultiUserShowcase } from "../../../applications/15-multi-user";
+import { Cp437Table } from "../../../applications/16-cp437";
 
 import { VoxelSpaceApp } from "../../../applications/showcase-3d-01-voxel-space";
 import { PrimitivCraft } from "../../../applications/showcase-3d-02-primitiv-craft";
@@ -42,6 +43,8 @@ import { DungeonApp } from "../../../applications/showcase-02-dungeon";
 import { GameOfLife } from "../../../applications/showcase-03-game-of-life";
 import { Spaceship } from "../../../applications/showcase-04-spaceship";
 import { PrimitivRadar } from "../../../applications/showcase-05-radar";
+import { FluidShowcase } from "../../../applications/showcase-06-fluid";
+import { TermBomber } from "../../../applications/showcase-07-terminal-bomber";
 
 export const APP_REGISTRY: AppEntry[] = [
   {
@@ -106,7 +109,8 @@ export const APP_REGISTRY: AppEntry[] = [
     name: "10 Audio",
     description:
       "Loops, one-shots, effects (LPF/HPF/reverb/pitch), 2D spatial audio.",
-    controls: "1: Rain toggle\n2: Click SFX\n3: Thunder\nArrows: Audio filters\nMouse: Listener position",
+    controls:
+      "1: Rain toggle\n2: Click SFX\n3: Thunder\nArrows: Audio filters\nMouse: Listener position",
     factory: () => new AudioShowcase(),
   },
   {
@@ -127,21 +131,31 @@ export const APP_REGISTRY: AppEntry[] = [
   {
     slug: "13-multi-display",
     name: "13 Multi-Display",
-    description: "One application driving two independent Display surfaces simultaneously.",
+    description:
+      "One application driving two independent Display surfaces simultaneously.",
     factory: () => new MultiDisplay(),
   },
   {
     slug: "14-post-process",
     name: "14 Post-Process",
-    description: "Demonstrates CRT scanlines, pixel grid, and Ambilight background effects.",
+    description:
+      "Demonstrates CRT scanlines, pixel grid, and Ambilight background effects.",
     controls: "1: Toggle CRT\n2: Toggle Ambilight\n3: Toggle Pixel Grid",
     factory: () => new PostProcessShowcase(),
   },
   {
     slug: "15-multi-user",
     name: "15 Multi-User",
-    description: "Architecture for handling hundreds of concurrent users inside a single world simulation.",
+    description:
+      "Architecture for handling hundreds of concurrent users inside a single world simulation.",
     factory: () => new MultiUserShowcase(),
+  },
+  {
+    slug: "16-cp437",
+    name: "16 CP 437",
+    description:
+      "Full CP437 character table - tests Unicode -> CP437 conversion for all 256 glyphs.",
+    factory: () => new Cp437Table(),
   },
 
   // ── Showcases ────────────────────────────────────────────────────────────
@@ -188,7 +202,8 @@ export const APP_REGISTRY: AppEntry[] = [
   {
     slug: "showcase-02-dungeon",
     name: "02 Dungeon Crawler",
-    description: "A minimalist top-down dungeon crawler where you collect gold.",
+    description:
+      "A minimalist top-down dungeon crawler where you collect gold.",
     controls: "WASD / Arrows: Move",
     category: "showcase",
     factory: () => new DungeonApp(),
@@ -196,7 +211,8 @@ export const APP_REGISTRY: AppEntry[] = [
   {
     slug: "showcase-03-game-of-life",
     name: "03 Game of Life",
-    description: "An interactive implementation of Conway's Game of Life with drawing tools and dynamic 20Hz timing.",
+    description:
+      "An interactive implementation of Conway's Game of Life with drawing tools and dynamic 20Hz timing.",
     controls: "Mouse: Draw cells",
     category: "showcase",
     factory: () => new GameOfLife(),
@@ -204,17 +220,38 @@ export const APP_REGISTRY: AppEntry[] = [
   {
     slug: "showcase-04-spaceship",
     name: "04 Starship",
-    description: "3D starfield and spaceship interior with three navigable scenes. Palette cycling, dotCloudMulti, fullFrameMulti.",
-    controls: "WASD / Arrows: Move\nF: Interact / Stand up\nL: Warp toggle\nY: Power toggle",
+    description:
+      "3D starfield and spaceship interior with three navigable scenes. Palette cycling, dotCloudMulti, fullFrameMulti.",
+    controls:
+      "WASD / Arrows: Move\nF: Interact / Stand up\nL: Warp toggle\nY: Power toggle",
     category: "showcase",
     factory: () => new Spaceship(),
   },
   {
     slug: "showcase-05-radar",
     name: "05 Tactical Radar",
-    description: "Atmospheric radar simulation demonstrating sample & hold tracking, phosphor decay, and static/dynamic layer separation.",
+    description:
+      "Atmospheric radar simulation demonstrating sample & hold tracking, phosphor decay, and static/dynamic layer separation.",
     category: "showcase",
     factory: () => new PrimitivRadar(),
+  },
+  {
+    slug: "showcase-06-fluid",
+    name: "06 Navier-Stokes Fluid",
+    description:
+      "Interactive 2D fluid simulation (Jos Stam stable fluids). Five orbital dye sources paint hue-cycling aurora patterns. Move the mouse to stir.",
+    controls: "Mouse: Inject velocity\nMove to stir the fluid",
+    category: "showcase",
+    factory: () => new FluidShowcase(),
+  },
+  {
+    slug: "showcase-07-terminal-bomber",
+    name: "07 Terminal Bomber",
+    description:
+      "Bomberman-style game in ASCII art. Control the yellow @ and defeat three heatmap-driven bots. Chain explosions, collect bomb-ups, survive.",
+    controls: "WASD / Arrows: Move\nSpace / Z: Drop bomb",
+    category: "showcase",
+    factory: () => new TermBomber(),
   },
 ];
 

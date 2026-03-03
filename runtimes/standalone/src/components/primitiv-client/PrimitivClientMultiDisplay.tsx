@@ -1,10 +1,11 @@
-import { useRef, useEffect, type CSSProperties } from "react";
+import { useRef, useEffect, useState, type CSSProperties } from "react";
 import {
   ClientRuntime,
   RendererType,
   type IApplication,
 } from "@primitiv/client";
 import "./PrimitivClient.css";
+import { BandwidthOverlay } from "./BandwidthOverlay";
 
 // =============================================================================
 // Types
@@ -70,6 +71,10 @@ const PrimitivClientMultiDisplay: React.FC<PrimitivClientMultiDisplayProps> = ({
   const runtimeRef = useRef<ClientRuntime | null>(null);
   const initializedWithKeyRef = useRef<string | null>(null);
 
+  const [activeRuntime, setActiveRuntime] = useState<ClientRuntime | null>(
+    null,
+  );
+
   const depsKey = `${application.constructor.name}-${renderer}-${width}-${height}-${autoplay}-${displayCount}`;
 
   useEffect(() => {
@@ -86,7 +91,7 @@ const PrimitivClientMultiDisplay: React.FC<PrimitivClientMultiDisplayProps> = ({
 
     // HMR cleanup
     if (runtimeRef.current) {
-      runtimeRef.current.stop();
+      runtimeRef.current.destroy();
       runtimeRef.current = null;
     }
     for (const c of containers) c.innerHTML = "";
@@ -118,12 +123,21 @@ const PrimitivClientMultiDisplay: React.FC<PrimitivClientMultiDisplayProps> = ({
     });
 
     runtimeRef.current = runtime;
+    setActiveRuntime(runtime);
 
     return () => {
-      if (runtimeRef.current) {
-        runtimeRef.current.stop();
-        runtimeRef.current = null;
+      const rt = runtimeRef.current;
+      runtimeRef.current = null;
+      setActiveRuntime(null);
+      if (rt) {
+        rt.destroy();
       }
+      // Clear all containers to release any DOM/WebGL resources
+      containerRefs.current.forEach((container) => {
+        if (container) {
+          container.innerHTML = "";
+        }
+      });
       initializedWithKeyRef.current = null;
     };
   }, [application, renderer, width, height, autoplay, depsKey, displayCount]);
@@ -147,6 +161,7 @@ const PrimitivClientMultiDisplay: React.FC<PrimitivClientMultiDisplayProps> = ({
           style={{ flex: 1, position: "relative" }}
         />
       ))}
+      <BandwidthOverlay runtime={activeRuntime} />
     </div>
   );
 };

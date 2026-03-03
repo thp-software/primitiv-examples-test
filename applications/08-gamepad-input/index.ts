@@ -68,7 +68,8 @@ import {
 } from "@primitiv/engine";
 
 interface GamepadUserData {
-  layer: Layer;
+  staticLayer: Layer;
+  dynamicLayer: Layer;
   lastAction: string;
 }
 
@@ -103,11 +104,72 @@ export class GamepadShowcase implements IApplication<
     user.addDisplay(display);
     display.switchPalette(0);
 
-    const layer = new Layer(new Vector2(0, 0), 0, width, height, {
+    // Static layer for labels and fixed UI elements
+    const staticLayer = new Layer(new Vector2(0, 0), 0, width, height, {
+      mustBeReliable: true,
+    });
+    user.data.staticLayer = staticLayer;
+    user.addLayer(staticLayer);
+
+    // Dynamic layer for changing values
+    const dynamicLayer = new Layer(new Vector2(0, 0), 1, width, height, {
       mustBeReliable: false,
     });
-    user.data.layer = layer;
-    user.addLayer(layer);
+    user.data.dynamicLayer = dynamicLayer;
+    user.addLayer(dynamicLayer);
+
+    // Draw all static content once
+    const staticOrders: any[] = [];
+    staticOrders.push(
+      OrderBuilder.fill(" ", 0, 0),
+      OrderBuilder.text(2, 1, "--- PRIMITIV GAMEPAD INPUT ---", 3, 0),
+      OrderBuilder.text(
+        2,
+        2,
+        "Connect a controller and press any button.",
+        4,
+        0,
+      ),
+      // Face buttons section
+      OrderBuilder.text(2, 4, "FACE BUTTONS:", 3, 0),
+      OrderBuilder.text(2, 5, "[A]", 4, 0),
+      OrderBuilder.text(12, 5, "[B]", 4, 0),
+      OrderBuilder.text(22, 5, "[X]", 4, 0),
+      OrderBuilder.text(32, 5, "[Y]", 4, 0),
+      // D-Pad section
+      OrderBuilder.text(2, 8, "D-PAD:", 3, 0),
+      OrderBuilder.text(2, 9, "Up", 4, 0),
+      OrderBuilder.text(12, 9, "Down", 4, 0),
+      OrderBuilder.text(22, 9, "Left", 4, 0),
+      OrderBuilder.text(32, 9, "Right", 4, 0),
+      // Shoulders section
+      OrderBuilder.text(2, 12, "SHOULDERS:", 3, 0),
+      OrderBuilder.text(2, 13, "L1:", 4, 0),
+      OrderBuilder.text(16, 13, "R1:", 4, 0),
+      OrderBuilder.text(34, 13, "L3:", 4, 0),
+      OrderBuilder.text(48, 13, "R3:", 4, 0),
+      // Triggers section
+      OrderBuilder.text(2, 15, "TRIGGERS:", 3, 0),
+      OrderBuilder.text(2, 16, "L2:", 4, 0),
+      OrderBuilder.text(30, 16, "R2:", 4, 0),
+      // Left stick section
+      OrderBuilder.text(2, 19, "LEFT STICK:", 3, 0),
+      // Left stick visual box (static background)
+      OrderBuilder.rect(2, 23, 11, 11, ".", 4, 0, true),
+      OrderBuilder.char(2 + 5, 23 + 5, "+", 4, 0),
+      // Right stick section
+      OrderBuilder.text(30, 19, "RIGHT STICK:", 3, 0),
+      // Right stick visual box (static background)
+      OrderBuilder.rect(30, 23, 11, 11, ".", 4, 0, true),
+      OrderBuilder.char(30 + 5, 23 + 5, "+", 4, 0),
+      // Vibration info
+      OrderBuilder.text(2, 35, "VIBRATION:", 3, 0),
+      OrderBuilder.text(18, 35, "A/B/X/Y: Bursts | L2/R2: Scaled Rumble", 4, 0),
+      // Last action label
+      OrderBuilder.text(2, 37, "LAST ACTION:", 3, 0),
+    );
+    staticLayer.setOrders(staticOrders);
+    staticLayer.commit();
 
     /**
      * GAMEPAD BINDINGS
@@ -282,23 +344,9 @@ export class GamepadShowcase implements IApplication<
     const data = user.data;
     const o: any[] = [];
 
-    o.push(OrderBuilder.fill(" ", 0, 0));
-    o.push(OrderBuilder.text(2, 1, "--- PRIMITIV GAMEPAD INPUT ---", 3, 0));
-    o.push(
-      OrderBuilder.text(
-        2,
-        2,
-        "Connect a controller and press any button.",
-        4,
-        0,
-      ),
-    );
-
     // =====================================================================
-    // FACE BUTTONS (A, B, X, Y)
+    // FACE BUTTONS (A, B, X, Y) - Dynamic states only
     // =====================================================================
-    o.push(OrderBuilder.text(2, 4, "FACE BUTTONS:", 3, 0));
-
     const faceButtons = [
       { name: "GP_A", label: "A", x: 2 },
       { name: "GP_B", label: "B", x: 12 },
@@ -340,6 +388,7 @@ export class GamepadShowcase implements IApplication<
           });
       }
 
+      // Update label color based on held state
       o.push(OrderBuilder.text(btn.x, 5, `[${btn.label}]`, held ? 1 : 4, 0));
       o.push(
         OrderBuilder.text(btn.x, 6, held ? "HELD" : "----", held ? 1 : 4, 0),
@@ -347,10 +396,8 @@ export class GamepadShowcase implements IApplication<
     }
 
     // =====================================================================
-    // D-PAD
+    // D-PAD - Dynamic states only
     // =====================================================================
-    o.push(OrderBuilder.text(2, 8, "D-PAD:", 3, 0));
-
     const dpadButtons = [
       { name: "GP_UP", label: "Up", x: 2 },
       { name: "GP_DOWN", label: "Down", x: 12 },
@@ -362,25 +409,23 @@ export class GamepadShowcase implements IApplication<
       const held = user.getButton(btn.name);
       if (user.isJustPressed(btn.name)) data.lastAction = `DPad ${btn.label}`;
 
-      o.push(OrderBuilder.text(btn.x, 9, btn.label, held ? 1 : 4, 0));
+      o.push(
+        OrderBuilder.text(btn.x, 9, btn.label.padEnd(5, " "), held ? 1 : 4, 0),
+      );
       o.push(
         OrderBuilder.text(btn.x, 10, held ? "HELD" : "----", held ? 1 : 4, 0),
       );
     }
 
     // =====================================================================
-    // SHOULDERS (L1 / R1)
+    // SHOULDERS (L1 / R1) - Dynamic states only
     // =====================================================================
-    o.push(OrderBuilder.text(2, 12, "SHOULDERS:", 3, 0));
-
     const l1 = user.getButton("GP_L1");
     const r1 = user.getButton("GP_R1");
     if (user.isJustPressed("GP_L1")) data.lastAction = "Pressed L1";
     if (user.isJustPressed("GP_R1")) data.lastAction = "Pressed R1";
 
-    o.push(OrderBuilder.text(2, 13, "L1:", 4, 0));
     o.push(OrderBuilder.text(6, 13, l1 ? "HELD" : "----", l1 ? 1 : 4, 0));
-    o.push(OrderBuilder.text(16, 13, "R1:", 4, 0));
     o.push(OrderBuilder.text(20, 13, r1 ? "HELD" : "----", r1 ? 1 : 4, 0));
 
     // Stick Clicks (L3 / R3)
@@ -389,16 +434,12 @@ export class GamepadShowcase implements IApplication<
     if (user.isJustPressed("GP_L3")) data.lastAction = "Pressed L3";
     if (user.isJustPressed("GP_R3")) data.lastAction = "Pressed R3";
 
-    o.push(OrderBuilder.text(34, 13, "L3:", 4, 0));
     o.push(OrderBuilder.text(38, 13, l3 ? "HELD" : "----", l3 ? 1 : 4, 0));
-    o.push(OrderBuilder.text(48, 13, "R3:", 4, 0));
     o.push(OrderBuilder.text(52, 13, r3 ? "HELD" : "----", r3 ? 1 : 4, 0));
 
     // =====================================================================
     // TRIGGERS (L2 / R2) — analog axes 0.0 to 1.0
     // =====================================================================
-    o.push(OrderBuilder.text(2, 15, "TRIGGERS:", 3, 0));
-
     const l2 = user.getAxis("L2");
     const r2 = user.getAxis("R2");
 
@@ -413,7 +454,6 @@ export class GamepadShowcase implements IApplication<
       });
     }
 
-    o.push(OrderBuilder.text(2, 16, "L2:", 4, 0));
     o.push(
       OrderBuilder.text(
         6,
@@ -429,7 +469,6 @@ export class GamepadShowcase implements IApplication<
     o.push(OrderBuilder.rect(2, 17, 20, 1, "-", 4, 0, true));
     if (l2Len > 0) o.push(OrderBuilder.rect(2, 17, l2Len, 1, "=", 5, 0, true));
 
-    o.push(OrderBuilder.text(30, 16, "R2:", 4, 0));
     o.push(
       OrderBuilder.text(
         34,
@@ -448,8 +487,6 @@ export class GamepadShowcase implements IApplication<
     // =====================================================================
     // LEFT STICK
     // =====================================================================
-    o.push(OrderBuilder.text(2, 19, "LEFT STICK:", 3, 0));
-
     const lx = user.getAxis("LEFT_X");
     const ly = user.getAxis("LEFT_Y");
 
@@ -472,21 +509,14 @@ export class GamepadShowcase implements IApplication<
       ),
     );
 
-    // Visual: square 11x11 box with a dot for the stick position
-    const lBoxX = 2;
-    const lBoxY = 23;
-    o.push(OrderBuilder.rect(lBoxX, lBoxY, 11, 11, ".", 4, 0, true));
-    // Center cross drawn FIRST so the stick cursor 'O' appears on top
-    o.push(OrderBuilder.char(lBoxX + 5, lBoxY + 5, "+", 4, 0));
-    const ldx = lBoxX + 5 + Math.round(lx * 5);
-    const ldy = lBoxY + 5 + Math.round(ly * 5);
+    // Left stick cursor position only (box is static)
+    const ldx = 2 + 5 + Math.round(lx * 5);
+    const ldy = 23 + 5 + Math.round(ly * 5);
     o.push(OrderBuilder.char(ldx, ldy, "O", 6, 0));
 
     // =====================================================================
     // RIGHT STICK
     // =====================================================================
-    o.push(OrderBuilder.text(30, 19, "RIGHT STICK:", 3, 0));
-
     const rx = user.getAxis("RIGHT_X");
     const ry = user.getAxis("RIGHT_Y");
 
@@ -509,34 +539,20 @@ export class GamepadShowcase implements IApplication<
       ),
     );
 
-    // Visual: square 11x11 box with a dot for the stick position
-    const rBoxX = 30;
-    const rBoxY = 23;
-    o.push(OrderBuilder.rect(rBoxX, rBoxY, 11, 11, ".", 4, 0, true));
-    // Center cross drawn FIRST so the stick cursor 'O' appears on top
-    o.push(OrderBuilder.char(rBoxX + 5, rBoxY + 5, "+", 4, 0));
-    const rdx = rBoxX + 5 + Math.round(rx * 5);
-    const rdy = rBoxY + 5 + Math.round(ry * 5);
+    // Right stick cursor position only (box is static)
+    const rdx = 30 + 5 + Math.round(rx * 5);
+    const rdy = 23 + 5 + Math.round(ry * 5);
     o.push(OrderBuilder.char(rdx, rdy, "O", 6, 0));
 
     // =====================================================================
-    // VIBRATION INFO
+    // LAST ACTION - Dynamic value only
     // =====================================================================
-    o.push(OrderBuilder.text(2, 35, "VIBRATION:", 3, 0));
-    o.push(
-      OrderBuilder.text(18, 35, "A/B/X/Y: Bursts | L2/R2: Scaled Rumble", 4, 0),
-    );
-
-    // =====================================================================
-    // LAST ACTION
-    // =====================================================================
-    o.push(OrderBuilder.text(2, 37, "LAST ACTION:", 3, 0));
-    o.push(OrderBuilder.text(16, 37, data.lastAction, 2, 0));
+    o.push(OrderBuilder.text(16, 37, data.lastAction.padEnd(20, " "), 2, 0));
 
     // Commit
-    data.layer.setOrders(o);
-    data.layer.commit();
+    data.dynamicLayer.setOrders(o);
+    data.dynamicLayer.commit();
   }
 
-  update(_runtime: IRuntime, _engine: Engine): void { }
+  update(_runtime: IRuntime, _engine: Engine): void {}
 }

@@ -86,6 +86,8 @@
  *   - `OrderBuilder.subFrameMulti(x, y, w, h, cells)` — bulk cell data supporting 16-bit codes.
  *   - `user.getMouseDisplayInfo()` — returns `{ localX, localY }` (cell coordinates) or null.
  *   - Two layers with different zIndex keep static content and dynamic cursor completely separate.
+ *   - Hover state tracking: store `lastHoveredCell` and skip `commit()` when unchanged —
+ *     mouse movement within the same cell costs zero bandwidth.
  */
 
 import {
@@ -101,11 +103,10 @@ import {
   type IRuntime,
 } from "@primitiv/engine";
 
-
-
 interface SpritesUserData {
   layer: Layer;
   cursorLayer: Layer;
+  lastHoveredCell: number; // -1 = none, else charCode
 }
 
 export class CustomSpritesShowcase implements IApplication<
@@ -167,6 +168,9 @@ export class CustomSpritesShowcase implements IApplication<
     });
     user.data.cursorLayer = cursorLayer;
     user.addLayer(cursorLayer);
+
+    // Initialize hover tracking
+    user.data.lastHoveredCell = -1;
 
     // Bind mouse click (unused here but registers the mouse device so hover works)
     const registry = user.getInputBindingRegistry();
@@ -277,6 +281,7 @@ export class CustomSpritesShowcase implements IApplication<
     user: User<SpritesUserData>,
   ): void {
     const cursorLayer = user.data.cursorLayer;
+    const data = user.data;
 
     // Grid geometry (must match initUser constants)
     const B0_GX = 21;
@@ -286,22 +291,26 @@ export class CustomSpritesShowcase implements IApplication<
     const GRID_H = 16;
     const HEX = "0123456789ABCDEF";
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const co: any[] = [];
-    // No fill here — the volatile layer replaces its state entirely each commit,
-    // so unset cells are transparent and let the static atlas layer show through.
+    // Determine current hover state
+    let currentHoveredCell = -1;
+    let blockIndex = -1;
+    let col = 0;
+    let row = 0;
+    let cellX = 0;
+    let cellY = 0;
 
     const mouse = user.getMouseDisplayInfo();
     if (mouse) {
       const mx = Math.floor(mouse.localX);
       const my = Math.floor(mouse.localY);
 
-      // Determine which grid (if any) the mouse is over
-      let blockIndex = -1;
-      let gridX = -1;
       if (mx >= B0_GX && mx < B0_GX + GRID_W && my >= GY && my < GY + GRID_H) {
         blockIndex = 0;
-        gridX = B0_GX;
+        col = mx - B0_GX;
+        row = my - GY;
+        currentHoveredCell = row * GRID_H + col;
+        cellX = mx;
+        cellY = my;
       } else if (
         mx >= B1_GX &&
         mx < B1_GX + GRID_W &&
@@ -309,52 +318,63 @@ export class CustomSpritesShowcase implements IApplication<
         my < GY + GRID_H
       ) {
         blockIndex = 1;
-        gridX = B1_GX;
+        col = mx - B1_GX;
+        row = my - GY;
+        currentHoveredCell = 256 + row * GRID_H + col;
+        cellX = mx;
+        cellY = my;
       }
+    }
 
-      if (blockIndex >= 0) {
-        const col = mx - gridX;
-        const row = my - GY;
-        const charCode = blockIndex * 256 + row * GRID_H + col;
+    // Only update if hover state changed
+    if (currentHoveredCell === data.lastHoveredCell) {
+      return;
+    }
+    data.lastHoveredCell = currentHoveredCell;
 
-        // Highlight the hovered cell (inverted colors)
-        co.push(
-          OrderBuilder.char(mx, my, charCode, 0, blockIndex === 0 ? 1 : 6),
-        );
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const co: any[] = [];
 
-        // ── Info panel (rows 25-38) ─────────────────────────────────────────
-        const hexCode = charCode.toString(16).toUpperCase().padStart(4, "0");
-        const fgInfo = blockIndex === 0 ? 1 : 6;
+    if (currentHoveredCell >= 0) {
+      const charCode = currentHoveredCell;
 
-        co.push(OrderBuilder.rect(0, 25, 80, 14, " ", 0, 0)); // clear area
-        co.push(OrderBuilder.text(2, 25, "GLYPH INSPECTOR", 3, 0));
-        co.push(OrderBuilder.rect(0, 26, 80, 1, "-", 5, 0));
+      // Highlight the hovered cell (inverted colors)
+      co.push(
+        OrderBuilder.char(cellX, cellY, charCode, 0, blockIndex === 0 ? 1 : 6),
+      );
 
-        // ── Metadata (left column) ──────────────────────────────────────────
-        co.push(OrderBuilder.text(2, 28, "Block   :", 4, 0));
-        co.push(OrderBuilder.text(12, 28, String(blockIndex), fgInfo, 0));
+      // ── Info panel (rows 25-38) ─────────────────────────────────────────
+      const hexCode = charCode.toString(16).toUpperCase().padStart(4, "0");
+      const fgInfo = blockIndex === 0 ? 1 : 6;
 
-        co.push(OrderBuilder.text(2, 29, "Col     :", 4, 0));
-        co.push(OrderBuilder.text(12, 29, `${col}  (${HEX[col]})`, fgInfo, 0));
+      co.push(OrderBuilder.rect(0, 25, 80, 14, " ", 0, 0)); // clear area
+      co.push(OrderBuilder.text(2, 25, "GLYPH INSPECTOR", 3, 0));
+      co.push(OrderBuilder.rect(0, 26, 80, 1, "-", 5, 0));
 
-        co.push(OrderBuilder.text(2, 30, "Row     :", 4, 0));
-        co.push(OrderBuilder.text(12, 30, `${row}  (${HEX[row]})`, fgInfo, 0));
+      // ── Metadata (left column) ──────────────────────────────────────────
+      co.push(OrderBuilder.text(2, 28, "Block   :", 4, 0));
+      co.push(OrderBuilder.text(12, 28, String(blockIndex), fgInfo, 0));
 
-        co.push(OrderBuilder.text(2, 32, "charCode:", 4, 0));
-        co.push(
-          OrderBuilder.text(12, 32, `${charCode}  (0x${hexCode})`, fgInfo, 0),
-        );
+      co.push(OrderBuilder.text(2, 29, "Col     :", 4, 0));
+      co.push(OrderBuilder.text(12, 29, `${col}  (${HEX[col]})`, fgInfo, 0));
 
-        // ── 1×1 preview (hovered glyph alone) ──────────────────────────────
-        co.push(OrderBuilder.text(30, 27, "1x1", 4, 0));
-        co.push(OrderBuilder.char(30, 28, charCode, fgInfo, 5));
+      co.push(OrderBuilder.text(2, 30, "Row     :", 4, 0));
+      co.push(OrderBuilder.text(12, 30, `${row}  (${HEX[row]})`, fgInfo, 0));
 
-        // ── 3×3 preview (same glyph repeated — shows tiling behaviour) ──────
-        co.push(OrderBuilder.text(36, 27, "3x3", 4, 0));
-        for (let dr = 0; dr < 3; dr++) {
-          for (let dc = 0; dc < 3; dc++) {
-            co.push(OrderBuilder.char(36 + dc, 28 + dr, charCode, fgInfo, 5));
-          }
+      co.push(OrderBuilder.text(2, 32, "charCode:", 4, 0));
+      co.push(
+        OrderBuilder.text(12, 32, `${charCode}  (0x${hexCode})`, fgInfo, 0),
+      );
+
+      // ── 1×1 preview (hovered glyph alone) ──────────────────────────────
+      co.push(OrderBuilder.text(30, 27, "1x1", 4, 0));
+      co.push(OrderBuilder.char(30, 28, charCode, fgInfo, 5));
+
+      // ── 3×3 preview (same glyph repeated — shows tiling behaviour) ──────
+      co.push(OrderBuilder.text(36, 27, "3x3", 4, 0));
+      for (let dr = 0; dr < 3; dr++) {
+        for (let dc = 0; dc < 3; dc++) {
+          co.push(OrderBuilder.char(36 + dc, 28 + dr, charCode, fgInfo, 5));
         }
       }
     }
@@ -363,5 +383,5 @@ export class CustomSpritesShowcase implements IApplication<
     cursorLayer.commit();
   }
 
-  update(_runtime: IRuntime, _engine: Engine): void { }
+  update(_runtime: IRuntime, _engine: Engine): void {}
 }

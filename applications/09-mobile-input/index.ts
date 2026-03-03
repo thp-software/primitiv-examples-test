@@ -57,7 +57,8 @@ import {
 } from "@primitiv/engine";
 
 interface MobileUserData {
-  layer: Layer;
+  staticLayer: Layer;
+  dynamicLayer: Layer;
   lastAction: string;
   tapCount: number;
 }
@@ -94,11 +95,49 @@ export class MobileShowcase implements IApplication<
     user.addDisplay(display);
     display.switchPalette(0);
 
-    const layer = new Layer(new Vector2(0, 0), 0, width, height, {
+    // Static layer for labels and fixed UI
+    const staticLayer = new Layer(new Vector2(0, 0), 0, width, height, {
+      mustBeReliable: true,
+    });
+    user.data.staticLayer = staticLayer;
+    user.addLayer(staticLayer);
+
+    // Dynamic layer for changing values
+    const dynamicLayer = new Layer(new Vector2(0, 0), 1, width, height, {
       mustBeReliable: false,
     });
-    user.data.layer = layer;
-    user.addLayer(layer);
+    user.data.dynamicLayer = dynamicLayer;
+    user.addLayer(dynamicLayer);
+
+    // Draw all static content once
+    const staticOrders: any[] = [];
+    staticOrders.push(
+      OrderBuilder.fill(" ", 0, 0),
+      OrderBuilder.text(2, 1, "--- MOBILE INPUT ---", 3, 0),
+      OrderBuilder.text(2, 2, "Touch zones + vibration", 4, 0),
+      // Axes section
+      OrderBuilder.text(2, 5, "AXES:", 3, 0),
+      OrderBuilder.text(2, 6, "Move X:", 4, 0),
+      OrderBuilder.text(2, 7, "Move Y:", 4, 0),
+      // Buttons section
+      OrderBuilder.text(2, 9, "BUTTONS:", 3, 0),
+      OrderBuilder.text(2, 10, "Action A:", 4, 0),
+      OrderBuilder.text(2, 11, "Action B:", 4, 0),
+      // Status section
+      OrderBuilder.text(2, 15, "LAST HAPTIC:", 3, 0),
+      // D-Pad label
+      OrderBuilder.text(4, 17, "D-PAD", 3, 0),
+      // Button labels
+      OrderBuilder.text(29, 26, "Space", 4, 0),
+      OrderBuilder.text(29, 18, "Ctrl", 4, 0),
+      // Legend
+      OrderBuilder.text(18, 5, "Desktop:", 4, 0),
+      OrderBuilder.text(18, 6, "Arrows = D-Pad", 4, 0),
+      OrderBuilder.text(18, 7, "Space  = A", 4, 0),
+      OrderBuilder.text(18, 8, "Ctrl   = B", 4, 0),
+    );
+    staticLayer.setOrders(staticOrders);
+    staticLayer.commit();
 
     const reg = user.getInputBindingRegistry();
 
@@ -185,19 +224,14 @@ export class MobileShowcase implements IApplication<
     const data = user.data;
     const o: any[] = [];
 
-    o.push(OrderBuilder.fill(" ", 0, 0));
-    o.push(OrderBuilder.text(2, 1, "--- MOBILE INPUT ---", 3, 0));
-    o.push(OrderBuilder.text(2, 2, "Touch zones + vibration", 4, 0));
-
     // =====================================================================
-    // D-PAD (Touch Zone 0)
+    // D-PAD (Touch Zone 0) - Dynamic content
     // =====================================================================
     const moveX = user.getAxis("MOVE_X");
     const moveY = user.getAxis("MOVE_Y");
 
     // Draw D-Pad zone outline
     o.push(OrderBuilder.rect(2, 18, 12, 10, ".", 4, 0, false));
-    o.push(OrderBuilder.text(4, 17, "D-PAD", 3, 0));
 
     // D-Pad center cross
     const dpCx = 2 + 6; // center X of the zone
@@ -209,31 +243,29 @@ export class MobileShowcase implements IApplication<
     const dpDy = dpCy + Math.round(moveY * 4);
     o.push(OrderBuilder.char(dpDx, dpDy, "O", 6, 0));
 
-    // Axis values text
-    o.push(OrderBuilder.text(2, 5, "AXES:", 3, 0));
+    // Axis values - dynamic values only
     o.push(
       OrderBuilder.text(
-        2,
+        10,
         6,
-        `Move X: ${moveX.toFixed(2).padStart(6, " ")}`,
+        `${moveX.toFixed(2).padStart(6, " ")}`,
         moveX !== 0 ? 6 : 4,
         0,
       ),
     );
     o.push(
       OrderBuilder.text(
-        2,
+        10,
         7,
-        `Move Y: ${moveY.toFixed(2).padStart(6, " ")}`,
+        `${moveY.toFixed(2).padStart(6, " ")}`,
         moveY !== 0 ? 6 : 4,
         0,
       ),
     );
 
     // =====================================================================
-    // ACTION BUTTONS (Touch Zones 1 & 2)
+    // ACTION BUTTONS (Touch Zones 1 & 2) - Dynamic content
     // =====================================================================
-    o.push(OrderBuilder.text(2, 9, "BUTTONS:", 3, 0));
 
     // Action A
     const holdA = user.getButton("ACTION_A");
@@ -252,7 +284,6 @@ export class MobileShowcase implements IApplication<
       ),
     );
     o.push(OrderBuilder.text(31, 24, "A", holdA ? 1 : 4, 0));
-    o.push(OrderBuilder.text(29, 26, "Space", 4, 0));
 
     if (justA) {
       data.lastAction = "Action A";
@@ -261,7 +292,6 @@ export class MobileShowcase implements IApplication<
       user.vibrate(30);
     }
 
-    o.push(OrderBuilder.text(2, 10, `Action A:`, 4, 0));
     o.push(
       OrderBuilder.text(12, 10, holdA ? "HELD" : "----", holdA ? 1 : 4, 0),
     );
@@ -283,7 +313,6 @@ export class MobileShowcase implements IApplication<
       ),
     );
     o.push(OrderBuilder.text(31, 16, "B", holdB ? 2 : 4, 0));
-    o.push(OrderBuilder.text(29, 18, "Ctrl", 4, 0));
 
     if (justB) {
       data.lastAction = "Action B";
@@ -292,30 +321,22 @@ export class MobileShowcase implements IApplication<
       user.vibrate([100, 50, 100]);
     }
 
-    o.push(OrderBuilder.text(2, 11, `Action B:`, 4, 0));
     o.push(
       OrderBuilder.text(12, 11, holdB ? "HELD" : "----", holdB ? 2 : 4, 0),
     );
 
     // =====================================================================
-    // STATUS
+    // STATUS - Dynamic values
     // =====================================================================
-    o.push(OrderBuilder.text(2, 13, `Taps: ${data.tapCount}`, 4, 0));
-    o.push(OrderBuilder.text(2, 15, "LAST HAPTIC:", 3, 0));
-    o.push(OrderBuilder.text(15, 15, data.lastAction, 5, 0));
-
-    // =====================================================================
-    // LEGEND
-    // =====================================================================
-    o.push(OrderBuilder.text(18, 5, "Desktop:", 4, 0));
-    o.push(OrderBuilder.text(18, 6, "Arrows = D-Pad", 4, 0));
-    o.push(OrderBuilder.text(18, 7, "Space  = A", 4, 0));
-    o.push(OrderBuilder.text(18, 8, "Ctrl   = B", 4, 0));
+    o.push(
+      OrderBuilder.text(2, 13, `Taps: ${data.tapCount}`.padEnd(15, " "), 4, 0),
+    );
+    o.push(OrderBuilder.text(15, 15, data.lastAction.padEnd(12, " "), 5, 0));
 
     // Commit
-    data.layer.setOrders(o);
-    data.layer.commit();
+    data.dynamicLayer.setOrders(o);
+    data.dynamicLayer.commit();
   }
 
-  update(_runtime: IRuntime, _engine: Engine): void { }
+  update(_runtime: IRuntime, _engine: Engine): void {}
 }

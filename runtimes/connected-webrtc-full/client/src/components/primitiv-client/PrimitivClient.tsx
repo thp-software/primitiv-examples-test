@@ -1,6 +1,11 @@
-import { useRef, useEffect, type CSSProperties } from 'react';
-import { ClientRuntime, RendererType, type IRuntimeClientApplication } from '@primitiv/client';
-import './PrimitivClient.css';
+import { useRef, useEffect, useState, type CSSProperties } from "react";
+import {
+  ClientRuntime,
+  RendererType,
+  type IRuntimeClientApplication,
+} from "@primitiv/client";
+import "./PrimitivClient.css";
+import { BandwidthOverlay } from "./BandwidthOverlay";
 
 // =============================================================================
 // Types
@@ -42,7 +47,7 @@ const PrimitivClient: React.FC<PrimitivClientProps> = ({
   renderer = RendererType.TerminalGL,
   width = 80,
   height = 24,
-  className = '',
+  className = "",
   style,
   autoplay = true,
   onRuntime,
@@ -50,6 +55,9 @@ const PrimitivClient: React.FC<PrimitivClientProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const runtimeRef = useRef<ClientRuntime | null>(null);
   const initializedWithKeyRef = useRef<string | null>(null);
+  const [activeRuntime, setActiveRuntime] = useState<ClientRuntime | null>(
+    null,
+  );
 
   const depsKey = `${url}-${renderer}-${width}-${height}-${autoplay}`;
 
@@ -61,18 +69,18 @@ const PrimitivClient: React.FC<PrimitivClientProps> = ({
     }
 
     if (runtimeRef.current) {
-      runtimeRef.current.stop();
+      runtimeRef.current.destroy();
       runtimeRef.current = null;
     }
 
-    containerRef.current.innerHTML = '';
+    containerRef.current.innerHTML = "";
     initializedWithKeyRef.current = depsKey;
 
     const runtime = new ClientRuntime({
-      mode: 'webrtc-full',
+      mode: "webrtc-full",
       webrtcFull: {
         url,
-        stunServers: ['stun:stun.l.google.com:19302'],
+        stunServers: ["stun:stun.l.google.com:19302"],
       },
       application,
       displays: [{ displayId: 0, container: containerRef.current!, renderer }],
@@ -80,19 +88,30 @@ const PrimitivClient: React.FC<PrimitivClientProps> = ({
     });
 
     runtimeRef.current = runtime;
+    setActiveRuntime(runtime);
     onRuntime?.(runtime);
 
     return () => {
-      if (runtimeRef.current) {
-        runtimeRef.current.stop();
-        runtimeRef.current = null;
-        onRuntime?.(null);
+      const rt = runtimeRef.current;
+      runtimeRef.current = null;
+      setActiveRuntime(null);
+      onRuntime?.(null);
+      if (rt) {
+        rt.destroy();
       }
       initializedWithKeyRef.current = null;
     };
   }, [url, application, renderer, width, height, autoplay, depsKey]);
 
-  return <div ref={containerRef} className={`primitiv-client ${className}`} style={style} />;
+  return (
+    <div
+      className={`primitiv-client ${className}`}
+      style={{ position: "relative", ...style }}
+    >
+      <div ref={containerRef} style={{ width: "100%", height: "100%" }} />
+      <BandwidthOverlay runtime={activeRuntime} />
+    </div>
+  );
 };
 
 export default PrimitivClient;

@@ -2,6 +2,7 @@
     "name": "primitiv-examples",
     "version": "1.0.0",
     "private": true,
+    "license": "Apache-2.0",
     "scripts": {
         "dev:standalone": "npm run dev --prefix runtimes/standalone",
         "dev:uws": "npm run dev --prefix runtimes/connected-uws",

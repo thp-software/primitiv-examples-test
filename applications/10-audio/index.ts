@@ -64,15 +64,14 @@ import {
   type IRuntime,
 } from "@primitiv/engine";
 
-
-
 // Sound IDs (set during init)
 let rainSoundId: number | undefined;
 let clickSoundId: number | undefined;
 let thunderSoundId: number | undefined;
 
 interface AudioUserData {
-  layer: Layer;
+  staticLayer: Layer;
+  dynamicLayer: Layer;
 
   // Playback state
   rainInstanceId: number | undefined;
@@ -140,11 +139,61 @@ export class AudioShowcase implements IApplication<
     user.addDisplay(display);
     display.switchPalette(0);
 
-    const layer = new Layer(new Vector2(0, 0), 0, width, height, {
+    // Static layer for labels and fixed UI
+    const staticLayer = new Layer(new Vector2(0, 0), 0, width, height, {
+      mustBeReliable: true,
+    });
+    user.data.staticLayer = staticLayer;
+    user.addLayer(staticLayer);
+
+    // Dynamic layer for changing values
+    const dynamicLayer = new Layer(new Vector2(0, 0), 1, width, height, {
       mustBeReliable: false,
     });
-    user.data.layer = layer;
-    user.addLayer(layer);
+    user.data.dynamicLayer = dynamicLayer;
+    user.addLayer(dynamicLayer);
+
+    // Draw all static content once
+    const staticOrders: any[] = [];
+    staticOrders.push(
+      OrderBuilder.fill(" ", 0, 0),
+      OrderBuilder.text(2, 1, "--- PRIMITIV AUDIO SHOWCASE ---", 3, 0),
+      // Playback section
+      OrderBuilder.text(2, 3, "PLAYBACK:", 3, 0),
+      OrderBuilder.text(2, 4, "[Space]", 4, 0),
+      OrderBuilder.text(10, 4, "Rain Loop:", 4, 0),
+      OrderBuilder.text(2, 5, "[C]", 4, 0),
+      OrderBuilder.text(10, 5, "Click (one-shot, random pitch)", 4, 0),
+      OrderBuilder.text(2, 6, "[V]", 4, 0),
+      OrderBuilder.text(10, 6, "Thunder (spatial, left side)", 4, 0),
+      // Effects section
+      OrderBuilder.text(2, 9, "EFFECTS (on rain loop):", 3, 0),
+      OrderBuilder.text(
+        2,
+        10,
+        "Hold number to increase, letter to decrease",
+        4,
+        0,
+      ),
+      OrderBuilder.text(2, 12, "[1/Q] Lowpass:", 4, 0),
+      OrderBuilder.text(2, 13, "[2/W] Highpass:", 4, 0),
+      OrderBuilder.text(2, 14, "[3/E] Reverb:", 4, 0),
+      OrderBuilder.text(2, 15, "[4/R] Pitch:", 4, 0),
+      OrderBuilder.text(2, 16, "[5/T] Volume:", 4, 0),
+      // Spatial section
+      OrderBuilder.text(2, 19, "2D SPATIAL AUDIO:", 3, 0),
+      OrderBuilder.text(2, 20, "Move listener with Arrow Keys", 4, 0),
+      // Controls summary
+      OrderBuilder.text(
+        40,
+        38,
+        "Space=Rain  C=Click  V=Thunder  Arrows=Move",
+        4,
+        0,
+      ),
+    );
+    staticLayer.setOrders(staticOrders);
+    staticLayer.commit();
 
     const registry = user.getInputBindingRegistry();
 
@@ -261,13 +310,9 @@ export class AudioShowcase implements IApplication<
     const data = user.data;
     const o: any[] = [];
 
-    o.push(OrderBuilder.fill(" ", 0, 0));
-    o.push(OrderBuilder.text(2, 1, "--- PRIMITIV AUDIO SHOWCASE ---", 3, 0));
-
     // =====================================================================
-    // PLAYBACK CONTROLS
+    // PLAYBACK CONTROLS - Dynamic state
     // =====================================================================
-    o.push(OrderBuilder.text(2, 3, "PLAYBACK:", 3, 0));
 
     // Toggle rain (loop)
     if (user.isJustPressed("TOGGLE_RAIN")) {
@@ -291,8 +336,6 @@ export class AudioShowcase implements IApplication<
       }
     }
 
-    o.push(OrderBuilder.text(2, 4, "[Space]", 4, 0));
-    o.push(OrderBuilder.text(10, 4, "Rain Loop:", 4, 0));
     o.push(
       OrderBuilder.text(
         21,
@@ -310,8 +353,6 @@ export class AudioShowcase implements IApplication<
         pitch: 0.8 + Math.random() * 0.4, // Slight random pitch variation
       });
     }
-    o.push(OrderBuilder.text(2, 5, "[C]", 4, 0));
-    o.push(OrderBuilder.text(10, 5, "Click (one-shot, random pitch)", 4, 0));
 
     // One-shot: Thunder (spatial, positioned far left)
     if (user.isJustPressed("PLAY_THUNDER")) {
@@ -322,23 +363,10 @@ export class AudioShowcase implements IApplication<
         reverb: 0.8,
       });
     }
-    o.push(OrderBuilder.text(2, 6, "[V]", 4, 0));
-    o.push(OrderBuilder.text(10, 6, "Thunder (spatial, left side)", 4, 0));
 
     // =====================================================================
     // REAL-TIME EFFECTS (applied to running rain loop)
     // =====================================================================
-    o.push(OrderBuilder.text(2, 9, "EFFECTS (on rain loop):", 3, 0));
-    o.push(
-      OrderBuilder.text(
-        2,
-        10,
-        "Hold number to increase, letter to decrease",
-        4,
-        0,
-      ),
-    );
-
     let effectsChanged = false;
 
     // Lowpass
@@ -402,61 +430,55 @@ export class AudioShowcase implements IApplication<
       });
     }
 
-    // Effect labels
+    // Effect values - dynamic content only
     const effY = 12;
-    const col1 = 2;
     const col2 = 24;
 
-    o.push(OrderBuilder.text(col1, effY, `[1/Q] Lowpass:`, 4, 0));
     o.push(
       OrderBuilder.text(
         col2,
         effY,
-        `${Math.round(data.lowpass)} Hz`,
+        `${Math.round(data.lowpass)} Hz`.padEnd(12, " "),
         data.lowpass < 20000 ? 5 : 4,
         0,
       ),
     );
 
-    o.push(OrderBuilder.text(col1, effY + 1, `[2/W] Highpass:`, 4, 0));
     o.push(
       OrderBuilder.text(
         col2,
         effY + 1,
-        `${Math.round(data.highpass)} Hz`,
+        `${Math.round(data.highpass)} Hz`.padEnd(12, " "),
         data.highpass > 0 ? 5 : 4,
         0,
       ),
     );
 
-    o.push(OrderBuilder.text(col1, effY + 2, `[3/E] Reverb:`, 4, 0));
     o.push(
       OrderBuilder.text(
         col2,
         effY + 2,
-        `${(data.reverb * 100).toFixed(0)}%`,
+        `${(data.reverb * 100).toFixed(0)}%`.padEnd(8, " "),
         data.reverb > 0 ? 7 : 4,
         0,
       ),
     );
 
-    o.push(OrderBuilder.text(col1, effY + 3, `[4/R] Pitch:`, 4, 0));
     o.push(
       OrderBuilder.text(
         col2,
         effY + 3,
-        `${data.pitch.toFixed(2)}x`,
+        `${data.pitch.toFixed(2)}x`.padEnd(8, " "),
         data.pitch !== 1.0 ? 6 : 4,
         0,
       ),
     );
 
-    o.push(OrderBuilder.text(col1, effY + 4, `[5/T] Volume:`, 4, 0));
     o.push(
       OrderBuilder.text(
         col2,
         effY + 4,
-        `${(data.volume * 100).toFixed(0)}%`,
+        `${(data.volume * 100).toFixed(0)}%`.padEnd(8, " "),
         4,
         0,
       ),
@@ -472,8 +494,6 @@ export class AudioShowcase implements IApplication<
     // =====================================================================
     // SPATIAL AUDIO VISUALIZER
     // =====================================================================
-    o.push(OrderBuilder.text(2, 19, "2D SPATIAL AUDIO:", 3, 0));
-    o.push(OrderBuilder.text(2, 20, "Move listener with Arrow Keys", 4, 0));
 
     // Move listener
     const moveX = user.getAxis("LISTEN_X");
@@ -503,25 +523,20 @@ export class AudioShowcase implements IApplication<
     o.push(OrderBuilder.text(lx + 2, ly, "Listener", 1, 0));
 
     // Listener coordinates
-    o.push(OrderBuilder.text(2, 38, `Listener: (${lx}, ${ly})`, 4, 0));
-
-    // =====================================================================
-    // CONTROLS SUMMARY
-    // =====================================================================
     o.push(
       OrderBuilder.text(
-        40,
+        2,
         38,
-        "Space=Rain  C=Click  V=Thunder  Arrows=Move",
+        `Listener: (${lx}, ${ly})`.padEnd(20, " "),
         4,
         0,
       ),
     );
 
     // Commit
-    data.layer.setOrders(o);
-    data.layer.commit();
+    data.dynamicLayer.setOrders(o);
+    data.dynamicLayer.commit();
   }
 
-  update(_runtime: IRuntime, _engine: Engine): void { }
+  update(_runtime: IRuntime, _engine: Engine): void {}
 }

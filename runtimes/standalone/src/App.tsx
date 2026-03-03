@@ -10,7 +10,8 @@ import { APP_REGISTRY, findApp } from "./app-registry";
 import type { AppEntry } from "./app-registry";
 
 // @ts-ignore
-const buildDate = typeof __BUILD_DATE__ !== 'undefined' ? __BUILD_DATE__ : 'Local Dev';
+const buildDate =
+  typeof __BUILD_DATE__ !== "undefined" ? __BUILD_DATE__ : "Local Dev";
 
 // =============================================================================
 // Home Page
@@ -39,29 +40,31 @@ function HomePage() {
           boxSizing: "border-box",
         }}
       >
-        <h1>
-          Primitiv Examples
-        </h1>
-        <div style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: "0.5rem",
-          background: "rgba(245, 158, 11, 0.1)",
-          border: "1px solid rgba(245, 158, 11, 0.2)",
-          padding: "0.3rem 1rem",
-          borderRadius: "9999px",
-          marginTop: "-1rem",
-          marginBottom: "2rem",
-        }}>
+        <h1>Primitiv Examples</h1>
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            background: "rgba(245, 158, 11, 0.1)",
+            border: "1px solid rgba(245, 158, 11, 0.2)",
+            padding: "0.3rem 1rem",
+            borderRadius: "9999px",
+            marginTop: "-1rem",
+            marginBottom: "2rem",
+          }}
+        >
           <svg viewBox="0 0 24 24" width="16" height="16" fill="#fbbf24">
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
           </svg>
-          <span style={{
-            fontSize: "0.85rem",
-            color: "#fbbf24",
-            fontWeight: 500,
-            letterSpacing: "0.02em"
-          }}>
+          <span
+            style={{
+              fontSize: "0.85rem",
+              color: "#fbbf24",
+              fontWeight: 500,
+              letterSpacing: "0.02em",
+            }}
+          >
             Pre-Alpha: Engine and API are subject to breaking changes.
           </span>
         </div>
@@ -77,7 +80,8 @@ function HomePage() {
             }}
           >
             Build: {buildDate}
-          </span></p>
+          </span>
+        </p>
         <a
           href="https://github.com/thp-software/primitiv-examples"
           target="_blank"
@@ -93,7 +97,7 @@ function HomePage() {
             padding: "0.3rem 0.75rem",
             borderRadius: "6px",
             marginLeft: "0.75rem",
-            transition: "all 0.2s ease"
+            transition: "all 0.2s ease",
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.color = "#fff";
@@ -118,33 +122,42 @@ function HomePage() {
       />
 
       {/* Visual Separator for Showcases */}
-      <div style={{
-        width: "100%",
-        maxWidth: "900px",
-        padding: "3rem 1rem 1rem",
-        boxSizing: "border-box",
-        marginTop: "1rem",
-        borderTop: "2px dashed rgba(255,255,255,0.1)"
-      }}>
-        <h3 style={{
-          fontSize: "1.2rem",
-          color: "#94a3b8",
-          marginBottom: "0.5rem",
-          fontWeight: 500
-        }}>
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "900px",
+          padding: "3rem 1rem 1rem",
+          boxSizing: "border-box",
+          marginTop: "1rem",
+          borderTop: "2px dashed rgba(255,255,255,0.1)",
+        }}
+      >
+        <h3
+          style={{
+            fontSize: "1.2rem",
+            color: "#94a3b8",
+            marginBottom: "0.5rem",
+            fontWeight: 500,
+          }}
+        >
           Showcases & Tech Demos
         </h3>
-        <p style={{
-          fontSize: "0.9rem",
-          color: "#64748b",
-          lineHeight: 1.5,
-          margin: 0,
-          background: "rgba(30, 41, 59, 0.3)",
-          padding: "1rem",
-          borderRadius: "8px",
-          borderLeft: "3px solid #6366f1"
-        }}>
-          <strong>Note:</strong> The following applications are primarily rendering-based showcases rather than fully-fledged video games. They serve as open-source technical demos and reference implementations for advanced Primitiv Engine algorithms.
+        <p
+          style={{
+            fontSize: "0.9rem",
+            color: "#64748b",
+            lineHeight: 1.5,
+            margin: 0,
+            background: "rgba(30, 41, 59, 0.3)",
+            padding: "1rem",
+            borderRadius: "8px",
+            borderLeft: "3px solid #6366f1",
+          }}
+        >
+          <strong>Note:</strong> The following applications are primarily
+          rendering-based showcases rather than fully-fledged video games. They
+          serve as open-source technical demos and reference implementations for
+          advanced Primitiv Engine algorithms.
         </p>
       </div>
 
@@ -153,6 +166,37 @@ function HomePage() {
         description="2D applications and retro terminal clones."
         apps={APP_REGISTRY.filter((a) => a.category === "showcase")}
       />
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "900px",
+          padding: "0 1rem",
+          boxSizing: "border-box",
+          marginBottom: "0.5rem",
+        }}
+      >
+        <p
+          style={{
+            fontSize: "0.85rem",
+            color: "#64748b",
+            lineHeight: 1.5,
+            margin: 0,
+            background: "rgba(30, 41, 59, 0.3)",
+            padding: "1rem",
+            borderRadius: "8px",
+            borderLeft: "3px solid #f59e0b",
+          }}
+        >
+          <strong style={{ color: "#fbbf24" }}>⚠ Bandwidth note:</strong> 3D
+          showcases rely heavily on full-frame rendering: every tick pushes a
+          complete screen diff rather than incremental layer updates. This makes
+          them significantly more network-intensive than other showcases. Since
+          this runtime runs in <strong>standalone mode</strong>, all traffic is{" "}
+          <strong>loopback</strong> (in-process), so no real network is
+          involved, but the bandwidth counter will still show high values
+          reflecting the volume of data processed internally.
+        </p>
+      </div>
       <AppSection
         title="3D Showcases"
         description="Pseudo-3D renders and raycasting experiments."
@@ -162,10 +206,25 @@ function HomePage() {
   );
 }
 
-function AppSection({ title, description, apps }: { title: string; description?: string; apps: AppEntry[] }) {
+function AppSection({
+  title,
+  description,
+  apps,
+}: {
+  title: string;
+  description?: string;
+  apps: AppEntry[];
+}) {
   if (apps.length === 0) return null;
   return (
-    <div style={{ width: "100%", maxWidth: "900px", padding: "0 1rem", boxSizing: "border-box" }}>
+    <div
+      style={{
+        width: "100%",
+        maxWidth: "900px",
+        padding: "0 1rem",
+        boxSizing: "border-box",
+      }}
+    >
       <h2
         style={{
           fontSize: "0.75rem",
@@ -318,8 +377,9 @@ const ThemeButtons = memo(function ThemeButtons({
             style={{
               padding: "0.6rem",
               backgroundColor: activeTheme === i ? THEME_COLORS[i] : "#1e293b",
-              border: `2px solid ${activeTheme === i ? THEME_COLORS[i] : "#334155"
-                }`,
+              border: `2px solid ${
+                activeTheme === i ? THEME_COLORS[i] : "#334155"
+              }`,
               borderRadius: "8px",
               color: "white",
               fontWeight: 600,
@@ -636,9 +696,7 @@ function ControlsOverlay({ controls }: { controls: string }) {
                 >
                   {key}
                 </span>
-                {action && (
-                  <span style={{ color: "#94a3b8" }}>{action}</span>
-                )}
+                {action && <span style={{ color: "#94a3b8" }}>{action}</span>}
               </div>
             );
           })}
@@ -705,7 +763,12 @@ function AppRunnerInner({ entry }: { entry: AppEntry }) {
   const isMultiDisplay = entry.slug === "13-multi-display";
 
   // Applications requiring user interaction before running (for AudioContext or Navigator.vibrate to work)
-  const requiresInteraction = ["08-gamepad-input", "09-mobile-input", "10-audio"].includes(entry.slug);
+  const requiresInteraction = [
+    "08-gamepad-input",
+    "09-mobile-input",
+    "10-audio",
+    "showcase-07-terminal-bomber",
+  ].includes(entry.slug);
   const shouldAutoplay = !requiresInteraction;
 
   const [activeTheme, setActiveTheme] = useState(0);
@@ -826,9 +889,7 @@ function AppRunnerInner({ entry }: { entry: AppEntry }) {
         )}
 
         {/* Controls Overlay */}
-        {entry.controls && (
-          <ControlsOverlay controls={entry.controls} />
-        )}
+        {entry.controls && <ControlsOverlay controls={entry.controls} />}
       </div>
     </div>
   );
