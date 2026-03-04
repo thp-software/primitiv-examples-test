@@ -33,6 +33,7 @@ import { PostProcessShowcase } from "../../../applications/14-post-process";
 import { MultiUserShowcase } from "../../../applications/15-multi-user";
 import { Cp437Table } from "../../../applications/16-cp437";
 
+
 import { VoxelSpaceApp } from "../../../applications/showcase-3d-01-voxel-space";
 import { PrimitivCraft } from "../../../applications/showcase-3d-02-primitiv-craft";
 import { RayMazeApp } from "../../../applications/showcase-3d-03-ray-maze";
@@ -45,6 +46,7 @@ import { Spaceship } from "../../../applications/showcase-04-spaceship";
 import { PrimitivRadar } from "../../../applications/showcase-05-radar";
 import { FluidShowcase } from "../../../applications/showcase-06-fluid";
 import { TermBomber } from "../../../applications/showcase-07-terminal-bomber";
+import { Minimal } from "../../../applications/showcase-08-snake";
 
 export const APP_REGISTRY: AppEntry[] = [
   {
@@ -158,6 +160,7 @@ export const APP_REGISTRY: AppEntry[] = [
     factory: () => new Cp437Table(),
   },
 
+
   // ── Showcases ────────────────────────────────────────────────────────────
   {
     slug: "showcase-3d-01-voxel-space",
@@ -252,6 +255,15 @@ export const APP_REGISTRY: AppEntry[] = [
     controls: "WASD / Arrows: Move\nSpace / Z: Drop bomb",
     category: "showcase",
     factory: () => new TermBomber(),
+  },
+  {
+    slug: "showcase-08-snake",
+    name: "08 Snake",
+    description:
+      "Complete Snake game in under 100 lines. Arrow keys to move, eat ♦ to grow.",
+    controls: "Arrow Keys: Move",
+    category: "showcase",
+    factory: () => new Minimal(),
   },
 ];
 

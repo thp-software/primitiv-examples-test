@@ -502,10 +502,10 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     display.setPostProcess({
       scanlines: {
         enabled: true,
-        opacity: 0.4, // 0-1, défaut 0.15
+        opacity: 0.2, // 0-1, défaut 0.15
         pattern: "horizontal",
-        spacing: 5, // Pixels entre les lignes, défaut 2
-        thickness: 2, // Épaisseur des lignes, défaut 1
+        spacing: 3, // Pixels entre les lignes, défaut 2
+        thickness: 1, // Épaisseur des lignes, défaut 1
         color: { r: 20, g: 30, b: 40 }, // Couleur, défaut noir
       },
     });
@@ -811,7 +811,7 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     this.flushCommitStats(user);
   }
 
-  update(_runtime: IRuntime, _core: Engine): void {}
+  update(_runtime: IRuntime, _core: Engine): void { }
 
   private resetRenderState(user: User<TermBombUserData>): void {
     user.data.renderState = {

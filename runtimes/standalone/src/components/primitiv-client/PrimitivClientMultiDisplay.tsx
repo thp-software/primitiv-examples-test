@@ -5,7 +5,7 @@ import {
   type IApplication,
 } from "@primitiv/client";
 import "./PrimitivClient.css";
-import { BandwidthOverlay } from "./BandwidthOverlay";
+import { StatsOverlay } from "./StatsOverlay";
 
 // =============================================================================
 // Types
@@ -106,17 +106,17 @@ const PrimitivClientMultiDisplay: React.FC<PrimitivClientMultiDisplayProps> = ({
         container,
         renderer,
       })) as [
-        {
-          displayId: number;
-          container: HTMLDivElement;
-          renderer: RendererType;
-        },
-        ...{
-          displayId: number;
-          container: HTMLDivElement;
-          renderer: RendererType;
-        }[],
-      ],
+          {
+            displayId: number;
+            container: HTMLDivElement;
+            renderer: RendererType;
+          },
+          ...{
+            displayId: number;
+            container: HTMLDivElement;
+            renderer: RendererType;
+          }[],
+        ],
       autoplay,
       debug: true,
       logLevel: "warn",
@@ -161,7 +161,7 @@ const PrimitivClientMultiDisplay: React.FC<PrimitivClientMultiDisplayProps> = ({
           style={{ flex: 1, position: "relative" }}
         />
       ))}
-      <BandwidthOverlay runtime={activeRuntime} />
+      <StatsOverlay runtime={activeRuntime} />
     </div>
   );
 };

@@ -147,6 +147,7 @@ Each application below is a self-contained tutorial. **Read its source file head
 | **Multi-Display**          | [13-multi-display/index.ts](applications/13-multi-display/index.ts)               | Multiple Displays, `setOrigin`, `setRenderPasses`, split-screen                                             |
 | **Post-Processing**        | [14-post-process/index.ts](applications/14-post-process/index.ts)                 | CRT scanlines, Ambilight glow, pixel grid overlay                                                           |
 | **Multi-User**             | [15-multi-user/index.ts](applications/15-multi-user/index.ts)                     | Global vs per-user loops, `destroyUser`, shared state, tick rate for network                                |
+| **CP437**                  | [16-cp437/index.ts](applications/16-cp437/index.ts)                               | Unicode string vs numeric CP437 charCodes, full 256-glyph table                                             |
 
 ---
 
@@ -162,6 +163,7 @@ These applications demonstrate advanced UI and performance techniques.
 | **Starship**            | [showcase-04-spaceship/index.ts](applications/showcase-04-spaceship/index.ts)       | Scene switching via `display.setOrigin()`, `dotCloudMulti` batch rendering, dynamic palette slots (alarm & power off)                                                                                           |
 | **Tactical Radar**      | [showcase-05-radar/index.ts](applications/showcase-05-radar/index.ts)               | Sample & hold tracking, phosphor decay with `dotCloudMultiColor`, static/dynamic layer separation pattern                                                                                                       |
 | **Navier-Stokes Fluid** | [showcase-06-fluid/index.ts](applications/showcase-06-fluid/index.ts)               | Jos Stam stable fluids (velocity diffuse / project / advect), 216-color 6×6×6 RGB cube palette, block-char luminance dithering (░▒▓█), per-user independent simulation, `getMouseDisplayInfo()` force injection |
+| **Snake**               | [showcase-08-snake/index.ts](applications/showcase-08-snake/index.ts)               | Complete Snake game in under 100 lines — the smallest full game possible with Primitiv                                                                                                                          |
 
 ---
 

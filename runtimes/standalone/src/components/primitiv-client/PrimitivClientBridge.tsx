@@ -5,7 +5,7 @@ import {
   type IApplication,
 } from "@primitiv/client";
 import "./PrimitivClient.css";
-import { BandwidthOverlay } from "./BandwidthOverlay";
+import { StatsOverlay } from "./StatsOverlay";
 
 // =============================================================================
 // Types
@@ -136,7 +136,7 @@ const PrimitivClientBridge: React.FC<PrimitivClientBridgeProps> = ({
       style={{ display: "flex", ...style }}
     >
       <div ref={containerRef} style={{ flex: 1 }} />
-      <BandwidthOverlay runtime={activeRuntime} />
+      <StatsOverlay runtime={activeRuntime} />
     </div>
   );
 };
