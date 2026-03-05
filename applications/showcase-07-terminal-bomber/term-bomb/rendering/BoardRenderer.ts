@@ -229,13 +229,10 @@ export class BoardRenderer {
 
     // Avoid sending orders every tick if nothing visually changed.
     // This layer is mostly static; only re-render when pressed states or layout changes.
-    const controlsKey = `${user.data.controlsEnabled}:${
-      user.data.displayWidth
-    }:${user.data.gameOffsetX}:${user.data.touchUp ? 1 : 0}${
-      user.data.touchDown ? 1 : 0
-    }${user.data.touchLeft ? 1 : 0}${user.data.touchRight ? 1 : 0}${
-      user.data.touchBomb ? 1 : 0
-    }${user.data.touchAction ? 1 : 0}`;
+    const controlsKey = `${user.data.controlsEnabled}:${user.data.displayWidth
+      }:${user.data.gameOffsetX}:${user.data.touchUp ? 1 : 0}${user.data.touchDown ? 1 : 0
+      }${user.data.touchLeft ? 1 : 0}${user.data.touchRight ? 1 : 0}${user.data.touchBomb ? 1 : 0
+      }${user.data.touchAction ? 1 : 0}`;
     if (user.data.renderState.controlsKey === controlsKey) {
       return;
     }
@@ -473,10 +470,10 @@ export class BoardRenderer {
       });
     }
 
-    // Send a fill order to clear the layer when there are no bombs
+    // Send an empty array to clear the layer when there are no bombs
     return dots.length > 0
       ? [OrderBuilder.dotCloudMulti(dots)]
-      : [OrderBuilder.fill(" ", 255, 255)];
+      : [];
   }
 
   private hashExplosions(gameMap: GameMap, animationTick: number): string {
@@ -494,9 +491,9 @@ export class BoardRenderer {
   }
 
   private renderExplosions(gameMap: GameMap, animationTick: number): any[] {
-    // Send a fill order to clear the layer when there are no explosions
+    // Send an empty array to clear the layer when there are no explosions
     if (gameMap.explosions.size === 0)
-      return [OrderBuilder.fill(" ", 255, 255)];
+      return [];
 
     const frame = Math.floor(animationTick / 4) % EXPLOSION_CHARS.length;
     const char = EXPLOSION_CHARS[frame];
@@ -764,9 +761,8 @@ export class BoardRenderer {
     const currentPlayer = gameLogic.players[currentPlayerId];
 
     const playerKey = currentPlayer
-      ? `${currentPlayer.alive ? 1 : 0}:${
-          currentPlayer.baselineBombActive ? 1 : 0
-        }:${currentPlayer.bombInventory}`
+      ? `${currentPlayer.alive ? 1 : 0}:${currentPlayer.baselineBombActive ? 1 : 0
+      }:${currentPlayer.bombInventory}`
       : "none";
 
     const countdownSeconds = Math.ceil(user.data.countdownTicks / 20);

@@ -3,6 +3,6 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@primitiv/engine": "0.20.0-nightly.20260228203110.c02f3f1"
+    "@primitiv/engine": "0.20.0-nightly.20260305221139.62582ab"
   }
 }

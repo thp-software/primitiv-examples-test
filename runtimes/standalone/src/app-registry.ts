@@ -48,6 +48,7 @@ import { FluidShowcase } from "../../../applications/showcase-06-fluid";
 import { TermBomber } from "../../../applications/showcase-07-terminal-bomber";
 import { Minimal } from "../../../applications/showcase-08-snake";
 import { Pong } from "../../../applications/showcase-09-pong";
+import { Breakout } from "../../../applications/showcase-10-breakout";
 
 export const APP_REGISTRY: AppEntry[] = [
   {
@@ -274,6 +275,15 @@ export const APP_REGISTRY: AppEntry[] = [
     controls: "Space: Slow-motion",
     category: "showcase",
     factory: () => new Pong(),
+  },
+  {
+    slug: "showcase-10-breakout",
+    name: "10 Casse-Briques",
+    description:
+      "Premium Breakout — 5-layer depth, 3D beveled frame, interpolated comet trail, and high-intensity brick explosions.",
+    controls: "Arrow Keys: Move paddle\nSpace: Start / Slow-motion",
+    category: "showcase",
+    factory: () => new Breakout(),
   },
 ];
 

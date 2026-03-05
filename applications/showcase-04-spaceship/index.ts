@@ -660,9 +660,9 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
             }
         } else {
             // Power is OFF: Clear both dynamic layers
-            state.dynamicLayer.setOrders([OrderBuilder.fill(" ", 255, 255)]);
+            state.dynamicLayer.setOrders([]);
             state.dynamicLayer.commit();
-            state.bureauDynamicLayer.setOrders([OrderBuilder.fill(" ", 255, 255)]);
+            state.bureauDynamicLayer.setOrders([]);
             state.bureauDynamicLayer.commit();
         }
 
