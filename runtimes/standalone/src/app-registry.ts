@@ -47,6 +47,7 @@ import { PrimitivRadar } from "../../../applications/showcase-05-radar";
 import { FluidShowcase } from "../../../applications/showcase-06-fluid";
 import { TermBomber } from "../../../applications/showcase-07-terminal-bomber";
 import { Minimal } from "../../../applications/showcase-08-snake";
+import { Pong } from "../../../applications/showcase-09-pong";
 
 export const APP_REGISTRY: AppEntry[] = [
   {
@@ -264,6 +265,15 @@ export const APP_REGISTRY: AppEntry[] = [
     controls: "Arrow Keys: Move",
     category: "showcase",
     factory: () => new Minimal(),
+  },
+  {
+    slug: "showcase-09-pong",
+    name: "09 Pong",
+    description:
+      "Premium Pong — 5-layer Z-buffer depth, 3D beveled frame, interpolated comet trail, and high-intensity solid glows.",
+    controls: "Space: Slow-motion",
+    category: "showcase",
+    factory: () => new Pong(),
   },
 ];
 
