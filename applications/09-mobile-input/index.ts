@@ -137,7 +137,7 @@ export class MobileShowcase implements IApplication<
       OrderBuilder.text(18, 8, "Ctrl   = B", 4, 0),
     );
     staticLayer.setOrders(staticOrders);
-    staticLayer.commit();
+
 
     const reg = user.getInputBindingRegistry();
 
@@ -335,7 +335,7 @@ export class MobileShowcase implements IApplication<
 
     // Commit
     data.dynamicLayer.setOrders(o);
-    data.dynamicLayer.commit();
+
   }
 
   update(_runtime: IRuntime, _engine: Engine): void {}

@@ -294,7 +294,7 @@ export class PrimitivRadar implements IApplication<Engine, User<RadarData>> {
         bgOrders.push(OrderBuilder.text(5, 4, "TRACKING", 42, 0));
 
         state.bgLayer.setOrders(bgOrders);
-        state.bgLayer.commit();
+
     }
 
     update(_runtime: IRuntime, _engine: Engine): void { }
@@ -387,7 +387,7 @@ export class PrimitivRadar implements IApplication<Engine, User<RadarData>> {
         // Combine and commit
         fgOrders.push(OrderBuilder.dotCloudMulti(fgDots));
         state.fgLayer.setOrders(fgOrders);
-        state.fgLayer.commit();
+
     }
 
     /**

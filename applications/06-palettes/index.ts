@@ -319,7 +319,7 @@ export class Palettes implements IApplication<Engine, User<PalettesUserData>> {
         o.push(OrderBuilder.text(2, 28, 'Negligible bandwidth cost per switch.', 9, 10));
 
         sceneLayer.setOrders(o);
-        sceneLayer.commit();
+
         user.addLayer(sceneLayer);
 
         const initialLabel = `${THEME_NAMES[0]} (cycling)`;
@@ -330,7 +330,7 @@ export class Palettes implements IApplication<Engine, User<PalettesUserData>> {
             OrderBuilder.rect(9, 25, 20, 1, ' ', 1, 10, true),
             OrderBuilder.text(9, 25, initialLabel, 1, 10),
         ]);
-        statusLayer.commit();
+
         user.addLayer(statusLayer);
 
         user.data = {
@@ -385,7 +385,7 @@ export class Palettes implements IApplication<Engine, User<PalettesUserData>> {
                 OrderBuilder.rect(9, 25, 20, 1, ' ', 1, 10, true),
                 OrderBuilder.text(9, 25, label, 1, 10),
             ]);
-            data.statusLayer.commit();
+
         }
     }
 

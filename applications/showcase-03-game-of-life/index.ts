@@ -174,7 +174,7 @@ export class GameOfLife implements IApplication<Engine, User<GameOfLifeUserData>
         bgLayer.setOrders([
             OrderBuilder.rect(0, 0, SIM_WIDTH, SIM_HEIGHT, ' ', 0, 0, true),
         ]);
-        bgLayer.commit();
+
 
         // Cursor Layer (Z1): Crosshair following the mouse, updated every frame.
         const cursorLayer = new Layer(new Vector2(0, 0), 1, SIM_WIDTH, SIM_HEIGHT, true);
@@ -250,7 +250,7 @@ export class GameOfLife implements IApplication<Engine, User<GameOfLifeUserData>
             sliderTrack,
             speedSuffix,
         ]);
-        uiLayer.commit();
+
     }
 
     private setupInputs(user: User<GameOfLifeUserData>): void {
@@ -377,7 +377,7 @@ export class GameOfLife implements IApplication<Engine, User<GameOfLifeUserData>
             }
         }
         data.cursorLayer.setOrders(cursorOrders);
-        data.cursorLayer.commit();
+
 
         // --- 3. Rendering the Simulation ---
 
@@ -399,7 +399,7 @@ export class GameOfLife implements IApplication<Engine, User<GameOfLifeUserData>
             false
         );
         data.layer.setOrders([layerOrder]);
-        data.layer.commit();
+
 
         // --- 4. Dynamic Stats Rendering ---
 
@@ -466,7 +466,7 @@ export class GameOfLife implements IApplication<Engine, User<GameOfLifeUserData>
             sliderHandle, speedValueNum,
             xValue, yValue
         ]);
-        data.statsLayer.commit();
+
     }
 
     update(_runtime: IRuntime, _engine: Engine): void { }

@@ -144,15 +144,15 @@ export class RetroDashboard implements IApplication<Engine, User<any>> {
         display.setRenderPasses([{ id: 0, zMin: 0, zMax: 2 }]);
 
         const htopLayer = new Layer(new Vector2(0, 0), 0, W, H, { mustBeReliable: false });
-        htopLayer.commit();
+
         user.addLayer(htopLayer);
 
         const listLayer1 = new Layer(new Vector2(0, 0), 1, W, H, { mustBeReliable: false });
-        listLayer1.commit();
+
         user.addLayer(listLayer1);
 
         const listLayer2 = new Layer(new Vector2(0, 0), 2, W, H, { mustBeReliable: false });
-        listLayer2.commit();
+
         user.addLayer(listLayer2);
 
         user.data = { display, htopLayer, listLayer1, listLayer2 };
@@ -293,12 +293,12 @@ export class RetroDashboard implements IApplication<Engine, User<any>> {
         }
 
         d.htopLayer.setOrders(o);
-        d.htopLayer.commit();
+
 
         d.listLayer1.setOrders(l1);
-        d.listLayer1.commit();
+
 
         d.listLayer2.setOrders(l2);
-        d.listLayer2.commit();
+
     }
 }

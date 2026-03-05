@@ -564,7 +564,7 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     user.data.layers.set("gameStatic", staticLayer);
     user.addLayer(staticLayer, "gameStatic");
     staticLayer.setOrders([]);
-    staticLayer.commit();
+
 
     // Destructibles (bricks)
     const destructibleLayer = new Layer(
@@ -580,7 +580,7 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     user.data.layers.set("gameDestructible", destructibleLayer);
     user.addLayer(destructibleLayer, "gameDestructible");
     destructibleLayer.setOrders([]);
-    destructibleLayer.commit();
+
 
     // Items (powerups) - at original z-level
     const itemsLayer = new Layer(
@@ -593,7 +593,7 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     user.data.layers.set("gameItems", itemsLayer);
     user.addLayer(itemsLayer, "gameItems");
     itemsLayer.setOrders([]);
-    itemsLayer.commit();
+
 
     // Bombs - above auras/explosions to stay visible
     const bombsLayer = new Layer(gameOrigin, 45, GAME_WIDTH, GAME_HEIGHT, {
@@ -603,7 +603,7 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     user.data.layers.set("gameBombs", bombsLayer);
     user.addLayer(bombsLayer, "gameBombs");
     bombsLayer.setOrders([]);
-    bombsLayer.commit();
+
 
     // Explosions
     const explosionsLayer = new Layer(gameOrigin, 40, GAME_WIDTH, GAME_HEIGHT, {
@@ -613,7 +613,7 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     user.data.layers.set("gameExplosions", explosionsLayer);
     user.addLayer(explosionsLayer, "gameExplosions");
     explosionsLayer.setOrders([]);
-    explosionsLayer.commit();
+
 
     // Players
     const playersLayer = new Layer(gameOrigin, 50, GAME_WIDTH, GAME_HEIGHT, {
@@ -623,7 +623,7 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     user.data.layers.set("gamePlayers", playersLayer);
     user.addLayer(playersLayer, "gamePlayers");
     playersLayer.setOrders([]);
-    playersLayer.commit();
+
 
     // Debug layer (between floor and game elements)
     const debugLayer = new Layer(
@@ -637,7 +637,7 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     user.addLayer(debugLayer, "debug");
     // Initial commit
     debugLayer.setOrders([]);
-    debugLayer.commit();
+
 
     // UI layer (same position as game layer since it's used in game scene)
     const uiLayer = new Layer(
@@ -651,7 +651,7 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     user.addLayer(uiLayer, "ui");
     // Initial commit
     uiLayer.setOrders([]);
-    uiLayer.commit();
+
 
     // Touch controls layer (full display size, z-index below everything)
     // Positioned at same position as display (no offset needed)
@@ -849,7 +849,7 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
 
     for (const layer of layersToClear) {
       layer.setOrders([]);
-      layer.commit();
+
       if (layer === layers.controlsLayer) {
         this.recordCommit(user, "controls-reset");
       }
@@ -953,13 +953,13 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     if (uiLayer) {
       uiLayer.setOrigin(new Vector2(GAME_LAYER_X + user.data.gameOffsetX, 0));
       uiLayer.setOrders([]);
-      uiLayer.commit();
+
     }
 
     const controlsLayer = user.data.layers.get("controls");
     if (controlsLayer) {
       controlsLayer.setOrders([]);
-      controlsLayer.commit();
+
       this.recordCommit(user, "controls-start");
     }
 
@@ -1011,12 +1011,12 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     if (uiLayer) {
       uiLayer.setOrigin(new Vector2(GAME_LAYER_X + user.data.gameOffsetX, 0));
       uiLayer.setOrders([]);
-      uiLayer.commit();
+
     }
     const controlsLayer = user.data.layers.get("controls");
     if (controlsLayer) {
       controlsLayer.setOrders([]);
-      controlsLayer.commit();
+
       this.recordCommit(user, "controls-start");
     }
 
@@ -1064,13 +1064,13 @@ export class TermBomb implements IApplication<Engine, User<TermBombUserData>> {
     if (uiLayer) {
       uiLayer.setOrigin(new Vector2(GAME_LAYER_X + user.data.gameOffsetX, 0));
       uiLayer.setOrders([]);
-      uiLayer.commit();
+
     }
 
     const controlsLayer = user.data.layers.get("controls");
     if (controlsLayer) {
       controlsLayer.setOrders([]);
-      controlsLayer.commit();
+
       this.recordCommit(user, "controls-start");
     }
 

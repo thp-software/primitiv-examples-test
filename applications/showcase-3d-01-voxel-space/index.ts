@@ -443,11 +443,11 @@ export class VoxelSpaceApp implements IApplication<Engine, User<VoxelData>> {
       OrderBuilder.subFrameMulti(0, 0, WIDTH, HEIGHT, dots as any),
     ]);
     // Layer commits are mandatory to signal the engine that data is ready to be sent to the client renderer.
-    state.gameLayer.commit();
+
 
     state.uiLayer.setOrders([
       OrderBuilder.text(1, 0, "Primitiv Voxel Space", 1, TRANSPARENT),
     ]);
-    state.uiLayer.commit();
+
   }
 }

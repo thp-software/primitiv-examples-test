@@ -288,7 +288,7 @@ export class Pong implements IApplication<Engine, User<PongUserData>> {
         bgOrders.push(OrderBuilder.line(ix2, iy1 + 1, ix2, iy2 - 1, { charCode: '│', fgColor: GRID_COLOR, bgColor: BG }));
 
         bgLayer.setOrders(bgOrders);
-        bgLayer.commit();
+
 
         // ── Layer 1: Static Court (z=1) ──────────────────────────────────────
         const courtLayer = new Layer(new Vector2(OX, OY), 1, W, H, { mustBeReliable: true });
@@ -320,7 +320,7 @@ export class Pong implements IApplication<Engine, User<PongUserData>> {
             courtOrders.push(OrderBuilder.char(cxNet, y, '│', NET, BG));
         }
         courtLayer.setOrders(courtOrders);
-        courtLayer.commit();
+
 
         // ── Layer 2: UI (Z=2) — Score and Banner ─────────────────────────────
         const uiLayer = new Layer(new Vector2(OX, OY), 2, W, H);
@@ -680,10 +680,10 @@ export class Pong implements IApplication<Engine, User<PongUserData>> {
         }
 
         d.uiLayer.setOrders(uiOrders);
-        d.uiLayer.commit();
+
         d.paddleLayer.setOrders(paddleOrders);
-        d.paddleLayer.commit();
+
         d.ballLayer.setOrders(ballOrders);
-        d.ballLayer.commit();
+
     }
 }

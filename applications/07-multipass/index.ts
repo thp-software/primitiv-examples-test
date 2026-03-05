@@ -128,7 +128,7 @@ export class Multipass implements IApplication<Engine, User<MultipassUserData>> 
             '#', ' ', '#', '#',   // row 1: brick mortar brick brick (offset)
         ], 3, 2));
         wallLayer.setOrders(wallOrders);
-        wallLayer.commit();
+
         user.addLayer(wallLayer);
 
         // =====================================================================
@@ -212,7 +212,7 @@ export class Multipass implements IApplication<Engine, User<MultipassUserData>> 
         });
 
         data.rainLayer.setOrders([OrderBuilder.dotCloudMulti(rainData)]);
-        data.rainLayer.commit();
+
     }
 
     private updateUI(user: User<MultipassUserData>) {
@@ -236,7 +236,7 @@ export class Multipass implements IApplication<Engine, User<MultipassUserData>> 
         }
 
         data.uiLayer.setOrders(uiOrders);
-        data.uiLayer.commit();
+
     }
 
     update(_runtime: IRuntime, _engine: Engine): void { }

@@ -211,7 +211,7 @@ export class MultiUserShowcase implements IApplication<Engine, User<UserData>> {
 
         // 3. Send out personalized rendering instructions
         data.layer.setOrders(o);
-        data.layer.commit();
+
     }
 
     // ==========================================

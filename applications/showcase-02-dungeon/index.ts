@@ -546,7 +546,7 @@ export class DungeonApp implements IApplication<Engine, User<any>> {
     uo.push(OrderBuilder.rect(0, DISPLAY_H - 2, DISPLAY_W, 2, " ", 6, 7, true));
     uo.push(OrderBuilder.text(2, DISPLAY_H - 1, "WASD / Arrows to move", 6, 7));
     uiLayer.setOrders(uo);
-    uiLayer.commit();
+
 
     user.data = {
       dungeon,
@@ -598,7 +598,7 @@ export class DungeonApp implements IApplication<Engine, User<any>> {
         },
       ]),
     ]);
-    layer.commit();
+
   }
 
   update(_runtime: IRuntime, _engine: Engine): void {}
@@ -677,7 +677,7 @@ export class DungeonApp implements IApplication<Engine, User<any>> {
     eo.push(OrderBuilder.text(localPx, MAP_OFFSET_Y + localPy, "@", 2, 255));
 
     d.entityLayer.setOrders(eo);
-    d.entityLayer.commit();
+
 
     // Dynamic UI layer - only update when score or position changes
     if (d.lastScore !== dg.score || d.lastPx !== dg.px || d.lastPy !== dg.py) {
@@ -698,7 +698,7 @@ export class DungeonApp implements IApplication<Engine, User<any>> {
         ),
         OrderBuilder.text(DISPLAY_W - info.length - 2, 1, info, 8, 7),
       ]);
-      d.uiDynamicLayer.commit();
+
     }
   }
 }

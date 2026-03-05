@@ -112,7 +112,7 @@ export class MenuController {
       );
 
       menuBgLayer.setOrders(bgOrders);
-      menuBgLayer.commit();
+
       this.deps.recordCommit(user, "menu-bg");
       user.data.renderState.menuBgKey = bgKey;
     }
@@ -130,7 +130,7 @@ export class MenuController {
     );
 
     menuLayer.setOrders(itemOrders);
-    menuLayer.commit();
+
     this.deps.recordCommit(user, "menu-items");
     user.data.renderState.menuItemsKey = itemsKey;
   }
@@ -237,7 +237,7 @@ export class MenuController {
     );
 
     serverListLayer.setOrders(orders);
-    serverListLayer.commit();
+
     this.deps.recordCommit(user, "serverList");
     user.data.renderState.serverListKey = key;
   }
@@ -409,7 +409,7 @@ export class MenuController {
     );
 
     lobbyLayer.setOrders(orders);
-    lobbyLayer.commit();
+
     this.deps.recordCommit(user, "lobby");
     user.data.renderState.lobbyKey = key;
   }

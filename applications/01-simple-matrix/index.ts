@@ -212,7 +212,7 @@ export class SimpleMatrix implements IApplication<Engine, User<SimpleMatrixUserD
 
     // REQUIRED!
     // Layer commits are mandatory to signal that data is ready to be rendered.
-    layer.commit();
+
 
   }
 

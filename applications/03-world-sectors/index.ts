@@ -40,7 +40,7 @@
  *   - `display.setOrigin(new Vector2(x, y))` — move the camera to any world position; zero network cost for drawing.
  *   - `layer.setOrigin(new Vector2(x, y))` — translate a layer without resending its orders; only the coordinates are transmitted.
  *   - `layer.setEnabled(bool)` — toggle layer visibility on the client without any redraw.
- *   - `layer.commit()` — MUST be called after `setOrders()` AND after any metadata change (`setOrigin`, `setEnabled`) to flush the update to the client.
+ *   - `` — MUST be called after `setOrders()` AND after any metadata change (`setOrigin`, `setEnabled`) to flush the update to the client.
  *   - Multiple z-indexes: layers with higher zIndex paint over lower ones, enabling HUD overlays.
  */
 
@@ -134,7 +134,7 @@ export class WorldSectors implements IApplication<
     ]);
     // VERY IMPORTANT: Even in initUser, you MUST call commit() after setOrders()
     // or any state change (origin, zIndex, enabled) to signal the engine to sync it.
-    s1.commit();
+
     user.addLayer(s1);
 
     // SECTOR 2: The Red Desert
@@ -148,7 +148,7 @@ export class WorldSectors implements IApplication<
       OrderBuilder.text(4, 4, "Notice how fast teleporting is.", 6, 0),
       OrderBuilder.text(4, 5, "You are at coordinates (1000, 1000).", 6, 0),
     ]);
-    s2.commit();
+
     user.addLayer(s2);
 
     // SECTOR 3: The Deep Ocean
@@ -168,7 +168,7 @@ export class WorldSectors implements IApplication<
         0,
       ),
     ]);
-    s3.commit();
+
     user.addLayer(s3);
 
     // --------------------------------------------------------------------------------
@@ -189,7 +189,7 @@ export class WorldSectors implements IApplication<
       OrderBuilder.text(0, 1, "|  |", 4, 0),
       OrderBuilder.text(0, 2, "\\--/", 4, 0),
     ]);
-    vehicleLayer.commit();
+
     user.addLayer(vehicleLayer);
     user.data.vehicleLayer = vehicleLayer;
 
@@ -222,7 +222,7 @@ export class WorldSectors implements IApplication<
      * to stop rendering it. This is perfect for toggleable UI menus.
      */
     hudLayer.setEnabled(false);
-    hudLayer.commit();
+
     user.addLayer(hudLayer);
     user.data.hudLayer = hudLayer;
 
@@ -307,7 +307,7 @@ export class WorldSectors implements IApplication<
       data.hudLayer.setOrigin(data.display.getOrigin());
 
       // We MUST commit after changing the origin to sync the new position.
-      data.hudLayer.commit();
+
     }
 
     // 2. Toggle Layer Visibility
@@ -315,7 +315,7 @@ export class WorldSectors implements IApplication<
       data.hudLayer.setEnabled(!data.hudLayer.isEnabled());
       // setEnabled automatically marks the layer as needing commit.
       // But we can call commit explicitly to be safe.
-      data.hudLayer.commit();
+
     }
 
     // 3. Move the Vehicle Layer WITHOUT sending new drawing orders.
@@ -343,7 +343,7 @@ export class WorldSectors implements IApplication<
 
       // CRITICAL: .commit() is required after EVERY coordinate change
       // to mark the layer for network synchronization this tick.
-      data.vehicleLayer.commit();
+
     }
   }
 

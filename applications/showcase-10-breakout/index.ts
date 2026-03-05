@@ -52,7 +52,6 @@ const TRAIL_LENGTH = 6;
 const BALL_FLASH_DURATION = 4;
 
 const POWERUP_CHANCE = 0.2;
-const POWERUP_SPEED = 0.3;
 const POWERUP_DURATION = 300; // ~10 seconds at 30fps
 
 // ─── Palette color IDs ──────────────────────────────────────────────────────
@@ -195,7 +194,7 @@ export class Breakout implements IApplication<Engine, User<BreakoutUserData>> {
         user.addLayer(bgLayer);
         const bgOrders: any[] = [OrderBuilder.fill(' ', BG, BG)];
         // Plain colored background without perspective lines
-        bgLayer.setOrders(bgOrders); bgLayer.commit();
+        bgLayer.setOrders(bgOrders);
 
         const courtLayer = new Layer(new Vector2(OX, OY), 1, W, H);
         user.addLayer(courtLayer);

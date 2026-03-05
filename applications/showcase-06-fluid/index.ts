@@ -763,6 +763,6 @@ export class FluidShowcase implements IApplication<Engine, User<FluidData>> {
     user.data.fluidLayer.setOrders([
       OrderBuilder.subFrameMulti(0, 0, W, H, frame as any),
     ]);
-    user.data.fluidLayer.commit();
+
   }
 }

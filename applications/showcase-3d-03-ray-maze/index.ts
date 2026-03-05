@@ -795,7 +795,7 @@ export class RayMazeApp implements IApplication<Engine, User<RayMazeData>> {
       OrderBuilder.subFrameMulti(0, 0, WIDTH, HEIGHT, finalDots as any),
     ]);
     // Layer commits are mandatory to signal the engine that data is ready to be sent to the client renderer.
-    state.gameLayer.commit();
+
 
     state.uiLayer.setOrders([
       OrderBuilder.text(2, 2, "Primitiv Maze Engine", 1, TRANSPARENT),
@@ -807,6 +807,6 @@ export class RayMazeApp implements IApplication<Engine, User<RayMazeData>> {
         TRANSPARENT,
       ),
     ]);
-    state.uiLayer.commit();
+
   }
 }

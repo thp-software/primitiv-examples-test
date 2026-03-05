@@ -470,7 +470,7 @@ export class BridgeShowcase implements IApplication<
 
     // Commit orders to the layer. Required every tick after setOrders().
     data.layer.setOrders(o);
-    data.layer.commit();
+
   }
 
   // =====================================================================

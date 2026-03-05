@@ -636,7 +636,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
             }
 
             layer.setOrders(orders);
-            layer.commit();
+
 
             // --- Layer 1: HUD ---
             const hudOrders = [];
@@ -648,7 +648,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
             hudOrders.push(OrderBuilder.text(tx - 2, ty, "[   ]", COLOR_HUD, TRANSPARENT));
 
             uiLayer.setOrders(hudOrders);
-            uiLayer.commit();
+
         }
 
         // --- Layer 4: Dynamic Instruments ---
@@ -661,9 +661,9 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
         } else {
             // Power is OFF: Clear both dynamic layers
             state.dynamicLayer.setOrders([]);
-            state.dynamicLayer.commit();
+
             state.bureauDynamicLayer.setOrders([]);
-            state.bureauDynamicLayer.commit();
+
         }
 
         // --- Topdown Interior Rendering ---
@@ -771,7 +771,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
         o.push(OrderBuilder.text(width / 2 - 12, height - 4, " USE WASD TO MOVE AROUND ", COLOR_FRAME_HI, COLOR_FRAME_LO));
 
         topdownLayer.setOrders(o);
-        topdownLayer.commit();
+
     }
 
     private renderCockpit(state: StarshipData): void {
@@ -844,7 +844,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
         cockpitLayer.setOrders([
             OrderBuilder.fullFrameMulti(frameData as any)
         ]);
-        cockpitLayer.commit();
+
     }
 
     private renderInstruments(state: StarshipData): void {
@@ -914,7 +914,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
         o.push(OrderBuilder.line(4, dashStart + 15, 10, dashStart + 15, { charCode: "─", fgColor: COLOR_FRAME_HI }));
         o.push(OrderBuilder.line(width - 11, dashStart + 15, width - 5, dashStart + 15, { charCode: "─", fgColor: COLOR_FRAME_HI }));
         instrumentsLayer.setOrders(o);
-        instrumentsLayer.commit();
+
     }
 
     private renderDynamicInstruments(state: StarshipData, user: User<StarshipData>): void {
@@ -946,7 +946,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
             }
 
             dynamicLayer.setOrders(o);
-            dynamicLayer.commit();
+
             return;
         }
 
@@ -1018,7 +1018,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
         }
 
         dynamicLayer.setOrders(o);
-        dynamicLayer.commit();
+
     }
 
     // ==================== PARALLAX STARS (Bureau + Top-down scenes) ====================
@@ -1069,7 +1069,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
         }
 
         targetLayer.setOrders(o);
-        targetLayer.commit();
+
     }
 
     // ==================== BUREAU SCENE (Static Structure) ====================
@@ -1141,7 +1141,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
         }
 
         bureauStructureLayer.setOrders(o);
-        bureauStructureLayer.commit();
+
     }
 
     /** Renders the two monitor frames and their static labels. Called once in initUser. */
@@ -1215,7 +1215,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
         // o.push(OrderBuilder.text(ix2, iy2 + 26, "DATA STREAM >", COLOR_FRAME_LO, 255));
 
         bureauInstrumentsLayer.setOrders(o);
-        bureauInstrumentsLayer.commit();
+
     }
 
     /** Renders dynamic bureau data: fuel bar, temperature, module LEDs, telemetry. Called every frame. */
@@ -1228,7 +1228,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
 
         if (!isPowerOn) {
             bureauDynamicLayer.setOrders(o);
-            bureauDynamicLayer.commit();
+
             return;
         }
 
@@ -1325,7 +1325,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
         }
 
         bureauDynamicLayer.setOrders(o);
-        bureauDynamicLayer.commit();
+
     }
 
     update(_runtime: IRuntime, _engine: Engine): void { }

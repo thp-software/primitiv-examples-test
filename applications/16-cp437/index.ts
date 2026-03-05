@@ -797,7 +797,7 @@ export class Cp437Table implements IApplication<Engine, User<Cp437UserData>> {
     );
 
     layer.setOrders(orders);
-    layer.commit();
+
   }
 
   updateUser(): void {

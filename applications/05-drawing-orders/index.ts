@@ -62,7 +62,7 @@
  *
  * Key Concepts:
  *   - `engine.getSpriteRegistry()` — returns the sprite registry; call `.register(id, spriteData)` to pre-load sprites by ID.
- *   - `layer.setOrders(orders)` — sets the order list for a layer; call `layer.commit()` to flush to the client.
+ *   - `layer.setOrders(orders)` — sets the order list for a layer; call `` to flush to the client.
  *   - Orders execute sequentially on the client: later orders paint OVER earlier ones on the same layer.
  *   - Maximum 255 orders per layer per frame.
  *   - `fill`, `fillChar`, `fillSprite`, `fullFrame`, `fullFrameMulti` cover the ENTIRE layer surface → must be placed on dedicated layers or used as the very first order.
@@ -340,7 +340,7 @@ export class DrawingOrders implements IApplication<
       mustBeReliable: true,
     });
     fillLayer.setOrders([OrderBuilder.fill("#", 6, 10)]);
-    fillLayer.commit();
+
     user.addLayer(fillLayer);
 
     // --- fillChar ---
@@ -352,7 +352,7 @@ export class DrawingOrders implements IApplication<
     fillCharLayer.setOrders([
       OrderBuilder.fillChar(2, 2, ["X", "O", "O", "X"], 3, 10),
     ]);
-    fillCharLayer.commit();
+
     user.addLayer(fillCharLayer);
 
     // --- fillSprite ---
@@ -362,7 +362,7 @@ export class DrawingOrders implements IApplication<
       mustBeReliable: true,
     });
     fillSpriteLayer.setOrders([OrderBuilder.fillSprite(0, 5, 10)]);
-    fillSpriteLayer.commit();
+
     user.addLayer(fillSpriteLayer);
 
     // --- fillSpriteMulti ---
@@ -372,7 +372,7 @@ export class DrawingOrders implements IApplication<
       mustBeReliable: true,
     });
     fillSprMLayer.setOrders([OrderBuilder.fillSpriteMulti(1)]);
-    fillSprMLayer.commit();
+
     user.addLayer(fillSprMLayer);
 
     // =====================================================================
@@ -409,7 +409,7 @@ export class DrawingOrders implements IApplication<
       () => 65 + Math.floor(Math.random() * 26),
     );
     ffLayer.setOrders([OrderBuilder.fullFrame(ffChars, 5, 10)]);
-    ffLayer.commit();
+
     user.addLayer(ffLayer);
 
     // --- fullFrameMulti ---
@@ -424,7 +424,7 @@ export class DrawingOrders implements IApplication<
       bgColorCode: 10,
     }));
     ffmLayer.setOrders([OrderBuilder.fullFrameMulti(ffmData)]);
-    ffmLayer.commit();
+
     user.addLayer(ffmLayer);
 
     // =====================================================================
@@ -599,7 +599,7 @@ export class DrawingOrders implements IApplication<
 
     // Apply main layer orders and commit.
     layer.setOrders(orders);
-    layer.commit();
+
     user.addLayer(layer);
   }
 

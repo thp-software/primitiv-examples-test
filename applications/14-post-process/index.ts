@@ -215,7 +215,7 @@ export class PostProcessShowcase implements IApplication<Engine, User<PostProces
         o.push(OrderBuilder.text(4, 7, `[3] Pixel Grid ${data.gridEnabled ? '(ON)' : '(OFF)'}`, data.gridEnabled ? 10 : 5, 1));
 
         data.layer.setOrders(o);
-        data.layer.commit();
+
     }
 
     update(_runtime: IRuntime, _engine: Engine): void { }

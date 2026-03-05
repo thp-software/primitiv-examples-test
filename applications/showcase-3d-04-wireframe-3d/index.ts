@@ -538,6 +538,6 @@ export class Wireframe3DShowcase implements IApplication<Engine, User<WireframeU
         }
 
         data.layer.setOrders(o);
-        data.layer.commit();
+
     }
 }

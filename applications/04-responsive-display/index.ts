@@ -187,7 +187,7 @@ export class ResponsiveDisplay implements IApplication<
     ]);
 
     // Commit is required every tick after any setOrders or state change.
-    data.layer.commit();
+
   }
 
   update(_runtime: IRuntime, _engine: Engine): void {}

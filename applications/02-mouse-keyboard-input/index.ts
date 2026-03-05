@@ -143,7 +143,7 @@ export class InputShowcase implements IApplication<
       OrderBuilder.rect(10, 22, 21, 1, "-", 4, 0, true),
     );
     staticLayer.setOrders(staticOrders);
-    staticLayer.commit();
+
 
     /**
      * LOGICAL INPUT BINDINGS
@@ -340,10 +340,10 @@ export class InputShowcase implements IApplication<
 
     // Apply all orders and send to the engine
     dynamicLayer.setOrders(orders);
-    dynamicLayer.commit();
+
 
     cursorLayer.setOrders(cursorOrders);
-    cursorLayer.commit();
+
   }
 
   update(_runtime: IRuntime, _engine: Engine): void {}

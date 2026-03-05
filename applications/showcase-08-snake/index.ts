@@ -91,7 +91,7 @@ export class Minimal implements IApplication<Engine, User<SnakeUserData>> {
             OrderBuilder.text(1, 0, 'SNAKE', TEXT, BG),
             OrderBuilder.bitmask(0, 0, WIDTH, HEIGHT, wallGrid, '#', WALL, BG),
         ]);
-        wallLayer.commit();
+
 
         // ── Layer 1: dynamic game state (rebuilt every tick) ──────────────────
         const gameLayer = new Layer(new Vector2(0, 0), 1, WIDTH, HEIGHT);
@@ -153,7 +153,7 @@ export class Minimal implements IApplication<Engine, User<SnakeUserData>> {
         if (!data.alive) orders.push(OrderBuilder.text(6, 6, 'GAME OVER!', DANGER, BG));
 
         data.gameLayer.setOrders(orders);
-        data.gameLayer.commit();
+
     }
 
     update() { }

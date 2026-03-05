@@ -272,7 +272,7 @@ export class CustomSpritesShowcase implements IApplication<
 
     // ── Commit static atlas (never re-sent unless layer changes) ─────────────
     layer.setOrders(o);
-    layer.commit();
+
   }
 
   updateUser(
@@ -380,7 +380,7 @@ export class CustomSpritesShowcase implements IApplication<
     }
 
     cursorLayer.setOrders(co);
-    cursorLayer.commit();
+
   }
 
   update(_runtime: IRuntime, _engine: Engine): void {}

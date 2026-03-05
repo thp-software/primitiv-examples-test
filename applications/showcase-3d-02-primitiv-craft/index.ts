@@ -1050,7 +1050,7 @@ export class PrimitivCraft implements IApplication<
       OrderBuilder.subFrameMulti(0, 0, WIDTH, HEIGHT, dots as any),
     ]);
     // Layer commits are mandatory to signal the engine that data is ready to be sent to the client renderer.
-    state.gameLayer.commit();
+
     state.uiLayer.setOrders([
       OrderBuilder.text(
         1,
@@ -1074,7 +1074,7 @@ export class PrimitivCraft implements IApplication<
         TRANSPARENT,
       ),
     ]);
-    state.uiLayer.commit();
+
   }
 
   /**

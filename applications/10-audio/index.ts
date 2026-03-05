@@ -193,7 +193,7 @@ export class AudioShowcase implements IApplication<
       ),
     );
     staticLayer.setOrders(staticOrders);
-    staticLayer.commit();
+
 
     const registry = user.getInputBindingRegistry();
 
@@ -535,7 +535,7 @@ export class AudioShowcase implements IApplication<
 
     // Commit
     data.dynamicLayer.setOrders(o);
-    data.dynamicLayer.commit();
+
   }
 
   update(_runtime: IRuntime, _engine: Engine): void {}

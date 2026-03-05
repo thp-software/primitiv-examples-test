@@ -373,6 +373,6 @@ export class MultiDisplay implements IApplication<
     }
 
     layer.setOrders(o);
-    layer.commit();
+
   }
 }

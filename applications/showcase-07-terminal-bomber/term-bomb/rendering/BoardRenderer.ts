@@ -48,7 +48,7 @@ export class BoardRenderer {
     if (renderState.staticKey !== staticKey) {
       const staticOrders = this.renderStaticLayer(gameMap);
       layers.staticLayer.setOrders(staticOrders);
-      layers.staticLayer.commit();
+
       this.deps.recordCommit(user, "game-static");
       renderState.staticKey = staticKey;
     }
@@ -57,7 +57,7 @@ export class BoardRenderer {
     if (renderState.destructibleKey !== destructibleKey) {
       const destructibleOrders = this.renderDestructibleLayer(gameMap);
       layers.destructibleLayer.setOrders(destructibleOrders);
-      layers.destructibleLayer.commit();
+
       this.deps.recordCommit(user, "game-destructible");
       renderState.destructibleKey = destructibleKey;
     }
@@ -66,7 +66,7 @@ export class BoardRenderer {
     if (renderState.itemsKey !== itemsKey) {
       const itemOrders = this.renderItems(gameMap);
       layers.itemsLayer.setOrders(itemOrders);
-      layers.itemsLayer.commit();
+
       this.deps.recordCommit(user, "game-items");
       renderState.itemsKey = itemsKey;
     }
@@ -75,7 +75,7 @@ export class BoardRenderer {
     if (renderState.bombsKey !== bombsKey) {
       const bombOrders = this.renderBombs(gameMap, animationTick);
       layers.bombsLayer.setOrders(bombOrders);
-      layers.bombsLayer.commit();
+
       this.deps.recordCommit(user, "game-bombs");
       renderState.bombsKey = bombsKey;
     }
@@ -84,7 +84,7 @@ export class BoardRenderer {
     if (renderState.explosionsKey !== explosionsKey) {
       const explosionOrders = this.renderExplosions(gameMap, animationTick);
       layers.explosionsLayer.setOrders(explosionOrders);
-      layers.explosionsLayer.commit();
+
       this.deps.recordCommit(user, "game-explosions");
       renderState.explosionsKey = explosionsKey;
     }
@@ -97,7 +97,7 @@ export class BoardRenderer {
         animationTick,
       );
       layers.playersLayer.setOrders(playerOrders);
-      layers.playersLayer.commit();
+
       this.deps.recordCommit(user, "game-players");
       renderState.playersKey = playersKey;
     }
@@ -106,7 +106,7 @@ export class BoardRenderer {
     if (renderState.uiKey !== uiKey) {
       const uiOrders = this.renderUi(user, gameLogic, gameState);
       layers.uiLayer.setOrders(uiOrders);
-      layers.uiLayer.commit();
+
       this.deps.recordCommit(user, "game-ui");
       renderState.uiKey = uiKey;
     }
@@ -215,7 +215,7 @@ export class BoardRenderer {
     );
 
     menuLayer.setOrders(orders);
-    menuLayer.commit();
+
     this.deps.recordCommit(user, "loading");
     user.data.renderState.menuKey = key;
   }
@@ -290,7 +290,7 @@ export class BoardRenderer {
     }
 
     layer.setOrders(controlsOrders);
-    layer.commit();
+
   }
 
   private renderStaticLayer(gameMap: GameMap): any[] {
