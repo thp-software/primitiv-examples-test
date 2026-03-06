@@ -11,6 +11,7 @@ export interface AppEntry {
   name: string;
   description: string;
   controls?: string;
+  features?: string[];
   category?: "showcase" | "showcase-3d";
   factory: () => IApplication;
 }
@@ -61,7 +62,13 @@ export const APP_REGISTRY: AppEntry[] = [
     slug: "02-mouse-keyboard-input",
     name: "02 Mouse & Keyboard",
     description: "Input bindings, button states, mouse tracking, axes.",
-    controls: "WASD: Move\nScroll: Accelerate",
+    controls: "Arrow Keys: Move/Scroll | Space: Action | Mouse: Track",
+    features: [
+      "Binding abstraction (Keyboard/Mouse)",
+      "Input state query types (Held/JustPressed)",
+      "Mouse coordinate projection (Cell-local)",
+      "Drawing orders sequence and limits",
+    ],
     factory: () => new InputShowcase(),
   },
   {
@@ -106,6 +113,12 @@ export const APP_REGISTRY: AppEntry[] = [
     slug: "09-mobile-input",
     name: "09 Mobile Input",
     description: "Touch zones, virtual D-pad, phone vibration.",
+    controls: "Touch: Move/Action | Shake: Vibrate",
+    features: [
+      "Touch zones (virtual D-pad, buttons)",
+      "Haptic feedback (phone vibration)",
+      "Accelerometer/gyroscope input",
+    ],
     factory: () => new MobileShowcase(),
   },
   {
@@ -113,8 +126,12 @@ export const APP_REGISTRY: AppEntry[] = [
     name: "10 Audio",
     description:
       "Loops, one-shots, effects (LPF/HPF/reverb/pitch), 2D spatial audio.",
-    controls:
-      "1: Rain toggle\n2: Click SFX\n3: Thunder\nArrows: Audio filters\nMouse: Listener position",
+    controls: "Arrows: Move Listener | Space: Toggle Rain | C: Click | V: Thunder",
+    features: [
+      "Spatial audio listener positioning",
+      "Dynamic sound loading and effect filters",
+      "Triggered haptic/audio synchronized events",
+    ],
     factory: () => new AudioShowcase(),
   },
   {
@@ -151,7 +168,7 @@ export const APP_REGISTRY: AppEntry[] = [
     slug: "15-multi-user",
     name: "15 Multi-User",
     description:
-      "Architecture for handling hundreds of concurrent users inside a single world simulation.",
+      "Architecture for handling hundreds of concurrent users inside a single world simulation. Note: To truly test this, run it on a client-server runtime rather than standalone mode.",
     factory: () => new MultiUserShowcase(),
   },
   {
@@ -243,9 +260,8 @@ export const APP_REGISTRY: AppEntry[] = [
   {
     slug: "showcase-06-fluid",
     name: "06 Navier-Stokes Fluid",
-    description:
-      "Interactive 2D fluid simulation (Jos Stam stable fluids). Five orbital dye sources paint hue-cycling aurora patterns. Move the mouse to stir.",
-    controls: "Mouse: Inject velocity\nMove to stir the fluid",
+    description: "Navier-Stokes based autonomous fluid simulation with pressure solvers.",
+    controls: "None (Autonomous Simulation)",
     category: "showcase",
     factory: () => new FluidShowcase(),
   },
@@ -253,7 +269,7 @@ export const APP_REGISTRY: AppEntry[] = [
     slug: "showcase-07-terminal-bomber",
     name: "07 Terminal Bomber",
     description:
-      "Bomberman-style game in ASCII art. Control the yellow @ and defeat three heatmap-driven bots. Chain explosions, collect bomb-ups, survive.",
+      "Multiplayer Bomberman-style game in ASCII art. Host or join servers, wait in the lobby, and blast your friends (or heatmap-driven bots). Multiplayer requires running on a server or you stay alone.",
     controls: "WASD / Arrows: Move\nSpace / Z: Drop bomb",
     category: "showcase",
     factory: () => new TermBomber(),
@@ -278,10 +294,10 @@ export const APP_REGISTRY: AppEntry[] = [
   },
   {
     slug: "showcase-10-breakout",
-    name: "10 Casse-Briques",
+    name: "10 Breakout",
     description:
-      "Premium Breakout — 5-layer depth, 3D beveled frame, interpolated comet trail, and high-intensity brick explosions.",
-    controls: "Arrow Keys: Move paddle\nSpace: Start / Slow-motion",
+      "Premium Breakout — 5-layer Z-buffer depth system, 3D beveled frame, falling power-ups, interpolated comet trail, and high-intensity collision glows.",
+    controls: "Arrow Keys: Move paddle\nSpace: Launch Ball",
     category: "showcase",
     factory: () => new Breakout(),
   },

@@ -2,13 +2,14 @@
  * Name: showcase-10-breakout
  * Category: showcase
  * Description: Premium Breakout — 5-layer Z-buffer depth system, 3D beveled frame,
- *   interpolated comet trail, high-intensity collision glows, and parallax screen shake.
+ *   falling power-ups, interpolated comet trail, high-intensity collision glows,
+ *   and parallax screen shake.
  * 
  * Architecture (5-Layer Z-Buffer):
  *   - Z=0 (bgLayer): Perspective tunnel background.
  *   - Z=1 (courtLayer): 3D beveled frame and destructible bricks.
  *   - Z=2 (uiLayer): Large ASCII score and life counter.
- *   - Z=3 (paddleLayer): Paddle with solid background highlight.
+ *   - Z=3 (paddleLayer & itemLayer): Paddle and falling power-ups.
  *   - Z=4 (ballLayer): Ball, particles, and interpolated gap-free trail.
  */
 import {
@@ -76,6 +77,11 @@ const B_GREEN = 15;
 const B_BLUE = 16;
 const B_PURPLE = 17;
 
+const B_RED_TXT = 18;
+const B_ORANGE_TXT = 19;
+const B_YELLOW_TXT = 20;
+const B_GREEN_TXT = 21;
+
 const BRICK_COLORS = [B_RED, B_RED, B_ORANGE, B_ORANGE, B_YELLOW, B_GREEN, B_BLUE, B_PURPLE];
 
 // Power-up Types
@@ -109,6 +115,9 @@ interface Brick {
     x: number;
     y: number;
     color: number;
+    hp: number;
+    textCol?: number;
+    flashTimer?: number;
     alive: boolean;
 }
 
@@ -177,6 +186,11 @@ export class Breakout implements IApplication<Engine, User<BreakoutUserData>> {
             { colorId: B_GREEN, r: 80, g: 255, b: 80, a: 255 },
             { colorId: B_BLUE, r: 80, g: 150, b: 255, a: 255 },
             { colorId: B_PURPLE, r: 180, g: 80, b: 255, a: 255 },
+            // Darker variants for text
+            { colorId: B_RED_TXT, r: 150, g: 20, b: 20, a: 255 },     // Base: 255, 80, 80
+            { colorId: B_ORANGE_TXT, r: 160, g: 70, b: 10, a: 255 },  // Base: 255, 150, 50
+            { colorId: B_YELLOW_TXT, r: 150, g: 120, b: 10, a: 255 }, // Base: 255, 220, 50
+            { colorId: B_GREEN_TXT, r: 20, g: 140, b: 20, a: 255 },   // Base: 80, 255, 80
         ]);
         runtime.setTickRate(30);
     }
@@ -218,11 +232,24 @@ export class Breakout implements IApplication<Engine, User<BreakoutUserData>> {
         const startX = 3 + Math.floor((innerW - totalBricksW) / 2);
 
         for (let r = 0; r < BRICK_ROWS; r++) {
+            const brickColor = BRICK_COLORS[r];
+            let hp = 1;
+            let textCol: number | undefined = undefined;
+
+            // Mapping color to hit points and assigning the brighter text color
+            if (brickColor === B_RED) { hp = 3; textCol = B_RED_TXT; }
+            else if (brickColor === B_ORANGE) { hp = 3; textCol = B_ORANGE_TXT; }
+            else if (brickColor === B_YELLOW) { hp = 2; textCol = B_YELLOW_TXT; }
+            else if (brickColor === B_GREEN) { hp = 2; textCol = B_GREEN_TXT; }
+            // Blue and Purple will default to 1 hit and NO textCol
+
             for (let c = 0; c < BRICK_COLS; c++) {
                 bricks.push({
                     x: startX + c * BRICK_W,
                     y: BRICK_TOP + r * BRICK_H,
-                    color: BRICK_COLORS[r],
+                    color: brickColor,
+                    hp,
+                    textCol,
                     alive: true,
                 });
             }
@@ -359,19 +386,32 @@ export class Breakout implements IApplication<Engine, User<BreakoutUserData>> {
                 for (const b of d.bricks) {
                     if (!b.alive) continue;
                     if (d.ballX >= b.x && d.ballX < b.x + BRICK_W && d.ballY >= b.y && d.ballY < b.y + BRICK_H) {
-                        b.alive = false;
-                        if (d.superTimer <= 0) d.ballVY *= -1;
-                        d.score += 10;
-                        d.ballFlashLife = BALL_FLASH_DURATION;
-                        this.spawnParticles(d, d.ballX, d.ballY, b.color);
-                        this.triggerShake(d, 0, 0.3);
-
-                        // Power-up spawn
-                        if (Math.random() < POWERUP_CHANCE) {
-                            const types: PowerUpType[] = ['LIFE', 'WIDE', 'SUPER'];
-                            const type = types[Math.floor(Math.random() * types.length)];
-                            d.items.push({ x: b.x + BRICK_W / 2, y: b.y, type, alive: true });
+                        if (d.superTimer > 0) {
+                            b.hp = 0;
+                        } else {
+                            b.hp--;
+                            d.ballVY *= -1;
                         }
+
+                        if (b.hp <= 0) {
+                            b.alive = false;
+                            d.score += 10;
+                            this.spawnParticles(d, d.ballX, d.ballY, b.color);
+                            this.triggerShake(d, 0, 0.3);
+
+                            // Power-up spawn
+                            if (Math.random() < POWERUP_CHANCE) {
+                                const types: PowerUpType[] = ['LIFE', 'WIDE', 'SUPER'];
+                                const type = types[Math.floor(Math.random() * types.length)];
+                                d.items.push({ x: b.x + BRICK_W / 2, y: b.y, type, alive: true });
+                            }
+                        } else {
+                            d.score += 2; // small score for hitting a brick without breaking it
+                            this.triggerShake(d, 0, 0.1);
+                            b.flashTimer = 4; // Add a brief 4-frame flash
+                        }
+
+                        d.ballFlashLife = BALL_FLASH_DURATION;
                         if (d.superTimer <= 0) break;
                     }
                 }
@@ -446,7 +486,27 @@ export class Breakout implements IApplication<Engine, User<BreakoutUserData>> {
         // Bricks
         for (const b of d.bricks) {
             if (!b.alive) continue;
-            courtOrders.push(OrderBuilder.rect(b.x, b.y, BRICK_W - 1, BRICK_H - 1, ' ', BG, b.color, true));
+
+            if (b.flashTimer !== undefined && b.flashTimer > 0) b.flashTimer--;
+
+            const isFlashing = b.flashTimer !== undefined && b.flashTimer > 0;
+            const drawCol = isFlashing ? BALL_COLOR : b.color;
+
+            courtOrders.push(OrderBuilder.rect(b.x, b.y, BRICK_W - 1, BRICK_H - 1, ' ', BG, drawCol, true));
+
+            // Recompute textCol fallback for hot-reloads where it might be undefined
+            let currentTextCol = b.textCol;
+            if (currentTextCol === undefined && b.hp > 1) {
+                if (b.color === B_RED) currentTextCol = B_RED_TXT;
+                else if (b.color === B_ORANGE) currentTextCol = B_ORANGE_TXT;
+                else if (b.color === B_YELLOW) currentTextCol = B_YELLOW_TXT;
+                else if (b.color === B_GREEN) currentTextCol = B_GREEN_TXT;
+            }
+
+            if (currentTextCol !== undefined && b.hp > 0) {
+                const currentHp = b.hp !== undefined && !isNaN(b.hp) ? b.hp : 1;
+                courtOrders.push(OrderBuilder.text(b.x + 2, b.y, currentHp.toString(), currentTextCol, b.color));
+            }
         }
         d.courtLayer.setOrders(courtOrders);
 
