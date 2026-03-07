@@ -33,7 +33,7 @@ interface PrimitivClientProps {
 // =============================================================================
 
 /**
- * PrimitivClient — simplest React wrapper for the Primitiv ClientRuntime.
+ * PrimitivClient - simplest React wrapper for the Primitiv ClientRuntime.
  *
  * Single display, no bridge callbacks, no multi-display.
  * Use PrimitivClientBridge or PrimitivClientMultiDisplay for those features.

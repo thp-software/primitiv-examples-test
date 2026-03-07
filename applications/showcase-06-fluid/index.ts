@@ -77,7 +77,7 @@ const ITER = 6; // Gauss-Seidel iterations per diffuse/project step
 /** Per-tick multiplier applied to velocity after each step. */
 const VEL_DISS = 0.994;
 /** Per-tick multiplier applied to dye after each step. */
-const DYE_DISS = 0.994; // ~17%/sec at 30 TPS — slower fade keeps field filled
+const DYE_DISS = 0.994; // ~17%/sec at 30 TPS - slower fade keeps field filled
 
 // ─── Rendering parameters ────────────────────────────────────────────────────
 /**
@@ -537,7 +537,7 @@ interface ChaosProbe {
  * source speeds, so the combined pattern never closes or repeats.
  */
 const CHAOS_PROBES_TEMPLATE: ReadonlyArray<ChaosProbe> = [
-  // Large figure-8, slow pulse — main large-scale mixer
+  // Large figure-8, slow pulse - main large-scale mixer
   {
     ampX: 40,
     ampY: 28,
@@ -550,7 +550,7 @@ const CHAOS_PROBES_TEMPLATE: ReadonlyArray<ChaosProbe> = [
     brush: 7,
     dyeAmt: 0.12,
   },
-  // Tight ellipse near centre, fast pulse — breaks core symmetry
+  // Tight ellipse near centre, fast pulse - breaks core symmetry
   {
     ampX: 14,
     ampY: 18,
@@ -563,7 +563,7 @@ const CHAOS_PROBES_TEMPLATE: ReadonlyArray<ChaosProbe> = [
     brush: 5,
     dyeAmt: 0.1,
   },
-  // Wide diagonal sweep, asymmetric pulse — long-range cross-mixing
+  // Wide diagonal sweep, asymmetric pulse - long-range cross-mixing
   {
     ampX: 52,
     ampY: 22,
@@ -597,8 +597,8 @@ export class FluidShowcase implements IApplication<Engine, User<FluidData>> {
     // Build the 216-entry 6×6×6 RGB cube and load it into palette slot 0.
     //   colorId = ri*36 + gi*6 + bi   (ri, gi, bi ∈ 0..5)
     //   R,G,B   = component * 51       (steps: 0, 51, 102, 153, 204, 255)
-    //   colorId 0   = (0,  0,  0) — black (background)
-    //   colorId 215 = (255,255,255) — white
+    //   colorId 0   = (0,  0,  0) - black (background)
+    //   colorId 215 = (255,255,255) - white
     const pal: Array<{ colorId: number; r: number; g: number; b: number }> = [];
     for (let ri = 0; ri < 6; ri++) {
       for (let gi = 0; gi < 6; gi++) {
@@ -681,7 +681,7 @@ export class FluidShowcase implements IApplication<Engine, User<FluidData>> {
     // (analytical derivative of the parametric equations) defines the
     // force direction.  A pulse envelope |sin(pulseFreq*t)|^2 gates the
     // injection so the probe fires discrete bursts rather than a
-    // continuous stream — creating pockets of turbulence at irregular
+    // continuous stream - creating pockets of turbulence at irregular
     // intervals that naturally break the orbital symmetry.
     for (const probe of user.data.chaosProbes) {
       const px = CX + probe.ampX * Math.cos(probe.freqX * t + probe.phaseX);
@@ -720,12 +720,12 @@ export class FluidShowcase implements IApplication<Engine, User<FluidData>> {
     //   • Use the max channel as "luminance" (preserves colour saturation at
     //     bright edges rather than blending towards white).
     //   • Map luminance to one of seven CP437 glyphs ordered by visual weight:
-    //       "."  (CP437  46) — single 1-px dot,   extreme wisps / star-dust
-    //       "·"  (CP437 250) — middle dot,         faint cloud edges
-    //       "░"  (CP437 176) — light shade  25%,   dim glow halo
-    //       "▒"  (CP437 177) — medium shade 50%,   mid-density body
-    //       "▓"  (CP437 178) — dark shade   75%,   bright inner region
-    //       "█"  (CP437 219) — full block  100%,   injection cores only
+    //       "."  (CP437  46) - single 1-px dot,   extreme wisps / star-dust
+    //       "·"  (CP437 250) - middle dot,         faint cloud edges
+    //       "░"  (CP437 176) - light shade  25%,   dim glow halo
+    //       "▒"  (CP437 177) - medium shade 50%,   mid-density body
+    //       "▓"  (CP437 178) - dark shade   75%,   bright inner region
+    //       "█"  (CP437 219) - full block  100%,   injection cores only
     //     Using more CP437 levels (vs 4 previously) makes the luminance
     //     gradient quasi-continuous: trailing dye fades through dot → dust →
     //     haze → glow instead of jumping abruptly from black to ░.
@@ -749,12 +749,12 @@ export class FluidShowcase implements IApplication<Engine, User<FluidData>> {
           cell.fgColorCode = rgb2id(r, g, b);
           cell.bgColorCode = 0;
           // prettier-ignore
-          if      (lum > 0.78) cell.charCode = "█"; // full block   — cores only
+          if      (lum > 0.78) cell.charCode = "█"; // full block   - cores only
           else if (lum > 0.52) cell.charCode = "▓"; // dark shade   75%
           else if (lum > 0.28) cell.charCode = "▒"; // medium shade 50%
           else if (lum > 0.10) cell.charCode = "░"; // light shade  25%
-          else if (lum > 0.03) cell.charCode = "+"; // cross        — diffuse halo
-          else                 cell.charCode = "."; // period       — extreme wisps
+          else if (lum > 0.03) cell.charCode = "+"; // cross        - diffuse halo
+          else                 cell.charCode = "."; // period       - extreme wisps
         }
       }
     }

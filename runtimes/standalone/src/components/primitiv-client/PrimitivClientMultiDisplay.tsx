@@ -44,7 +44,7 @@ interface PrimitivClientMultiDisplayProps {
 // =============================================================================
 
 /**
- * PrimitivClientMultiDisplay — React wrapper for multi-display applications.
+ * PrimitivClientMultiDisplay - React wrapper for multi-display applications.
  *
  * Renders `displayCount` display surfaces in a horizontal flex row, each in
  * its own container div, separated by `gap` pixels. The runtime injects a
@@ -78,7 +78,7 @@ const PrimitivClientMultiDisplay: React.FC<PrimitivClientMultiDisplayProps> = ({
   const depsKey = `${application.constructor.name}-${renderer}-${width}-${height}-${autoplay}-${displayCount}`;
 
   useEffect(() => {
-    // Collect all container divs — bail if any aren't mounted yet
+    // Collect all container divs - bail if any aren't mounted yet
     const containers: HTMLDivElement[] = [];
     for (let i = 0; i < displayCount; i++) {
       const c = containerRefs.current[i];

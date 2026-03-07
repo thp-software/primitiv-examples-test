@@ -32,15 +32,15 @@
  *   - A 65535×65535 world pre-populated with three "sectors" (rooms), each drawn once
  *     during `initUser`. The camera teleports between them via `display.setOrigin()`.
  *   - A vehicle layer that translates across world space every tick with only 4 bytes
- *     of network overhead — no drawing orders resent.
+ *     of network overhead - no drawing orders resent.
  *   - A HUD layer that is toggled on/off with `layer.setEnabled()`, demonstrating
  *     zero-cost visibility switching without destroying or re-uploading the layer data.
  *
  * Key Concepts:
- *   - `display.setOrigin(new Vector2(x, y))` — move the camera to any world position; zero network cost for drawing.
- *   - `layer.setOrigin(new Vector2(x, y))` — translate a layer without resending its orders; only the coordinates are transmitted.
- *   - `layer.setEnabled(bool)` — toggle layer visibility on the client without any redraw.
- *   - `` — MUST be called after `setOrders()` AND after any metadata change (`setOrigin`, `setEnabled`) to flush the update to the client.
+ *   - `display.setOrigin(new Vector2(x, y))` - move the camera to any world position; zero network cost for drawing.
+ *   - `layer.setOrigin(new Vector2(x, y))` - translate a layer without resending its orders; only the coordinates are transmitted.
+ *   - `layer.setEnabled(bool)` - toggle layer visibility on the client without any redraw.
+ *   - `` - MUST be called after `setOrders()` AND after any metadata change (`setOrigin`, `setEnabled`) to flush the update to the client.
  *   - Multiple z-indexes: layers with higher zIndex paint over lower ones, enabling HUD overlays.
  */
 

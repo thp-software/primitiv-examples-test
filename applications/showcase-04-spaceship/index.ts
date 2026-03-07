@@ -8,14 +8,14 @@
  *
  * Architecture:
  *   Everything lives in this single file. The Spaceship class implements
- *   IApplication directly — there is no separate engine class.
+ *   IApplication directly - there is no separate engine class.
  *
  * Scene Layout (world-space X offsets):
- *   - X=0:    Cockpit — 3D starfield (perspective projection), cockpit frame
+ *   - X=0:    Cockpit - 3D starfield (perspective projection), cockpit frame
  *             rendered once via fullFrameMulti, instrument panels, warp controls.
- *   - X=1000: Bureau — Side-view room with a porthole window, two monitor
+ *   - X=1000: Bureau - Side-view room with a porthole window, two monitor
  *             panels showing fuel/temperature gauges and module status.
- *   - X=2000: Top-down — ASCII map of the ship interior. The player (@) walks
+ *   - X=2000: Top-down - ASCII map of the ship interior. The player (@) walks
  *             between seats marked C (cockpit) and B (bureau). Pressing F
  *             while adjacent to a seat switches to the corresponding scene.
  *
@@ -190,7 +190,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
         const cockpitLayer = new Layer(new Vector2(0, 0), 2, width, height, { name: "cockpit", mustBeReliable: true });
         // Z3: Static instrument labels and panel frames (reliable, rendered once)
         const instrumentsLayer = new Layer(new Vector2(0, 0), 3, width, height, { name: "instruments", mustBeReliable: true });
-        // Z4: Dynamic instrument values — fuel bars, terminal logs (unreliable)
+        // Z4: Dynamic instrument values - fuel bars, terminal logs (unreliable)
         const dynamicLayer = new Layer(new Vector2(0, 0), 4, width, height, { name: "dynamic", mustBeReliable: false });
         user.addLayer(layer);
         user.addLayer(uiLayer);
@@ -211,7 +211,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
         // Top-down Scene Layers (world X=2000)
         const TOPDOWN_OFFSET = 2000;
         const topdownStarsLayer = new Layer(new Vector2(TOPDOWN_OFFSET, 0), 0, width, height, { name: "topdown_stars", mustBeReliable: false });
-        // topdownLayer is reliable — only committed when the player moves (topdownRenderNeeded flag)
+        // topdownLayer is reliable - only committed when the player moves (topdownRenderNeeded flag)
         const topdownLayer = new Layer(new Vector2(TOPDOWN_OFFSET, 0), 1, width, height, { name: "topdown", mustBeReliable: true });
         user.addLayer(topdownStarsLayer);
         user.addLayer(topdownLayer);
@@ -419,7 +419,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
                 }
             }
         } else {
-            // In a seat — press F to stand up
+            // In a seat - press F to stand up
             if (user.isJustPressed("Interact")) {
                 state.currentScene = "topdown";
                 state.display.setOrigin(new Vector2(2040, 22));
@@ -717,7 +717,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
                 const char = row[x];
 
                 if (char === " ") {
-                    // Void — flush any pending run, leave transparent
+                    // Void - flush any pending run, leave transparent
                     flushRun();
                 } else if (char === "#") {
                     // Wall character
@@ -730,7 +730,7 @@ export class Spaceship implements IApplication<Engine, User<StarshipData>> {
                     flushRun();
                     o.push(OrderBuilder.text(offsetX + x, screenY, "S", COLOR_STAR_HI, COLOR_FRAME_LO));
                 } else if (char === ".") {
-                    // Floor — batch into run
+                    // Floor - batch into run
                     if (runStart < 0) runStart = x;
                     runChars += "·";
                 }

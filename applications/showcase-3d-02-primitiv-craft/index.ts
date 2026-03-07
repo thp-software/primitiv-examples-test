@@ -30,18 +30,18 @@
  *   180 palettes are pre-computed during `init()` by interpolating 5 keyframes
  *   (sunrise → noon → sunset → night → sunrise). Every voxel material has 10 shading
  *   variants covering its light range. Changing the time of day costs exactly one call:
- *   `display.switchPalette(slotIndex)` — zero redraws, zero network payload for drawing.
+ *   `display.switchPalette(slotIndex)` - zero redraws, zero network payload for drawing.
  *
  * Primitiv patterns used:
- *   - `engine.loadPaletteToSlot(s, palette)` called 180 times in `init()` — the full
+ *   - `engine.loadPaletteToSlot(s, palette)` called 180 times in `init()` - the full
  *     day cycle is uploaded once and lives on the client; switching is instantaneous.
- *   - `display.switchPalette(paletteId)` called every tick — the cheapest possible
+ *   - `display.switchPalette(paletteId)` called every tick - the cheapest possible
  *     way to change global scene lighting.
- *   - `subFrameMulti(0, 0, 120, 67, dots)` — 8 040 cells assembled as a flat array
+ *   - `subFrameMulti(0, 0, 120, 67, dots)` - 8 040 cells assembled as a flat array
  *     and sent as a single binary order each tick.
- *   - `mustBeReliable: false` on the game layer (DDA output) — a dropped frame is
+ *   - `mustBeReliable: false` on the game layer (DDA output) - a dropped frame is
  *     invisible since the next tick immediately replaces it.
- *   - `mustBeReliable: true` on the UI layer (crosshair, block selector) — static
+ *   - `mustBeReliable: true` on the UI layer (crosshair, block selector) - static
  *     overlay that must arrive exactly once.
  *   - WASD + look movement via keyboard bindings with per-tick physics integration
  *     (gravity, jump impulse, AABB collision against the voxel grid).

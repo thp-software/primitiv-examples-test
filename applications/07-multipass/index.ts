@@ -9,8 +9,8 @@
  *   THE PROBLEM:
  *   Because a single Cell only holds ONE character, ONE foreground color, and ONE background color,
  *   drawing a character on Z=10 replaces the foreground character that was on Z=0 at that position.
- *   If you draw rain (`|`) over a brick wall (`#`), the brick CHARACTER disappears — replaced by
- *   the rain pipe — even though the brick's background color may still bleed through
+ *   If you draw rain (`|`) over a brick wall (`#`), the brick CHARACTER disappears - replaced by
+ *   the rain pipe - even though the brick's background color may still bleed through
  *   (when the rain uses a transparent background color 255).
  *   You lose the visual richness of overlapping characters.
  *
@@ -18,7 +18,7 @@
  *   `display.setRenderPasses(...)` tells the engine to split the flattening process into
  *   multiple separate grids (passes), grouping Layers by zIndex ranges. The client then
  *   renders these grids on top of each other. This allows a rain character `|` in Pass 1
- *   to be drawn ON TOP of a brick character `#` in Pass 0 — BOTH characters are visible.
+ *   to be drawn ON TOP of a brick character `#` in Pass 0 - BOTH characters are visible.
  *
  *   TRADE-OFF:
  *   Each render pass produces its own full-size grid that the client must composite.

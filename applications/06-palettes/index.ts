@@ -7,7 +7,7 @@
  *   But the palette system is one of Primitiv's most useful features for both aesthetics
  *   and network efficiency. Because all drawing orders use COLOR INDICES (0-255) rather than
  *   direct RGB values, changing the palette instantly recolors everything without resending
- *   and smooth color transitions — all at a negligible bandwidth cost (just a few bytes).
+ *   and smooth color transitions - all at a negligible bandwidth cost (just a few bytes).
  *
  * The Palette System:
  *   - A palette is an array of { colorId, r, g, b, a } entries mapping indices to RGB colors.
@@ -19,10 +19,10 @@
  * Palette Animation Pattern:
  *   1. In `init()`, pre-compute N palette variations (e.g. 64 palettes for a day/night cycle).
  *   2. Load them into slots 0..N-1 via `loadPaletteToSlot(i, palette)`.
- *   3. Each tick, call `display.switchPalette(currentSlot)` — the entire scene changes color
+ *   3. Each tick, call `display.switchPalette(currentSlot)` - the entire scene changes color
  *      instantly without any CPU hit and with virtually zero bandwidth cost.
  *   This pattern can achieve smooth day/night cycles, alarm flashes, weather effects,
- *   or any visual mood change — all without redrawing a single order.
+ *   or any visual mood change - all without redrawing a single order.
  *
  * What this example demonstrates:
  *   - Loading multiple palettes into different slots.
@@ -32,7 +32,7 @@
  *
  * Key Concepts:
  *   - Palette slots, loading, and switching.
- *   - Color indices are an indirection layer — the same index can mean different colors.
+ *   - Color indices are an indirection layer - the same index can mean different colors.
  *   - Palette animation: pre-compute variations, cycle through them per tick.
  *   - Negligible bandwidth cost for visual transformations via palette swap.
  */

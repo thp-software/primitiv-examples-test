@@ -38,7 +38,7 @@ interface PrimitivClientBridgeProps {
 // =============================================================================
 
 /**
- * PrimitivClientBridge — React wrapper with bridge communication support.
+ * PrimitivClientBridge - React wrapper with bridge communication support.
  *
  * Single display, plus `onBridgeMessage` and `onRuntimeReady` callbacks
  * for host ↔ engine communication via the bridge system.
@@ -68,7 +68,7 @@ const PrimitivClientBridge: React.FC<PrimitivClientBridgeProps> = ({
     null,
   );
 
-  // Stable callback refs — avoid re-initialization when handlers change
+  // Stable callback refs - avoid re-initialization when handlers change
   const bridgeHandlerRef = useRef(onBridgeMessage);
   const readyHandlerRef = useRef(onRuntimeReady);
   useEffect(() => {

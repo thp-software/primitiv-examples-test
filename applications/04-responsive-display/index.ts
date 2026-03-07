@@ -42,9 +42,9 @@
  *     size without reallocation.
  *
  * Key Concepts:
- *   - `display.setScalingMode(ScalingMode.Responsive)` — makes the display fill its container and derive grid dimensions from physical pixels ÷ cell size.
- *   - `display.setCellSize(widthPx, heightPx)` — sets the pixel size of each cell (controls the zoom level).
- *   - `display.width` / `display.height` — read these inside `updateUser` every tick; they are updated by the runtime before your logic runs.
+ *   - `display.setScalingMode(ScalingMode.Responsive)` - makes the display fill its container and derive grid dimensions from physical pixels ÷ cell size.
+ *   - `display.setCellSize(widthPx, heightPx)` - sets the pixel size of each cell (controls the zoom level).
+ *   - `display.width` / `display.height` - read these inside `updateUser` every tick; they are updated by the runtime before your logic runs.
  *   - Fixed oversized layer: allocate once at 256×256, safe for any realistic window size.
  */
 
@@ -67,7 +67,7 @@ interface ResponsiveDisplayUserData {
   /** The user's camera display, stored for direct access in updateUser. */
   display: Display;
 
-  /** The fixed-size 256x256 layer. Never resized — the Display clips it. */
+  /** The fixed-size 256x256 layer. Never resized - the Display clips it. */
   layer: Layer;
 
   /**
@@ -132,7 +132,7 @@ export class ResponsiveDisplay implements IApplication<
 
     // --- Layer Setup ---
     /**
-     * We allocate a 256x256 Layer — much larger than any typical window size.
+     * We allocate a 256x256 Layer - much larger than any typical window size.
      * This ensures our Layer can always cover the Display area regardless of resize.
      * The engine clips what is rendered to the Display's current width/height,
      * so no visual artifacts occur from the oversized allocation.
@@ -161,7 +161,7 @@ export class ResponsiveDisplay implements IApplication<
     /**
      * The layer is a fixed 256x256 surface. We update ~2% of its total
      * cells each tick. The Display viewport clips it to only show the
-     * visible portion — we never need to resize the grid array.
+     * visible portion - we never need to resize the grid array.
      */
     const totalCells = LAYER_SIZE * LAYER_SIZE;
     const updateCount = Math.max(1, Math.floor(totalCells * 0.02));

@@ -5,7 +5,7 @@
  * Why study this:
  *   Primitiv supports multiple Displays per user. Each Display is fully independent:
  *   it has its own size, its own canvas, and a configurable world-space origin. A
- *   single engine tick synchronizes them all — the host mounts each canvas side-by-side.
+ *   single engine tick synchronizes them all - the host mounts each canvas side-by-side.
  *
  *   This example demonstrates the most compelling multi-display use case: a seamless
  *   world split across two physical screens. Both displays share the same coordinate
@@ -13,7 +13,7 @@
  *   Display 1, and vice versa.
  *
  * What this example demonstrates:
- *   "Dual Screen" — fifteen entities bounce around a world twice as wide as a single
+ *   "Dual Screen" - fifteen entities bounce around a world twice as wide as a single
  *   display. The world is split down the middle:
  *   - Display 0 (left, 64×36): shows world columns 0..63.
  *   - Display 1 (right, 64×36): shows world columns 64..127.
@@ -21,13 +21,13 @@
  *   and draw their trails continuously across the boundary.
  *
  * Key Concepts:
- *   - `display.setOrigin(new Vector2(x, y))` — sets the world-space top-left corner
+ *   - `display.setOrigin(new Vector2(x, y))` - sets the world-space top-left corner
  *     of the display viewport. Display 1 has origin (64, 0) so it renders world
  *     columns 64..127 using local layer coordinates 0..63.
- *   - `new Layer(new Vector2(x, y), zIndex, w, h)` — layers also have a world-space
+ *   - `new Layer(new Vector2(x, y), zIndex, w, h)` - layers also have a world-space
  *     origin. Layer 1 starts at (64, 0) so drawing at local position (p, q) maps to
  *     world position (64+p, q).
- *   - `display.setRenderPasses([{ id, zMin, zMax }])` — restricts which layers are
+ *   - `display.setRenderPasses([{ id, zMin, zMax }])` - restricts which layers are
  *     composited for that display. Display 0 only composites z=0, Display 1 only z=1.
  *   - The host `ClientRuntime` receives `displays: [...]` and `PrimitivClientMultiDisplay`
  *     renders both canvases side-by-side, separated by a small pixel gap.
@@ -146,7 +146,7 @@ export class MultiDisplay implements IApplication<
    */
   async init(_runtime: IRuntime, engine: Engine): Promise<void> {
     // ----- Shared "SPACE" palette (slot 0) -----
-    // Used by both Display 0 and Display 1 — same visual identity across screens.
+    // Used by both Display 0 and Display 1 - same visual identity across screens.
     engine.loadPaletteToSlot(0, [
       { colorId: 0, r: 6, g: 8, b: 16, a: 255 }, // deep black bg
       { colorId: 1, r: 255, g: 80, b: 80, a: 255 }, // red
@@ -243,14 +243,14 @@ export class MultiDisplay implements IApplication<
     // ----- Display 1: right half of the world (columns 64..127) -----
     const display1 = new Display(1, D_W, D_H);
     user.addDisplay(display1);
-    display1.switchPalette(0); // Same palette — continuous visual identity.
+    display1.switchPalette(0); // Same palette - continuous visual identity.
     display1.setOrigin(new Vector2(D_W, 0));
     // Only composite layers with zIndex in [1, 1] → layer1 exclusively.
     display1.setRenderPasses([{ id: 0, zMin: 1, zMax: 1 }]);
     user.data.display1 = display1;
 
     /**
-     * Layer 1: world origin (64, 0) — shifts local coordinates by D_W.
+     * Layer 1: world origin (64, 0) - shifts local coordinates by D_W.
      * Drawing at local position (lx, ly) maps to world position (64+lx, ly).
      * An entity at world x=80 draws at layer1 local x = 80-64 = 16.
      * Layer z=1 keeps it out of Display 0's render pass (capped at zMax: 0).
@@ -263,7 +263,7 @@ export class MultiDisplay implements IApplication<
   }
 
   // =====================================================================
-  // GLOBAL UPDATE — advance the simulation
+  // GLOBAL UPDATE - advance the simulation
   // =====================================================================
 
   /**
@@ -314,8 +314,8 @@ export class MultiDisplay implements IApplication<
     _engine: Engine,
     user: User<DualScreenUserData>,
   ): void {
-    this.renderLayer(user.data, 0); // Display 0 — local offset 0
-    this.renderLayer(user.data, 1); // Display 1 — local offset D_W
+    this.renderLayer(user.data, 0); // Display 0 - local offset 0
+    this.renderLayer(user.data, 1); // Display 1 - local offset D_W
   }
 
   // =====================================================================
@@ -330,7 +330,7 @@ export class MultiDisplay implements IApplication<
    *
    * The `offset` is subtracted from each entity's world x-coordinate to
    * obtain the layer-local x-coordinate. Only entities that fall within
-   * [0, D_W) after offsetting are drawn — entities off-screen are simply
+   * [0, D_W) after offsetting are drawn - entities off-screen are simply
    * clipped, which is the natural boundary between the two displays.
    */
   private renderLayer(data: DualScreenUserData, side: 0 | 1): void {

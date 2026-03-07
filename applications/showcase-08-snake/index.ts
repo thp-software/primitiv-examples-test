@@ -1,7 +1,7 @@
 /**
  * Name: showcase-08-snake
  * Category: showcase
- * Description: The smallest complete game possible with Primitiv — a fully
+ * Description: The smallest complete game possible with Primitiv - a fully
  *   playable Minimal Snake clone. One palette, two layers, two
  *   input axes, and five drawing orders per frame.
  *
@@ -115,7 +115,7 @@ export class Minimal implements IApplication<Engine, User<SnakeUserData>> {
     updateUser(_runtime: IRuntime, _engine: Engine, user: User<SnakeUserData>) {
         const data = user.data;
 
-        // ── 1. Read input — prevent 180° reversal ────────────────────────────
+        // ── 1. Read input - prevent 180° reversal ────────────────────────────
         const inputX = Math.round(user.getAxis('MX'));
         const inputY = Math.round(user.getAxis('MY'));
         if (inputX && inputX !== -data.direction.x) data.nextDirection = { x: inputX, y: 0 };

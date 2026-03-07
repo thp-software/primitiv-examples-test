@@ -8,14 +8,14 @@
  *   game logic decides WHAT to play, and the engine handles HOW to deliver it.
  *
  * Audio Lifecycle:
- *   1. `engine.loadSound(name, url)` — Register a sound during `init()`.
+ *   1. `engine.loadSound(name, url)` - Register a sound during `init()`.
  *      Returns a numeric soundId. The URL is relative to the public folder.
- *   2. `user.sendSounds()` — Call once in `initUser()` to push the sound registry
+ *   2. `user.sendSounds()` - Call once in `initUser()` to push the sound registry
  *      to the client. Without this, the client has no sounds to play.
- *   3. `user.playSound(soundId, options)` — Trigger playback. Returns an instanceId
+ *   3. `user.playSound(soundId, options)` - Trigger playback. Returns an instanceId
  *      for later manipulation. Options: volume, pitch, loop, fadeIn, x, y,
  *      lowpass, highpass, reverb.
- *   4. `user.setSoundEffects(instanceId, ...)` — Modify running sound in real-time.
+ *   4. `user.setSoundEffects(instanceId, ...)` - Modify running sound in real-time.
  *   5. `user.stopSound(instanceId)` / `user.fadeOutSound(instanceId, duration)`.
  *   6. `user.pauseSound()` / `user.resumeSound()`.
  *
@@ -41,14 +41,14 @@
  *   - One-shot sounds (click, thunder) played on demand with independent instances.
  *
  * Key Concepts:
- *   - `engine.loadSound(name, url)` — register a sound asset during `init()`; returns a numeric soundId.
- *   - `user.sendSounds()` — push the sound registry to the client once in `initUser()`.
- *   - `user.playSound(soundId, { volume, pitch, loop, fadeIn, x, y, lowpass, highpass, reverb })` — trigger playback; returns an instanceId.
- *   - `user.setSoundEffects(instanceId, { volume, pitch, lowpass, highpass, reverb })` — modify a running sound in real-time.
- *   - `user.stopSound(instanceId)` / `user.fadeOutSound(instanceId, duration)` — stop playback immediately or with a fade.
- *   - `user.pauseSound(instanceId)` / `user.resumeSound(instanceId)` — pause and resume.
- *   - `user.setListenerPosition(x, y)` — move the spatial audio listener.
- *   - `user.configureSpatialAudio({ maxDistance, ... })` — tune the spatial attenuation model.
+ *   - `engine.loadSound(name, url)` - register a sound asset during `init()`; returns a numeric soundId.
+ *   - `user.sendSounds()` - push the sound registry to the client once in `initUser()`.
+ *   - `user.playSound(soundId, { volume, pitch, loop, fadeIn, x, y, lowpass, highpass, reverb })` - trigger playback; returns an instanceId.
+ *   - `user.setSoundEffects(instanceId, { volume, pitch, lowpass, highpass, reverb })` - modify a running sound in real-time.
+ *   - `user.stopSound(instanceId)` / `user.fadeOutSound(instanceId, duration)` - stop playback immediately or with a fade.
+ *   - `user.pauseSound(instanceId)` / `user.resumeSound(instanceId)` - pause and resume.
+ *   - `user.setListenerPosition(x, y)` - move the spatial audio listener.
+ *   - `user.configureSpatialAudio({ maxDistance, ... })` - tune the spatial attenuation model.
  */
 
 import {

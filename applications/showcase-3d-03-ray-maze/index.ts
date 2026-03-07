@@ -1,7 +1,7 @@
 /**
  * Name: ray-maze
  * Category: showcase
- * Description: A first-person maze runner using raycasting — inspired by the
+ * Description: A first-person maze runner using raycasting - inspired by the
  *   3D Maze screensaver from Windows 98. Navigate a 24×24 grid maze rendered at 240×135
  *   cells with depth-shaded walls, a floor/ceiling gradient, and billboard sprites.
  *
@@ -22,7 +22,7 @@
  *   4. The wall strip height on screen is: lineHeight = HEIGHT / perpWallDist.
  *      It is drawn centered on the horizon line.
  *   5. Ceiling and floor are filled with gradient color IDs that darken toward the
- *      center horizon — purely palette-based, no per-pixel computation.
+ *      center horizon - purely palette-based, no per-pixel computation.
  *   6. Sprites (polyhedra scattered in the maze) are sorted by distance and drawn
  *      as billboard columns after the wall pass, using the per-column ZBuffer to
  *      clip sprite pixels behind walls.
@@ -32,13 +32,13 @@
  *   handles a barrel-roll animation on command.
  *
  * Primitiv patterns used:
- *   - `subFrameMulti(0, 0, 240, 135, dots)` — 32 400 cells assembled per tick as
+ *   - `subFrameMulti(0, 0, 240, 135, dots)` - 32 400 cells assembled per tick as
  *     a flat array and sent in one binary order, same pattern as voxel-space.
- *   - `mustBeReliable: false` on the game layer — full frame replaced every tick,
+ *   - `mustBeReliable: false` on the game layer - full frame replaced every tick,
  *     loss is invisible.
- *   - `mustBeReliable: true` on the UI layer — static overlay (minimap, controls).
+ *   - `mustBeReliable: true` on the UI layer - static overlay (minimap, controls).
  *   - Palette-based depth shading: wall brightness is a color ID offset proportional
- *     to `perpWallDist`. No RGB math at draw time — only an index lookup.
+ *     to `perpWallDist`. No RGB math at draw time - only an index lookup.
  *   - ZBuffer (one float per column) stored in `user.data` as a plain array,
  *     reused each tick to clip sprite rendering behind walls.
  */

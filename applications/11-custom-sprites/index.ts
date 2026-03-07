@@ -1,11 +1,11 @@
 ﻿/**
  * Name: custom-sprites
- * Description: Renders the complete GPU atlas side by side — block 0 (CP437, charCodes 0–255)
- *   and block 1 (custom PNG, charCodes 256–511) — as two 16×16 glyph grids exactly as they
+ * Description: Renders the complete GPU atlas side by side - block 0 (CP437, charCodes 0–255)
+ *   and block 1 (custom PNG, charCodes 256–511) - as two 16×16 glyph grids exactly as they
  *   are laid out inside the engine's font atlas.
  *
  * Why study this:
- *   Every previous example drew characters using the built-in CP437 font — a fixed
+ *   Every previous example drew characters using the built-in CP437 font - a fixed
  *   256-character set baked into the engine (block 0). This is sufficient for text,
  *   boxes, and simple shapes, but entirely unsuitable for tile-based games, custom
  *   sprites, or any art that requires its own graphical assets.
@@ -17,15 +17,15 @@
  *
  * The Font Block System:
  *   - The global font is a virtual atlas divided into "blocks" of exactly 256 glyphs each.
- *     Every block is laid out as 16 columns × 16 rows of glyphs — always 256 slots, no exceptions.
+ *     Every block is laid out as 16 columns × 16 rows of glyphs - always 256 slots, no exceptions.
  *   - Block 0 is always the built-in CP437 font, loaded automatically. Its glyphs are
  *     natively 8×8 pixels. This means the built-in block 0 is ONLY usable when the
  *     declared cell size is 8×8. If you need a different cell size (e.g. 16×16), you must
  *     replace block 0 by calling `engine.loadFontBlock(0, url)` with a PNG that matches
- *     the declared dimensions — there is no way to keep the built-in CP437 and switch to
+ *     the declared dimensions - there is no way to keep the built-in CP437 and switch to
  *     a different cell size at the same time.
  *   - `engine.loadFont(cellW, cellH, blockCapacity, ...)` declares a SINGLE cell size that
- *     applies to EVERY block in the atlas — including block 0. You cannot mix cell sizes:
+ *     applies to EVERY block in the atlas - including block 0. You cannot mix cell sizes:
  *     if you call `loadFont(8, 8, ...)`, all blocks must supply 8×8 pixel glyphs.
  *     Declaring `loadFont(16, 16, ...)` means every glyph across all blocks is 16×16 pixels.
  *     This constraint is intentional: the renderer uses one global cell grid, so all glyphs
@@ -46,7 +46,7 @@
  *   Keep text/UI layers 8-bit.
  *
  * Network Consideration:
- *   Standard `subFrameMulti` on a 16-bit layer is still expensive in connected mode —
+ *   Standard `subFrameMulti` on a 16-bit layer is still expensive in connected mode -
  *   it sends every cell every tick. Prefer `sprite`, `spriteCloud`, or `bitmask16` when
  *   the goal is reusing graphical tiles: those orders only send the tile ID, not pixel data.
  *   The 16-bit mode simply unlocks the charCode range; choose your order types wisely.
@@ -57,7 +57,7 @@
  *   - Height = 16 × cellHeight pixels  (always exactly 16 glyph rows).
  *   - cellWidth and cellHeight MUST match the values passed to `engine.loadFont()`.
  *     A 16×16 atlas PNG loaded into an engine declared with `loadFont(8, 8, ...)` will
- *     be misaligned. All blocks share the same cell dimensions — there is no per-block override.
+ *     be misaligned. All blocks share the same cell dimensions - there is no per-block override.
  *   - Glyph at column c, row r of the sheet maps to charCode = blockIndex*256 + r*16 + c.
  *   - Transparent pixels render using the cell's background color (colorId);
  *     opaque pixels use the foreground color (fgColorId). Anti-aliased edges are not recommended.
@@ -78,15 +78,15 @@
  *     layer (`mustBeReliable: false`) so it never blocks reliable delivery of the atlas.
  *
  * Key Concepts:
- *   - `engine.loadFont(cellW, cellH, blockCapacity, ...)` — declares the GLOBAL cell size
+ *   - `engine.loadFont(cellW, cellH, blockCapacity, ...)` - declares the GLOBAL cell size
  *     (shared by all blocks) and the maximum number of blocks the atlas can hold.
- *   - `engine.loadFontBlock(index, url)` — load a glyph sheet into a block slot.
- *   - `new Layer(..., { charCodeMode: '16bit' })` — enable charCodes >255 on a layer.
- *   - `OrderBuilder.char(x, y, charCode, fgColorId, bgColorId)` — single glyph by code.
- *   - `OrderBuilder.subFrameMulti(x, y, w, h, cells)` — bulk cell data supporting 16-bit codes.
- *   - `user.getMouseDisplayInfo()` — returns `{ localX, localY }` (cell coordinates) or null.
+ *   - `engine.loadFontBlock(index, url)` - load a glyph sheet into a block slot.
+ *   - `new Layer(..., { charCodeMode: '16bit' })` - enable charCodes >255 on a layer.
+ *   - `OrderBuilder.char(x, y, charCode, fgColorId, bgColorId)` - single glyph by code.
+ *   - `OrderBuilder.subFrameMulti(x, y, w, h, cells)` - bulk cell data supporting 16-bit codes.
+ *   - `user.getMouseDisplayInfo()` - returns `{ localX, localY }` (cell coordinates) or null.
  *   - Two layers with different zIndex keep static content and dynamic cursor completely separate.
- *   - Hover state tracking: store `lastHoveredCell` and skip `commit()` when unchanged —
+ *   - Hover state tracking: store `lastHoveredCell` and skip `commit()` when unchanged -
  *     mouse movement within the same cell costs zero bandwidth.
  */
 
@@ -116,13 +116,13 @@ export class CustomSpritesShowcase implements IApplication<
   async init(_runtime: IRuntime, engine: Engine): Promise<void> {
     engine.loadPaletteToSlot(0, [
       { colorId: 0, r: 15, g: 15, b: 25, a: 255 }, // Dark background
-      { colorId: 1, r: 220, g: 220, b: 220, a: 255 }, // Light gray  — CP437 glyphs
-      { colorId: 2, r: 100, g: 200, b: 255, a: 255 }, // Sky blue    — block 1 glyphs
-      { colorId: 3, r: 255, g: 200, b: 50, a: 255 }, // Gold        — titles
-      { colorId: 4, r: 160, g: 160, b: 180, a: 255 }, // Dim gray    — axis labels
+      { colorId: 1, r: 220, g: 220, b: 220, a: 255 }, // Light gray  - CP437 glyphs
+      { colorId: 2, r: 100, g: 200, b: 255, a: 255 }, // Sky blue    - block 1 glyphs
+      { colorId: 3, r: 255, g: 200, b: 50, a: 255 }, // Gold        - titles
+      { colorId: 4, r: 160, g: 160, b: 180, a: 255 }, // Dim gray    - axis labels
       { colorId: 5, r: 50, g: 50, b: 70, a: 255 }, // Panel bg
       { colorId: 6, r: 255, g: 255, b: 255, a: 255 }, // White
-      { colorId: 7, r: 80, g: 180, b: 120, a: 255 }, // Mint green  — formula text
+      { colorId: 7, r: 80, g: 180, b: 120, a: 255 }, // Mint green  - formula text
     ]);
 
     /**
@@ -154,14 +154,14 @@ export class CustomSpritesShowcase implements IApplication<
     user.addDisplay(display);
     display.switchPalette(0);
 
-    // Static atlas layer — 16-bit to address charCodes 256–511 (block 1)
+    // Static atlas layer - 16-bit to address charCodes 256–511 (block 1)
     const layer = new Layer(new Vector2(0, 0), 0, W, H, {
       charCodeMode: "16bit",
     });
     user.data.layer = layer;
     user.addLayer(layer);
 
-    // Cursor layer — volatile (mustBeReliable: false), higher zIndex, 16-bit for glyph preview
+    // Cursor layer - volatile (mustBeReliable: false), higher zIndex, 16-bit for glyph preview
     const cursorLayer = new Layer(new Vector2(0, 0), 1, W, H, {
       mustBeReliable: false,
       charCodeMode: "16bit",
@@ -370,7 +370,7 @@ export class CustomSpritesShowcase implements IApplication<
       co.push(OrderBuilder.text(30, 27, "1x1", 4, 0));
       co.push(OrderBuilder.char(30, 28, charCode, fgInfo, 5));
 
-      // ── 3×3 preview (same glyph repeated — shows tiling behaviour) ──────
+      // ── 3×3 preview (same glyph repeated - shows tiling behaviour) ──────
       co.push(OrderBuilder.text(36, 27, "3x3", 4, 0));
       for (let dr = 0; dr < 3; dr++) {
         for (let dc = 0; dc < 3; dc++) {

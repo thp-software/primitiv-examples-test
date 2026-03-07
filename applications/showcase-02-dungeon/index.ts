@@ -4,11 +4,11 @@
  * Description: A minimalist top-down dungeon crawler with procedurally generated
  *   rooms and corridors. Demonstrates how to build a standalone game engine class
  *   (DungeonEngine) that has zero dependency on Primitiv, then wrap it with a
- *   thin IApplication adapter — the same pattern used by VoxelEngine in
+ *   thin IApplication adapter - the same pattern used by VoxelEngine in
  *   showcase-3d-02-primitiv-craft.
  *
  * Architecture:
- *   1. DungeonEngine — Pure TypeScript class. Handles:
+ *   1. DungeonEngine - Pure TypeScript class. Handles:
  *        - Procedural room placement constrained to 80x35 screen boundaries
  *        - Minimum Spanning Tree (MST) corridor carving between rooms
  *        - Dead-end detection and 'LockedDoor' generation
@@ -16,7 +16,7 @@
  *        - Randomized Gold (Loot) spawning and score tracking
  *      It exposes a flat Tile grid that the renderer can read each frame.
  *
- *   2. DungeonApp — Primitiv IApplication wrapper. Handles:
+ *   2. DungeonApp - Primitiv IApplication wrapper. Handles:
  *        - Palette, Display, Layer setup
  *        - 20Hz TickRate for a snappy, retro feel (with 100ms movement delays)
  *        - Keyboard input bindings (WASD / Arrows)
@@ -118,7 +118,7 @@ class DungeonEngine {
   generate(count: number, seed?: number): void {
     const r = this.rng(seed);
 
-    // 1 — Place rooms
+    // 1 - Place rooms
     let tries = 0;
     while (this.rooms.length < count && tries < count * 40) {
       tries++;
@@ -131,7 +131,7 @@ class DungeonEngine {
       }
     }
 
-    // 2 — Connect rooms (Minimum Spanning Tree - Prim's Algorithm)
+    // 2 - Connect rooms (Minimum Spanning Tree - Prim's Algorithm)
     if (this.rooms.length > 1) {
       const connected: Room[] = [this.rooms[0]];
       const unconnected: Room[] = this.rooms.slice(1);
@@ -166,16 +166,16 @@ class DungeonEngine {
       }
     }
 
-    // 3 — Place doors
+    // 3 - Place doors
     this.doors();
 
-    // 4 — Strip bulk walls (keep only perimeter walls)
+    // 4 - Strip bulk walls (keep only perimeter walls)
     this.stripBulk();
 
-    // 5 — Lock dead ends (rooms with only 1 connection)
+    // 5 - Lock dead ends (rooms with only 1 connection)
     this.lockDeadEnds(r);
 
-    // 6 — Spawn & Loot
+    // 6 - Spawn & Loot
     if (this.rooms.length > 0) {
       this.px = this.rooms[0].cx;
       this.py = this.rooms[0].cy;

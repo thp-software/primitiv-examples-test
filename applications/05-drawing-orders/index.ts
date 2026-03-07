@@ -22,25 +22,25 @@
  *
  * Order Categories (24 network types, 29 methods):
  *
- *   SHAPES — Geometric primitives drawn at specific coordinates.
+ *   SHAPES - Geometric primitives drawn at specific coordinates.
  *     rect, circle, ellipse, line, triangle, polyline, polygon
  *
- *   ATOMIC — The smallest drawing units.
+ *   ATOMIC - The smallest drawing units.
  *     char, text, textMultiline
  *
- *   FILLS — Orders that cover the entire layer surface with a pattern.
+ *   FILLS - Orders that cover the entire layer surface with a pattern.
  *     fill, fillChar, fillSprite, fillSpriteMulti
  *
- *   FRAMES — Block-copy operations: write a rectangular grid of characters at once.
+ *   FRAMES - Block-copy operations: write a rectangular grid of characters at once.
  *     subFrame, subFrameMulti, fullFrame, fullFrameMulti
  *
- *   BITMASKS — Optimized grid renderers where each cell maps to a variant index.
+ *   BITMASKS - Optimized grid renderers where each cell maps to a variant index.
  *     bitmask (binary: on/off), bitmask4 (4 states), bitmask16 (16 states)
  *
- *   SPRITES — Preloaded cell matrices placed by ID (zero payload, only the ID is sent).
+ *   SPRITES - Preloaded cell matrices placed by ID (zero payload, only the ID is sent).
  *     sprite (unicolor, tinted), spriteMulti (multicolor, embedded colors)
  *
- *   CLOUDS — Batch rendering: many instances of the same element at multiple positions.
+ *   CLOUDS - Batch rendering: many instances of the same element at multiple positions.
  *     dotCloud, dotCloudMulti, spriteCloud, spriteCloudMulti,
  *     spriteCloudVaried, spriteCloudVariedMulti
  *
@@ -50,7 +50,7 @@
  *     At draw time, all non-zero cells are rendered with uniform fg/bg colors you specify.
  *   - Multicolor sprites: each cell has its own { charCode, fgColorId, bgColorId }.
  *   Sprites are registered once in `init()` via `engine.getSpriteRegistry()`.
- *   At draw time, only the sprite ID is sent — the actual cell data was already loaded.
+ *   At draw time, only the sprite ID is sent - the actual cell data was already loaded.
  *
  * What this example demonstrates:
  *   - A visual catalog / reference poster: every OrderBuilder method is called once
@@ -61,8 +61,8 @@
  *     the `updateUser` loop does zero network work.
  *
  * Key Concepts:
- *   - `engine.getSpriteRegistry()` — returns the sprite registry; call `.register(id, spriteData)` to pre-load sprites by ID.
- *   - `layer.setOrders(orders)` — sets the order list for a layer; call `` to flush to the client.
+ *   - `engine.getSpriteRegistry()` - returns the sprite registry; call `.register(id, spriteData)` to pre-load sprites by ID.
+ *   - `layer.setOrders(orders)` - sets the order list for a layer; call `` to flush to the client.
  *   - Orders execute sequentially on the client: later orders paint OVER earlier ones on the same layer.
  *   - Maximum 255 orders per layer per frame.
  *   - `fill`, `fillChar`, `fillSprite`, `fullFrame`, `fullFrameMulti` cover the ENTIRE layer surface → must be placed on dedicated layers or used as the very first order.
@@ -125,7 +125,7 @@ export class DrawingOrders implements IApplication<
     ]);
 
     // Multicolor sprite (ID 1): 4x4 gem shape. Each cell has its own char/fg/bg.
-    // Colors are embedded — no tinting needed at draw time.
+    // Colors are embedded - no tinting needed at draw time.
     spriteReg.loadMulticolorSprites([
       {
         spriteId: 1,
@@ -275,7 +275,7 @@ export class DrawingOrders implements IApplication<
     );
 
     // --- polyline ---
-    /** OrderBuilder.polyline(points[], charCode, fgColorId) — open path */
+    /** OrderBuilder.polyline(points[], charCode, fgColorId) - open path */
     orders.push(OrderBuilder.text(2, 14, "polyline", 1, 0));
     orders.push(
       OrderBuilder.polyline(
@@ -291,7 +291,7 @@ export class DrawingOrders implements IApplication<
     );
 
     // --- polygon ---
-    /** OrderBuilder.polygon(points[], charCode, fgColorId) — closed path */
+    /** OrderBuilder.polygon(points[], charCode, fgColorId) - closed path */
     orders.push(OrderBuilder.text(18, 14, "polygon", 1, 0));
     orders.push(
       OrderBuilder.polygon(
@@ -329,12 +329,12 @@ export class DrawingOrders implements IApplication<
     );
 
     // =====================================================================
-    // SECTION 3: FILLS (y = 25) — each needs its own dedicated layer
+    // SECTION 3: FILLS (y = 25) - each needs its own dedicated layer
     // =====================================================================
     orders.push(OrderBuilder.text(2, 25, "[ FILLS ]", 4, 0));
 
     // --- fill ---
-    /** OrderBuilder.fill(char, fg, bg) — fills ENTIRE layer */
+    /** OrderBuilder.fill(char, fg, bg) - fills ENTIRE layer */
     orders.push(OrderBuilder.text(2, 27, "fill", 1, 0));
     const fillLayer = new Layer(new Vector2(2, 29), 0, 6, 4, {
       mustBeReliable: true,
@@ -344,7 +344,7 @@ export class DrawingOrders implements IApplication<
     user.addLayer(fillLayer);
 
     // --- fillChar ---
-    /** OrderBuilder.fillChar(repeatX, repeatY, charPattern[], fg, bg) — tiling pattern */
+    /** OrderBuilder.fillChar(repeatX, repeatY, charPattern[], fg, bg) - tiling pattern */
     orders.push(OrderBuilder.text(12, 27, "fillChar", 1, 0));
     const fillCharLayer = new Layer(new Vector2(12, 29), 0, 8, 4, {
       mustBeReliable: true,
@@ -356,7 +356,7 @@ export class DrawingOrders implements IApplication<
     user.addLayer(fillCharLayer);
 
     // --- fillSprite ---
-    /** OrderBuilder.fillSprite(spriteId, fg, bg) — tiles unicolor sprite, tinted */
+    /** OrderBuilder.fillSprite(spriteId, fg, bg) - tiles unicolor sprite, tinted */
     orders.push(OrderBuilder.text(24, 27, "fillSprite", 1, 0));
     const fillSpriteLayer = new Layer(new Vector2(24, 29), 0, 8, 4, {
       mustBeReliable: true,
@@ -366,7 +366,7 @@ export class DrawingOrders implements IApplication<
     user.addLayer(fillSpriteLayer);
 
     // --- fillSpriteMulti ---
-    /** OrderBuilder.fillSpriteMulti(spriteId) — tiles multicolor sprite */
+    /** OrderBuilder.fillSpriteMulti(spriteId) - tiles multicolor sprite */
     orders.push(OrderBuilder.text(36, 27, "fillSprMulti", 1, 0));
     const fillSprMLayer = new Layer(new Vector2(36, 29), 0, 8, 4, {
       mustBeReliable: true,
@@ -399,7 +399,7 @@ export class DrawingOrders implements IApplication<
     orders.push(OrderBuilder.subFrameMulti(59, 29, 6, 5, sfmData));
 
     // --- fullFrame ---
-    /** OrderBuilder.fullFrame(charCodes[], fg, bg) — covers entire layer */
+    /** OrderBuilder.fullFrame(charCodes[], fg, bg) - covers entire layer */
     orders.push(OrderBuilder.text(70, 27, "fullFrame", 1, 0));
     const ffLayer = new Layer(new Vector2(70, 29), 0, 6, 5, {
       mustBeReliable: true,
@@ -413,7 +413,7 @@ export class DrawingOrders implements IApplication<
     user.addLayer(ffLayer);
 
     // --- fullFrameMulti ---
-    /** OrderBuilder.fullFrameMulti(cellData[]) — per-cell char+fg+bg */
+    /** OrderBuilder.fullFrameMulti(cellData[]) - per-cell char+fg+bg */
     orders.push(OrderBuilder.text(79, 27, "fullFrMulti", 1, 0));
     const ffmLayer = new Layer(new Vector2(79, 29), 0, 6, 5, {
       mustBeReliable: true,
@@ -489,12 +489,12 @@ export class DrawingOrders implements IApplication<
     orders.push(OrderBuilder.text(40, 37, "[ SPRITES ]", 4, 0));
 
     // --- sprite ---
-    /** OrderBuilder.sprite(x, y, spriteId, fg, bg) — unicolor, tinted */
+    /** OrderBuilder.sprite(x, y, spriteId, fg, bg) - unicolor, tinted */
     orders.push(OrderBuilder.text(40, 39, "sprite", 1, 0));
     orders.push(OrderBuilder.sprite(40, 41, 0, 2, 10));
 
     // --- spriteMulti ---
-    /** OrderBuilder.spriteMulti(x, y, spriteId) — multicolor, embedded colors */
+    /** OrderBuilder.spriteMulti(x, y, spriteId) - multicolor, embedded colors */
     orders.push(OrderBuilder.text(48, 39, "spriteMulti", 1, 0));
     orders.push(OrderBuilder.spriteMulti(48, 41, 1));
 
@@ -516,7 +516,7 @@ export class DrawingOrders implements IApplication<
     ];
 
     // --- dotCloud ---
-    /** OrderBuilder.dotCloud(positions[], char, fg, bg) — same char+color at many positions */
+    /** OrderBuilder.dotCloud(positions[], char, fg, bg) - same char+color at many positions */
     orders.push(OrderBuilder.text(2, 52, "dotCloud", 1, 0));
     orders.push(
       OrderBuilder.dotCloud(
@@ -531,7 +531,7 @@ export class DrawingOrders implements IApplication<
     );
 
     // --- dotCloudMulti ---
-    /** OrderBuilder.dotCloudMulti(data[]) — each dot has its own char+fg+bg */
+    /** OrderBuilder.dotCloudMulti(data[]) - each dot has its own char+fg+bg */
     orders.push(OrderBuilder.text(14, 52, "dotCloudMC", 1, 0));
     orders.push(
       OrderBuilder.dotCloudMulti(
@@ -546,7 +546,7 @@ export class DrawingOrders implements IApplication<
     );
 
     // --- spriteCloud ---
-    /** OrderBuilder.spriteCloud(spriteId, positions[], fg, bg) — same sprite at many positions */
+    /** OrderBuilder.spriteCloud(spriteId, positions[], fg, bg) - same sprite at many positions */
     orders.push(OrderBuilder.text(28, 52, "spriteCloud", 1, 0));
     orders.push(
       OrderBuilder.spriteCloud(
@@ -561,7 +561,7 @@ export class DrawingOrders implements IApplication<
     );
 
     // --- spriteCloudMulti ---
-    /** OrderBuilder.spriteCloudMulti(spriteId, positions[]) — same multicolor sprite */
+    /** OrderBuilder.spriteCloudMulti(spriteId, positions[]) - same multicolor sprite */
     orders.push(OrderBuilder.text(42, 52, "sprCloudMC", 1, 0));
     orders.push(
       OrderBuilder.spriteCloudMulti(
@@ -574,7 +574,7 @@ export class DrawingOrders implements IApplication<
     );
 
     // --- spriteCloudVaried ---
-    /** OrderBuilder.spriteCloudVaried(data[]) — different sprite+tint per element */
+    /** OrderBuilder.spriteCloudVaried(data[]) - different sprite+tint per element */
     orders.push(OrderBuilder.text(56, 52, "sprClVaried", 1, 0));
     orders.push(
       OrderBuilder.spriteCloudVaried([
@@ -586,7 +586,7 @@ export class DrawingOrders implements IApplication<
     );
 
     // --- spriteCloudVariedMulti ---
-    /** OrderBuilder.spriteCloudVariedMulti(data[]) — different multicolor sprite per element */
+    /** OrderBuilder.spriteCloudVariedMulti(data[]) - different multicolor sprite per element */
     orders.push(OrderBuilder.text(70, 52, "sprClVarMC", 1, 0));
     orders.push(
       OrderBuilder.spriteCloudVariedMulti([
@@ -604,7 +604,7 @@ export class DrawingOrders implements IApplication<
   }
 
   /**
-   * No drawing happens here — the catalog is 100% static.
+   * No drawing happens here - the catalog is 100% static.
    * This demonstrates the ideal pattern: draw in initUser, commit once,
    * and let the client display the frozen layer indefinitely.
    */

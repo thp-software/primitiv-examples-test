@@ -148,7 +148,7 @@ export class InputShowcase implements IApplication<
     /**
      * LOGICAL INPUT BINDINGS
      * We map hardware constants to semantic names.
-     * Keyboard and Mouse only — see 08-gamepad-input for gamepad bindings.
+     * Keyboard and Mouse only - see 08-gamepad-input for gamepad bindings.
      */
     const registry = user.getInputBindingRegistry();
 

@@ -142,7 +142,7 @@ export class BridgeShowcase implements IApplication<
    * The React panel will command which slot to activate via bridge.
    */
   async init(_runtime: IRuntime, engine: Engine): Promise<void> {
-    // THEME 0: CYBER (default) — dark blue, neon accents
+    // THEME 0: CYBER (default) - dark blue, neon accents
     engine.loadPaletteToSlot(0, [
       { colorId: 0, r: 8, g: 12, b: 20, a: 255 }, // bg
       { colorId: 1, r: 0, g: 200, b: 120, a: 255 }, // green accent
@@ -156,7 +156,7 @@ export class BridgeShowcase implements IApplication<
       { colorId: 9, r: 40, g: 55, b: 75, a: 255 }, // border
     ]);
 
-    // THEME 1: FOREST — deep greens, earthy tones
+    // THEME 1: FOREST - deep greens, earthy tones
     engine.loadPaletteToSlot(1, [
       { colorId: 0, r: 10, g: 18, b: 10, a: 255 },
       { colorId: 1, r: 80, g: 200, b: 80, a: 255 },
@@ -170,7 +170,7 @@ export class BridgeShowcase implements IApplication<
       { colorId: 9, r: 40, g: 60, b: 40, a: 255 },
     ]);
 
-    // THEME 2: SUNSET — warm oranges, purples
+    // THEME 2: SUNSET - warm oranges, purples
     engine.loadPaletteToSlot(2, [
       { colorId: 0, r: 20, g: 10, b: 15, a: 255 },
       { colorId: 1, r: 255, g: 150, b: 50, a: 255 },
@@ -184,7 +184,7 @@ export class BridgeShowcase implements IApplication<
       { colorId: 9, r: 80, g: 40, b: 50, a: 255 },
     ]);
 
-    // THEME 3: OCEAN — deep blues, aqua highlights
+    // THEME 3: OCEAN - deep blues, aqua highlights
     engine.loadPaletteToSlot(3, [
       { colorId: 0, r: 5, g: 10, b: 25, a: 255 },
       { colorId: 1, r: 0, g: 180, b: 220, a: 255 },
@@ -200,7 +200,7 @@ export class BridgeShowcase implements IApplication<
 
     this.startTime = Date.now();
 
-    // 30 FPS — enough for a dashboard with floating text.
+    // 30 FPS - enough for a dashboard with floating text.
     _runtime.setTickRate(30);
   }
 
@@ -474,7 +474,7 @@ export class BridgeShowcase implements IApplication<
   }
 
   // =====================================================================
-  // GLOBAL UPDATE — broadcastBridge
+  // GLOBAL UPDATE - broadcastBridge
   // =====================================================================
 
   /**

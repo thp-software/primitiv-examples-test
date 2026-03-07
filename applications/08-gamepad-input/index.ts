@@ -17,7 +17,7 @@
  *   AXES (analog, -1.0 to 1.0 or 0.0 to 1.0):
  *     Left Stick: LeftStickX, LeftStickY
  *     Right Stick: RightStickX, RightStickY
- *     Triggers: LeftTriggerAxis (L2), RightTriggerAxis (R2) — range 0.0 to 1.0
+ *     Triggers: LeftTriggerAxis (L2), RightTriggerAxis (R2) - range 0.0 to 1.0
  *
  *   VIBRATION (Haptic Feedback):
  *     Dual-rumble support via `user.vibrateGamepad()`.
@@ -47,11 +47,11 @@
  *     multiple controllers can coexist without conflict.
  *
  * Key Concepts:
- *   - `registry.defineButton(actionId, name, [{ sourceId, type: InputDeviceType.Gamepad, gamepadIndex, button: GamepadInput.ButtonA }])` — map a gamepad button to a logical action.
- *   - `registry.defineAxis(actionId, name, [{ sourceId, type: InputDeviceType.Gamepad, gamepadIndex, axis: GamepadInput.LeftStickX }])` — map an analog axis.
- *   - `user.getButton(actionId)` — returns `{ pressed, justPressed, justReleased }`.
- *   - `user.getAxis(actionId)` — returns the current axis value (−1.0 to 1.0; triggers: 0.0 to 1.0).
- *   - `user.vibrateGamepad({ duration, strongMagnitude, weakMagnitude })` — dual-rumble haptic output.
+ *   - `registry.defineButton(actionId, name, [{ sourceId, type: InputDeviceType.Gamepad, gamepadIndex, button: GamepadInput.ButtonA }])` - map a gamepad button to a logical action.
+ *   - `registry.defineAxis(actionId, name, [{ sourceId, type: InputDeviceType.Gamepad, gamepadIndex, axis: GamepadInput.LeftStickX }])` - map an analog axis.
+ *   - `user.getButton(actionId)` - returns `{ pressed, justPressed, justReleased }`.
+ *   - `user.getAxis(actionId)` - returns the current axis value (−1.0 to 1.0; triggers: 0.0 to 1.0).
+ *   - `user.vibrateGamepad({ duration, strongMagnitude, weakMagnitude })` - dual-rumble haptic output.
  */
 
 import {
@@ -438,7 +438,7 @@ export class GamepadShowcase implements IApplication<
     o.push(OrderBuilder.text(52, 13, r3 ? "HELD" : "----", r3 ? 1 : 4, 0));
 
     // =====================================================================
-    // TRIGGERS (L2 / R2) — analog axes 0.0 to 1.0
+    // TRIGGERS (L2 / R2) - analog axes 0.0 to 1.0
     // =====================================================================
     const l2 = user.getAxis("L2");
     const r2 = user.getAxis("R2");

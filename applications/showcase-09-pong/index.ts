@@ -321,7 +321,7 @@ export class Pong implements IApplication<Engine, User<PongUserData>> {
         courtLayer.setOrders(courtOrders);
 
 
-        // ── Layer 2: UI (Z=2) — Score and Banner ─────────────────────────────
+        // ── Layer 2: UI (Z=2) - Score and Banner ─────────────────────────────
         const uiLayer = new Layer(new Vector2(OX, OY), 2, W, H);
         user.addLayer(uiLayer);
 
@@ -452,7 +452,7 @@ export class Pong implements IApplication<Engine, User<PongUserData>> {
         if (d.ballY <= 3) { d.ballY = 3; d.ballVY = Math.abs(d.ballVY); }
         if (d.ballY >= H - 3) { d.ballY = H - 3; d.ballVY = -Math.abs(d.ballVY); }
 
-        // BLUE paddle — swept collision
+        // BLUE paddle - swept collision
         const pLine = PADDLE_X_L + 1;
         const pTop = Math.round(d.blueY - PADDLE_H / 2);
         const pBot = Math.round(d.blueY + PADDLE_H / 2);
@@ -475,7 +475,7 @@ export class Pong implements IApplication<Engine, User<PongUserData>> {
             }
         }
 
-        // CPU paddle — swept collision
+        // CPU paddle - swept collision
         const cLine = PADDLE_X_R - 1;
         const cTop = Math.round(d.redY - PADDLE_H / 2);
         const cBot = Math.round(d.redY + PADDLE_H / 2);

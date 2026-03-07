@@ -16,8 +16,8 @@
  *   c) Query state with `user.getButton()` / `user.getAxis()` as usual.
  *
  * Vibration:
- *   `user.vibrate(50)` — Single buzz, 50ms.
- *   `user.vibrate([100, 50, 100])` — Vibrate 100ms, pause 50ms, vibrate 100ms.
+ *   `user.vibrate(50)` - Single buzz, 50ms.
+ *   `user.vibrate([100, 50, 100])` - Vibrate 100ms, pause 50ms, vibrate 100ms.
  *   Note: Most browsers require a prior user interaction (first tap) before
  *   allowing vibrations. This is a browser security policy, not an engine limit.
  *
@@ -30,16 +30,16 @@
  *   - A virtual D-pad and two action buttons built from touch zones, with live
  *     visual feedback showing each zone's activation state in real-time.
  *   - Phone haptic feedback: button taps trigger vibration patterns via the
- *     browser's Navigator.vibrate API — single buzzes and patterned sequences.
+ *     browser's Navigator.vibrate API - single buzzes and patterned sequences.
  *   - Dual input binding: every action is mapped to both a touch zone and a
  *     keyboard key so the example is fully testable on desktop.
  *
  * Key Concepts:
- *   - `reg.defineTouchZone(id, name, x, y, w, h)` — declare a screen region (in grid cells) as a named input source.
- *   - `registry.defineAxis(actionId, name, [{ sourceId, type: InputDeviceType.TouchZone, touchZoneId, touchZoneAxis: 'x'|'y' }])` — bind a touch zone to a logical axis.
- *   - `registry.defineButton(actionId, name, [{ sourceId, type: InputDeviceType.TouchZone, touchZoneId }])` — bind a touch zone to a logical button.
- *   - `user.getButton(actionId)` / `user.getAxis(actionId)` — query state as usual, regardless of input source.
- *   - `user.vibrate(pattern)` — trigger device vibration: number for a single buzz, array `[on, off, on, ...]` for a patterned sequence.
+ *   - `reg.defineTouchZone(id, name, x, y, w, h)` - declare a screen region (in grid cells) as a named input source.
+ *   - `registry.defineAxis(actionId, name, [{ sourceId, type: InputDeviceType.TouchZone, touchZoneId, touchZoneAxis: 'x'|'y' }])` - bind a touch zone to a logical axis.
+ *   - `registry.defineButton(actionId, name, [{ sourceId, type: InputDeviceType.TouchZone, touchZoneId }])` - bind a touch zone to a logical button.
+ *   - `user.getButton(actionId)` / `user.getAxis(actionId)` - query state as usual, regardless of input source.
+ *   - `user.vibrate(pattern)` - trigger device vibration: number for a single buzz, array `[on, off, on, ...]` for a patterned sequence.
  */
 
 import {

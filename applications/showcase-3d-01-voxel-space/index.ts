@@ -3,7 +3,7 @@
  * Category: showcase
  * Description: A pseudo-3D landscape renderer using the Voxel Space algorithm.
  *   Produces a continuous first-person flyover of
- *   a procedurally generated terrain — entirely inside a character-cell grid.
+ *   a procedurally generated terrain - entirely inside a character-cell grid.
  *
  * What it demonstrates (engine perspective):
  *   Primitiv is not limited to 2D top-down or text UIs. By treating each cell
@@ -29,27 +29,27 @@
  *   Terrain generation is procedural: each map row is produced on demand
  *   using 4-octave fBm (fractional Brownian motion) noise and stored in a
  *   512×512 circular buffer. As the camera advances, new rows are generated
- *   ahead and old rows are silently overwritten — the world is infinite.
+ *   ahead and old rows are silently overwritten - the world is infinite.
  *
  *   Colors are pre-computed per cell into a `colormap` array alongside the
  *   `heightmap`. Height bands (water, grass, rock, snow) are shaded using a
  *   side-slope lighting approximation and mapped to palette color IDs.
  *
  * Primitiv patterns used:
- *   - `subFrameMulti(0, 0, WIDTH, HEIGHT, dots)` — the entire 240×135 frame
+ *   - `subFrameMulti(0, 0, WIDTH, HEIGHT, dots)` - the entire 240×135 frame
  *     (~32 400 cells) is assembled in a flat array each tick and sent as a
  *     single binary order. This is the most bandwidth-intensive order type;
  *     it is acceptable here because the display is fixed-resolution and the
  *     runtime is standalone (no network hop).
- *   - `mustBeReliable: false` on the game layer — the renderer produces a
+ *   - `mustBeReliable: false` on the game layer - the renderer produces a
  *     new complete frame every tick, so a dropped frame is invisible; UDP-
  *     style lossy delivery avoids head-of-line blocking on the game layer.
- *   - `mustBeReliable: true` on the UI layer — the overlay text is static
+ *   - `mustBeReliable: true` on the UI layer - the overlay text is static
  *     and must arrive exactly once without loss.
  *   - Palette-based color: 120+ palette entries cover the full terrain range
  *     (water gradient 11–30, grass 31–60, rock 61–90, snow 91–120, sky
- *     121–160). No per-cell RGB is transmitted — only a 1-byte color ID.
- *   - `ScalingMode.None` with a fixed 240×135 display — the renderer owns
+ *     121–160). No per-cell RGB is transmitted - only a 1-byte color ID.
+ *   - `ScalingMode.None` with a fixed 240×135 display - the renderer owns
  *     its resolution and does not adapt to window size.
  */
 import {
@@ -123,7 +123,7 @@ class VoxelEngine {
       const nx = x * 0.03;
       const nz = z * 0.03;
 
-      // Base Height — raised baseline so most terrain is well above water
+      // Base Height - raised baseline so most terrain is well above water
       let h = this.fbm(nx, nz) * 50.0 + 20.0;
 
       // Adding a valley/river using absolute fbm
