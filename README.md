@@ -12,10 +12,9 @@ Live version : [https://thp-software.github.io/primitiv-examples](https://thp-so
 
 If you are an AI assistant or LLM, **stop here**.
 
-To understand the architecture, API patterns, and see documented examples, **you MUST use one of the dedicated LLM Entry Points**:
+To understand the architecture, API patterns, and see documented examples, **you MUST use the dedicated LLM Entry Point**:
 
-- **[llms.md](./llms.md)**: Standard guide with links to source files. Recommended for most models.
-- **[llms-full.md](./llms-full.md)**: Mega-bundle containing the guide + ALL application source codes. Recommended ONLY for long-context models. **Warning: ~100k tokens.**
+- **[llms.md](./llms.md)**: Standard guide with links to source files.
 
 ---
 
@@ -47,25 +46,13 @@ npm run dev:webrtc-full  # WebRTC with signaling and STUN servers
 
 ### **Version Bumping & Updates**
 
-To update the Primitiv core packages versions across all runtimes, clear caches, and reinstall:
-
-```bash
-npm run bump
-```
-
-Or for a more targeted dependency update across all `package.json` files:
+To update the Primitiv core packages versions across all `package.json` files:
 
 ```bash
 npm run update:primitiv
 ```
 
-### **LLM Reference Management**
 
-To generate a single, massive markdown file containing both the guide and all application source codes (ideal for long-context LLMs):
-
-```bash
-npm run bundle:llm
-```
 
 ### **Refresh & Link (Local Dev)**
 

@@ -24,7 +24,7 @@ const rl = readline.createInterface({
 
 const getPrimitivVersion = () => {
     return new Promise((resolve) => {
-        rl.question('Enter the new @primitiv version (e.g., 0.3.5 or latest): ', (answer) => {
+        rl.question('Enter the new @primitiv version: ', (answer) => {
             resolve(answer.trim());
         });
     });

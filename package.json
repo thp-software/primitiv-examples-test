@@ -11,8 +11,6 @@
         "primitiv:refresh": "npm run primitiv:refresh --prefix runtimes/standalone && npm run primitiv:refresh --prefix runtimes/connected-uws && npm run primitiv:refresh --prefix runtimes/connected-webrtc-lite && npm run primitiv:refresh --prefix runtimes/connected-webrtc-full",
         "primitiv:link": "npm run primitiv:link --prefix runtimes/standalone && npm run primitiv:link --prefix runtimes/connected-uws && npm run primitiv:link --prefix runtimes/connected-webrtc-lite && npm run primitiv:link --prefix runtimes/connected-webrtc-full",
         "primitiv:unlink": "npm run primitiv:unlink --prefix runtimes/standalone && npm run primitiv:unlink --prefix runtimes/connected-uws && npm run primitiv:unlink --prefix runtimes/connected-webrtc-lite && npm run primitiv:unlink --prefix runtimes/connected-webrtc-full",
-        "bump": "node scripts/bump-version.js",
-        "update:primitiv": "node scripts/update-primitiv-version.mjs",
-        "bundle:llm": "node scripts/generate-llm-bundle.mjs"
+        "update:primitiv": "node scripts/update-primitiv-version.mjs"
     }
 }
