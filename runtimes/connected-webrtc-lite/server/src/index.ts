@@ -3,9 +3,7 @@ import { MultiUserShowcase } from '../../../../applications/15-multi-user/index.
 
 const server = new RuntimeServer({
   transport: 'webrtc-lite',
-  webrtc: {
-    port: 3001,
-  },
+  webrtcLite: { port: 3001 },
   debug: true,
   debugUi: true,
   application: new MultiUserShowcase(),
