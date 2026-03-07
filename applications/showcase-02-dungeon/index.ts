@@ -443,6 +443,11 @@ const TILE_VIS: Record<Tile, { ch: string; fg: number }> = {
 export class DungeonApp implements IApplication<Engine, User<any>> {
   name = "Dungeon Crawler";
   description = "A minimalist top-down dungeon crawler with procedural rooms.";
+  private readonly isPreview: boolean;
+
+  constructor(isPreview: boolean = false) {
+    this.isPreview = isPreview;
+  }
 
   async init(runtime: IRuntime, engine: Engine): Promise<void> {
     engine.loadPaletteToSlot(0, [
@@ -601,7 +606,87 @@ export class DungeonApp implements IApplication<Engine, User<any>> {
 
   }
 
-  update(_runtime: IRuntime, _engine: Engine): void {}
+  /**
+   * Auto-playing AI: finds the shortest path to the *nearest* accessible loot
+   * using a simple Breadth-First Search (BFS).
+   * Returns { dx, dy } for the next 1-tile step.
+   */
+  private findNextMoveToNearestLoot(dg: DungeonEngine): { dx: number; dy: number } {
+    if (dg.loot.length === 0) return { dx: 0, dy: 0 };
+
+    // Represents a node in the BFS queue
+    interface Node {
+      x: number;
+      y: number;
+      dx: number; // The very first step taken to reach this branch
+      dy: number;
+    }
+
+    const queue: Node[] = [];
+    const visited = new Set<string>();
+
+    const startKey = `${dg.px},${dg.py}`;
+    visited.add(startKey);
+
+    // Initial 4 directions
+    const dirs = [
+      { dx: 0, dy: -1 },
+      { dx: 0, dy: 1 },
+      { dx: -1, dy: 0 },
+      { dx: 1, dy: 0 },
+    ];
+
+    for (const d of dirs) {
+      const nx = dg.px + d.dx;
+      const ny = dg.py + d.dy;
+      if (nx >= 0 && nx < dg.w && ny >= 0 && ny < dg.h) {
+        const t = dg.grid[ny][nx];
+        // Can't walk on walls or locked doors
+        if (t !== Tile.Wall && t !== Tile.Void && t !== Tile.LockedDoor) {
+          queue.push({ x: nx, y: ny, dx: d.dx, dy: d.dy });
+          visited.add(`${nx},${ny}`);
+        }
+      }
+    }
+
+    while (queue.length > 0) {
+      const curr = queue.shift()!;
+
+      // Check if we reached ANY loot
+      for (const item of dg.loot) {
+        if (item.x === curr.x && item.y === curr.y) {
+          // Found the closest loot! Return the *first* step we took on this path
+          return { dx: curr.dx, dy: curr.dy };
+        }
+      }
+
+      // Expand neighbors
+      for (const d of dirs) {
+        const nx = curr.x + d.dx;
+        const ny = curr.y + d.dy;
+        const key = `${nx},${ny}`;
+
+        if (
+          !visited.has(key) &&
+          nx >= 0 &&
+          nx < dg.w &&
+          ny >= 0 &&
+          ny < dg.h
+        ) {
+          const t = dg.grid[ny][nx];
+          if (t !== Tile.Wall && t !== Tile.Void && t !== Tile.LockedDoor) {
+            visited.add(key);
+            queue.push({ x: nx, y: ny, dx: curr.dx, dy: curr.dy }); // carry forward the FIRST step
+          }
+        }
+      }
+    }
+
+    // No path found (maybe isolated? or no loot left)
+    return { dx: 0, dy: 0 };
+  }
+
+  update(_runtime: IRuntime, _engine: Engine): void { }
 
   updateUser(_runtime: IRuntime, _engine: Engine, user: User<any>): void {
     const d = user.data;
@@ -616,10 +701,20 @@ export class DungeonApp implements IApplication<Engine, User<any>> {
     if (now - d.lastMove > 100) {
       let dx = 0,
         dy = 0;
-      if (user.getButton("UP")) dy = -1;
-      else if (user.getButton("DOWN")) dy = 1;
-      else if (user.getButton("LEFT")) dx = -1;
-      else if (user.getButton("RIGHT")) dx = 1;
+
+      if (this.isPreview) {
+        // AI Autoplay
+        const aiMove = this.findNextMoveToNearestLoot(dg);
+        dx = aiMove.dx;
+        dy = aiMove.dy;
+      } else {
+        // Manual Input
+        if (user.getButton("UP")) dy = -1;
+        else if (user.getButton("DOWN")) dy = 1;
+        else if (user.getButton("LEFT")) dx = -1;
+        else if (user.getButton("RIGHT")) dx = 1;
+      }
+
       if ((dx || dy) && dg.move(dx, dy)) d.lastMove = now;
     }
 
@@ -684,7 +779,7 @@ export class DungeonApp implements IApplication<Engine, User<any>> {
       d.lastScore = dg.score;
       d.lastPx = dg.px;
       d.lastPy = dg.py;
-      const info = `Pos ${dg.px},${dg.py}  Score ${dg.score} `;
+      const info = `Pos ${dg.px},${dg.py}  Score ${dg.score} ${this.isPreview ? '[PREVIEW]' : ''} `;
       d.uiDynamicLayer.setOrders([
         OrderBuilder.rect(
           DISPLAY_W - info.length - 3,

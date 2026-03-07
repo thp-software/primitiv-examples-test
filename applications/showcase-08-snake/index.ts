@@ -2,7 +2,7 @@
  * Name: showcase-08-snake
  * Category: showcase
  * Description: The smallest complete game possible with Primitiv — a fully
- *   playable Snake clone in under 150 lines. One palette, two layers, two
+ *   playable Minimal Snake clone. One palette, two layers, two
  *   input axes, and five drawing orders per frame.
  *
  * Architecture:
@@ -27,12 +27,11 @@ import {
 const WIDTH = 22, HEIGHT = 14;
 
 // ─── Palette color IDs ───────────────────────────────────────────────────────
-const BG = 0;
-const WALL = 1;
-const SNAKE = 2;
-const DANGER = 3;
-const FOOD = 4;
-const TEXT = 5;
+const BG_COLOR = 0;
+const SNAKE_COLOR = 2;
+const DANGER_COLOR = 3;
+const FOOD_COLOR = 4;
+const TEXT_COLOR = 5;
 
 // ─── Per-user application state ──────────────────────────────────────────────
 
@@ -44,6 +43,7 @@ interface SnakeUserData {
     food: { x: number; y: number };
     alive: boolean;
     score: number;
+    moveTimer: number;
 }
 
 /** Spawn food at a random position, rejection-sampled to avoid the snake. */
@@ -51,7 +51,7 @@ function spawnFood(snake: { x: number; y: number }[]): { x: number; y: number } 
     let x: number, y: number;
     do {
         x = 1 + Math.floor(Math.random() * (WIDTH - 2));
-        y = 2 + Math.floor(Math.random() * (HEIGHT - 3));
+        y = 1 + Math.floor(Math.random() * (HEIGHT - 2));
     } while (snake.some(segment => segment.x === x && segment.y === y));
     return { x, y };
 }
@@ -62,14 +62,13 @@ export class Minimal implements IApplication<Engine, User<SnakeUserData>> {
 
     async init(runtime: IRuntime, engine: Engine) {
         engine.loadPaletteToSlot(0, [
-            { colorId: BG, r: 10, g: 10, b: 18, a: 255 },
-            { colorId: WALL, r: 60, g: 60, b: 90, a: 255 },
-            { colorId: SNAKE, r: 80, g: 220, b: 120, a: 255 },
-            { colorId: DANGER, r: 255, g: 80, b: 80, a: 255 },
-            { colorId: FOOD, r: 255, g: 220, b: 50, a: 255 },
-            { colorId: TEXT, r: 200, g: 200, b: 220, a: 255 },
+            { colorId: BG_COLOR, r: 12, g: 14, b: 20, a: 255 },      // Deep Midnight
+            { colorId: SNAKE_COLOR, r: 50, g: 180, b: 130, a: 255 },   // Rich Emerald
+            { colorId: DANGER_COLOR, r: 210, g: 60, b: 60, a: 255 },   // Muted Crimson
+            { colorId: FOOD_COLOR, r: 230, g: 170, b: 40, a: 255 },    // Golden Amber
+            { colorId: TEXT_COLOR, r: 190, g: 200, b: 210, a: 255 },   // Silver Mist
         ]);
-        runtime.setTickRate(8);
+        runtime.setTickRate(20);
     }
 
     initUser(_runtime: IRuntime, _engine: Engine, user: User<SnakeUserData>) {
@@ -78,22 +77,20 @@ export class Minimal implements IApplication<Engine, User<SnakeUserData>> {
         user.addDisplay(display);
         display.switchPalette(0);
 
-        // ── Layer 0: static walls (drawn once, never updated) ────────────────
+        // ── Layer 0: static walls ────────────────────────────────────────────
         const wallLayer = new Layer(new Vector2(0, 0), 0, WIDTH, HEIGHT, { mustBeReliable: true });
         user.addLayer(wallLayer);
 
-        const wallGrid = Array.from({ length: WIDTH * HEIGHT }, (_, index) => {
-            const x = index % WIDTH, y = Math.floor(index / WIDTH);
-            return x === 0 || x === WIDTH - 1 || y === 1 || y === HEIGHT - 1;
-        });
         wallLayer.setOrders([
-            OrderBuilder.fill(' ', BG, BG),
-            OrderBuilder.text(1, 0, 'SNAKE', TEXT, BG),
-            OrderBuilder.bitmask(0, 0, WIDTH, HEIGHT, wallGrid, '#', WALL, BG),
+            OrderBuilder.fill(' ', BG_COLOR, BG_COLOR),
+            OrderBuilder.line(0, 0, WIDTH - 1, 0, { charCode: ' ', bgColor: TEXT_COLOR }),
+            OrderBuilder.line(0, HEIGHT - 1, WIDTH - 1, HEIGHT - 1, { charCode: ' ', bgColor: TEXT_COLOR }),
+            OrderBuilder.line(0, 0, 0, HEIGHT - 1, { charCode: ' ', bgColor: TEXT_COLOR }),
+            OrderBuilder.line(WIDTH - 1, 0, WIDTH - 1, HEIGHT - 1, { charCode: ' ', bgColor: TEXT_COLOR }),
+            OrderBuilder.text(1, 0, ' SNAKE ', BG_COLOR, TEXT_COLOR),
         ]);
 
-
-        // ── Layer 1: dynamic game state (rebuilt every tick) ──────────────────
+        // ── Layer 1: dynamic game state (rebuilt every tick) ─────────────────
         const gameLayer = new Layer(new Vector2(0, 0), 1, WIDTH, HEIGHT);
         user.addLayer(gameLayer);
 
@@ -106,6 +103,7 @@ export class Minimal implements IApplication<Engine, User<SnakeUserData>> {
             food: spawnFood(snake),
             alive: true,
             score: 0,
+            moveTimer: 0,
         };
 
         // ── Input ────────────────────────────────────────────────────────────
@@ -124,11 +122,14 @@ export class Minimal implements IApplication<Engine, User<SnakeUserData>> {
         else if (inputY && inputY !== -data.direction.y) data.nextDirection = { x: 0, y: inputY };
 
         // ── 2. Advance game state ────────────────────────────────────────────
-        if (data.alive) {
+        data.moveTimer += 8;
+        if (data.alive && data.moveTimer >= 20) {
+            data.moveTimer -= 20;
+
             data.direction = data.nextDirection;
             const head = { x: data.snake[0].x + data.direction.x, y: data.snake[0].y + data.direction.y };
 
-            const hitsWall = head.x <= 0 || head.x >= WIDTH - 1 || head.y <= 1 || head.y >= HEIGHT - 1;
+            const hitsWall = head.x < 1 || head.x >= WIDTH - 1 || head.y < 1 || head.y >= HEIGHT - 1;
             const hitsSelf = data.snake.some(segment => segment.x === head.x && segment.y === head.y);
 
             if (hitsWall || hitsSelf) {
@@ -145,14 +146,20 @@ export class Minimal implements IApplication<Engine, User<SnakeUserData>> {
         }
 
         // ── 3. Draw game state ───────────────────────────────────────────────
-        const orders: any[] = [];
-        orders.push(OrderBuilder.text(8, 0, `Score: ${data.score}`, TEXT, BG));
-        orders.push(OrderBuilder.char(data.food.x, data.food.y, '♦', FOOD, BG));
-        orders.push(OrderBuilder.polyline(data.snake, '█', SNAKE));
-        orders.push(OrderBuilder.char(data.snake[0].x, data.snake[0].y, '@', SNAKE, BG));
-        if (!data.alive) orders.push(OrderBuilder.text(6, 6, 'GAME OVER!', DANGER, BG));
+        const layer = data.gameLayer;
 
-        data.gameLayer.setOrders(orders);
+        const orders = [
+            OrderBuilder.text(10, 0, ` Score: ${data.score} `, BG_COLOR, TEXT_COLOR),
+            OrderBuilder.char(data.food.x, data.food.y, '♦', FOOD_COLOR, 255),
+            OrderBuilder.polyline(data.snake, '█', SNAKE_COLOR),
+            OrderBuilder.char(data.snake[0].x, data.snake[0].y, '@', SNAKE_COLOR, 255)
+        ];
+
+        if (!data.alive) {
+            orders.push(OrderBuilder.text(6, 6, ' GAME OVER! ', DANGER_COLOR, TEXT_COLOR));
+        }
+
+        layer.setOrders(orders);
 
     }
 

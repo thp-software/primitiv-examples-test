@@ -1,9 +1,8 @@
 /**
  * Name: showcase-09-pong
  * Category: showcase
- * Description: Premium Pong — BLUE vs CPU at 120×67 resolution. Featuring 
- *   a 5-layer Z-buffer depth system, 3D beveled frame, interpolated ball
- *   comet trail, high-intensity solid glow, and parallax screen shake.
+ * Description: Pong clone with 5-layer Z-buffer depth, 3D beveled frame,
+ *   interpolated motion trails, additive collision glows, and parallax screen shake.
  *
  * Architecture (5-Layer Z-Buffer):
  *   - Z=0 (bgLayer): Perspective tunnel background.

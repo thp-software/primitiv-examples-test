@@ -1,8 +1,8 @@
 /**
  * Name: showcase-10-breakout
  * Category: showcase
- * Description: Premium Breakout — 5-layer Z-buffer depth system, 3D beveled frame,
- *   falling power-ups, interpolated comet trail, high-intensity collision glows,
+ * Description: Breakout clone with 5-layer Z-buffer depth system, 3D beveled frame,
+ *   falling power-ups, interpolated motion trails, and additive collision glows,
  *   and parallax screen shake.
  * 
  * Architecture (5-Layer Z-Buffer):

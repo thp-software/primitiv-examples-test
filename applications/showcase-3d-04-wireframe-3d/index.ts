@@ -1,9 +1,7 @@
 /**
- * Name: wireframe-3d
+ * Name: Synthwave AI
  * Category: showcase
- * Description: An infinite Synthwave 3D wireframe city with an AI autopilot dodging gameplay.
- *   Navigate an infinite procedural 3D wireframe mesh featuring volumetric mountains, towering 
- *   skyscrapers, and an iconic retro sun.
+ * Description: Infinite retro-city dodging game with AI autopilot.
  *
  * What it demonstrates (engine perspective):
  *   This showcase demonstrates how the Primitiv engine can compute and rasterize 

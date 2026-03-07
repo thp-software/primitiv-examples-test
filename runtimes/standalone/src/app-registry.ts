@@ -50,6 +50,7 @@ import { TermBomber } from "../../../applications/showcase-07-terminal-bomber";
 import { Minimal } from "../../../applications/showcase-08-snake";
 import { Pong } from "../../../applications/showcase-09-pong";
 import { Breakout } from "../../../applications/showcase-10-breakout";
+import { MyGame } from "../../../applications/showcase-11-minimal-example";
 
 export const APP_REGISTRY: AppEntry[] = [
   {
@@ -207,9 +208,9 @@ export const APP_REGISTRY: AppEntry[] = [
   },
   {
     slug: "showcase-3d-04-wireframe-3d",
-    name: "Wireframe 3D",
+    name: "Synthwave AI",
     description:
-      "3D perspective projection with wireframe rendering and OBJ parsing.",
+      "Infinite retro-city dodging game with AI autopilot.",
     category: "showcase-3d",
     factory: () => new Wireframe3DShowcase(),
   },
@@ -269,16 +270,16 @@ export const APP_REGISTRY: AppEntry[] = [
     slug: "showcase-07-terminal-bomber",
     name: "07 Terminal Bomber",
     description:
-      "Multiplayer Bomberman-style game in ASCII art. Host or join servers, wait in the lobby, and blast your friends (or heatmap-driven bots). Multiplayer requires running on a server or you stay alone.",
+      "Multiplayer Bomberman-style game in ASCII art. Host or join servers and play against other players or heatmap-driven bots. Multiplayer requires running on a server.",
     controls: "WASD / Arrows: Move\nSpace / Z: Drop bomb",
     category: "showcase",
     factory: () => new TermBomber(),
   },
   {
     slug: "showcase-08-snake",
-    name: "08 Snake",
+    name: "08 Minimal Snake",
     description:
-      "Complete Snake game in under 100 lines. Arrow keys to move, eat ♦ to grow.",
+      "Complete Minimal Snake game. Arrow keys to move, eat ♦ to grow.",
     controls: "Arrow Keys: Move",
     category: "showcase",
     factory: () => new Minimal(),
@@ -287,7 +288,7 @@ export const APP_REGISTRY: AppEntry[] = [
     slug: "showcase-09-pong",
     name: "09 Pong",
     description:
-      "Premium Pong — 5-layer Z-buffer depth, 3D beveled frame, interpolated comet trail, and high-intensity solid glows.",
+      "Pong clone demonstrating 5-layer Z-buffer depth, 3D beveled frame, interpolated motion trails, and additive collision glows.",
     controls: "Space: Slow-motion",
     category: "showcase",
     factory: () => new Pong(),
@@ -296,10 +297,18 @@ export const APP_REGISTRY: AppEntry[] = [
     slug: "showcase-10-breakout",
     name: "10 Breakout",
     description:
-      "Premium Breakout — 5-layer Z-buffer depth system, 3D beveled frame, falling power-ups, interpolated comet trail, and high-intensity collision glows.",
+      "Breakout clone with 5-layer Z-buffer depth system, 3D beveled frame, falling power-ups, interpolated motion trails, and additive collision glows.",
     controls: "Arrow Keys: Move paddle\nSpace: Launch Ball",
     category: "showcase",
     factory: () => new Breakout(),
+  },
+  {
+    slug: "showcase-11-minimal-example",
+    name: "11 Minimal Code Example",
+    description: "A minimal interactive code example used for articles and tutorials.",
+    controls: "Arrow Keys: Move character",
+    category: "showcase",
+    factory: () => new MyGame(),
   },
 ];
 
